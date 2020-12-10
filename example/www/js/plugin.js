@@ -1,0 +1,1 @@
+../../node_modules/capacitor-bridgefy/dist/plugin.js
