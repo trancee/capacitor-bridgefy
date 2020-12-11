@@ -1,1 +1,1 @@
-../../node_modules/capacitor-bridgefy/dist/plugin.js
+/home/phil/Projects/capacitor-bridgefy/example/node_modules/capacitor-bridgefy/dist/plugin.js

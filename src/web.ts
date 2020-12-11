@@ -18,8 +18,11 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
 
   // This method performs the base initialization and registration necessary to start framework operations.
   async initialize(options: {
-    apiKey?: string,
-  }): Promise<boolean> {
+    apiKey: string,
+    config?: Config,
+
+    debug?: boolean,
+  }): Promise<void> {
     console.warn('initialize', options);
     throw new Error("Method not implemented.");
   }
@@ -27,7 +30,7 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   // Starts all framework operations, including discovery and advertising with a custom Config object.
   async start(options: {
     config?: Config,
-  }): Promise<boolean> {
+  }): Promise<void> {
     console.warn('start', options);
     throw new Error("Method not implemented.");
   }

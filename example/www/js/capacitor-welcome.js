@@ -63,8 +63,7 @@ window.customElements.define(
           <p>
             <button class="button" disabled id="start">Start</button>
             <button class="button" disabled id="stop">Stop</button>
-          </p>
-          <p>
+
             <button class="button" disabled id="pause">Pause</button>
             <button class="button" disabled id="resume">Resume</button>
           </p>
@@ -72,15 +71,8 @@ window.customElements.define(
         <hr>
         <fieldset title="Messages"><legend>Messages</legend>
           <p>
-            <button class="button" id="publish">Publish</button>
-            <button class="button" id="unpublish">Unpublish</button>
-          </p>
-          <p>
-            <button class="button" id="subscribe">Subscribe</button>
-            <button class="button" id="unsubscribe">Unsubscribe</button>
-          </p>
-          <p>
-            <button class="button" id="messages-status">Status</button>
+            <button class="button" id="broadcast-message">Send Broadcast Message</button>
+            <button class="button" id="direct-message">Send Direct Message</button>
           </p>
 
           <fieldset title="Devices"><legend>Devices</legend>
@@ -117,10 +109,133 @@ window.customElements.define(
         .addEventListener('click', async function (e) {
           try {
             const result = await Bridgefy.initialize({
-              apiKey: API_KEY,
+              // apiKey: API_KEY,
+
+              debug: true,
             });
             console.log(result);
             self.log('initialize', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#start')
+        .addEventListener('click', async function (e) {
+          const {
+            Antenna,
+            BFEnergyProfile,
+            BFBleProfile,
+            BFEngineProfile,
+          } = capacitorBridgefy;
+
+          try {
+            const result = await Bridgefy.start({
+              // config: {
+              //   maxConnectionRetries: 5,
+
+              //   antennaType: Antenna.BLUETOOTH_LE,
+
+              //   autoConnect: true,
+
+              //   energyProfile: BFEnergyProfile.BALANCED,
+              //   bleProfile: BFBleProfile.EXTENDED_RANGE,
+              //   engineProfile: BFEngineProfile.LONG_REACH,
+              // },
+            });
+            console.log(result);
+            self.log('start', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#stop')
+        .addEventListener('click', async function (e) {
+          try {
+            const result = await Bridgefy.stop();
+            console.log(result);
+            self.log('stop', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#pause')
+        .addEventListener('click', async function (e) {
+          try {
+            const result = await Bridgefy.pause();
+            console.log(result);
+            self.log('pause', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#resume')
+        .addEventListener('click', async function (e) {
+          try {
+            const result = await Bridgefy.resume();
+            console.log(result);
+            self.log('resume', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#broadcast-message')
+        .addEventListener('click', async function (e) {
+          try {
+            const message = {
+              content: {
+                name: 'Yoshi',
+                gender: 'MALE',
+                age: 45,
+              },
+              data: exports.encode(
+                new TextEncoder().encode('Hello world.').buffer,
+              ),
+            };
+
+            const result = await Bridgefy.sendBroadcastMessage({
+              message: message,
+            });
+            console.log(result);
+            self.log('sendBroadcastMessage', result);
+          } catch (e) {
+            console.warn('User cancelled', e);
+          }
+        });
+
+      self.shadowRoot
+        .querySelector('#direct-message')
+        .addEventListener('click', async function (e) {
+          try {
+            const field = self.shadowRoot.querySelector('#devices');
+            const option = field.options[0];
+
+            const message = {
+              content: {
+                name: 'Yoshi',
+                gender: 'MALE',
+                age: 45,
+              },
+              data: exports.encode(
+                new TextEncoder().encode('Hello world.').buffer,
+              ),
+              receiverId: option.text,
+            };
+
+            const result = await Bridgefy.sendMessage({
+              message: message,
+            });
+            console.log(result);
+            self.log('sendMessage', result);
           } catch (e) {
             console.warn('User cancelled', e);
           }
@@ -211,36 +326,27 @@ window.customElements.define(
         },
       );
 
-      self.onStarted = Bridgefy.addListener(
-        'onStarted',
-        data => {
-          console.log('onStarted', data);
-          self.log('onStarted', data);
+      self.onStarted = Bridgefy.addListener('onStarted', data => {
+        console.log('onStarted', data);
+        self.log('onStarted', data);
 
-          self.shadowRoot.querySelector('#start').disabled = true;
-          self.shadowRoot.querySelector('#stop').disabled = false;
-        },
-      );
-      self.onStartError = Bridgefy.addListener(
-        'onStartError',
-        data => {
-          console.log('onStartError', data);
-          self.log('onStartError', data);
+        self.shadowRoot.querySelector('#start').disabled = true;
+        self.shadowRoot.querySelector('#stop').disabled = false;
+      });
+      self.onStartError = Bridgefy.addListener('onStartError', data => {
+        console.log('onStartError', data);
+        self.log('onStartError', data);
 
-          self.shadowRoot.querySelector('#start').disabled = false;
-          self.shadowRoot.querySelector('#stop').disabled = true;
-        },
-      );
-      self.onStopped = Bridgefy.addListener(
-        'onStopped',
-        data => {
-          console.log('onStopped', data);
-          self.log('onStopped', data);
+        self.shadowRoot.querySelector('#start').disabled = false;
+        self.shadowRoot.querySelector('#stop').disabled = true;
+      });
+      self.onStopped = Bridgefy.addListener('onStopped', data => {
+        console.log('onStopped', data);
+        self.log('onStopped', data);
 
-          self.shadowRoot.querySelector('#start').disabled = false;
-          self.shadowRoot.querySelector('#stop').disabled = true;
-        },
-      );
+        self.shadowRoot.querySelector('#start').disabled = false;
+        self.shadowRoot.querySelector('#stop').disabled = true;
+      });
 
       self.onDeviceConnected = Bridgefy.addListener(
         'onDeviceConnected',
@@ -251,10 +357,7 @@ window.customElements.define(
           const device = data.device;
           const session = data.session;
 
-          self.addDevice(
-            device.address,
-            `${device.address} (${device.name})`,
-          );
+          self.addDevice(device.address, `${device.userId}`);
         },
       );
       self.onDeviceLost = Bridgefy.addListener('onDeviceLost', data => {
@@ -263,15 +366,34 @@ window.customElements.define(
 
         const device = data.device;
 
-        self.removeMessage(device.address);
+        self.removeDevice(device.address);
       });
 
-      self.onMessageReceived = Bridgefy.addListener('onMessageReceived', data => {
-        console.log('onMessageReceived', data);
-        self.log('onMessageReceived', data);
+      self.onDeviceDetected = Bridgefy.addListener('onDeviceDetected', data => {
+        console.log('onDeviceDetected', data);
+        self.log('onDeviceDetected', data);
 
-        const message = data.message;
+        const device = data.device;
       });
+      self.onDeviceUnavailable = Bridgefy.addListener(
+        'onDeviceUnavailable',
+        data => {
+          console.log('onDeviceUnavailable', data);
+          self.log('onDeviceUnavailable', data);
+
+          const device = data.device;
+        },
+      );
+
+      self.onMessageReceived = Bridgefy.addListener(
+        'onMessageReceived',
+        data => {
+          console.log('onMessageReceived', data);
+          self.log('onMessageReceived', data);
+
+          const message = data.message;
+        },
+      );
       self.onMessageSent = Bridgefy.addListener('onMessageSent', data => {
         console.log('onMessageSent', data);
         self.log('onMessageSent', data);
@@ -279,12 +401,15 @@ window.customElements.define(
         const messageId = data.messageId;
       });
 
-      self.onBroadcastMessageReceived = Bridgefy.addListener('onBroadcastMessageReceived', data => {
-        console.log('onBroadcastMessageReceived', data);
-        self.log('onBroadcastMessageReceived', data);
+      self.onBroadcastMessageReceived = Bridgefy.addListener(
+        'onBroadcastMessageReceived',
+        data => {
+          console.log('onBroadcastMessageReceived', data);
+          self.log('onBroadcastMessageReceived', data);
 
-        const message = data.message;
-      });
+          const message = data.message;
+        },
+      );
     }
   },
 );
