@@ -3,10 +3,10 @@ package com.getcapacitor.community.bridgefy;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
-import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
@@ -27,6 +27,13 @@ import com.bridgefy.sdk.client.Session;
 import com.bridgefy.sdk.client.StateListener;
 import com.bridgefy.sdk.framework.exceptions.MessageException;
 
+import com.google.gson.internal.LinkedTreeMap;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 interface Constants {
@@ -209,11 +216,7 @@ public class Bridgefy extends Plugin {
 
                 JSObject contentObject = messageObject.getJSObject("content", null);
                 if (contentObject != null) {
-                    HashMap<String, Object> content = new HashMap<>();
-
-                    contentObject.keys().forEachRemaining((key) -> content.put(key, contentObject.opt(key)));
-
-                    builder.setContent(content);
+                    builder.setContent(hashMap(contentObject));
                 }
 
                 String data = messageObject.getString("data");
@@ -253,11 +256,7 @@ public class Bridgefy extends Plugin {
 
                 JSObject contentObject = messageObject.getJSObject("content", null);
                 if (contentObject != null) {
-                    HashMap<String, Object> content = new HashMap<>();
-
-                    contentObject.keys().forEachRemaining((key) -> content.put(key, contentObject.opt(key)));
-
-                    builder.setContent(content);
+                    builder.setContent(hashMap(contentObject));
                 }
 
                 String data = messageObject.getString("data");
@@ -494,11 +493,7 @@ public class Bridgefy extends Plugin {
             {
                 HashMap<String, Object> content = message.getContent();
                 if (content != null) {
-                    JSObject contentObject = new JSObject();
-
-                    content.forEach((key, value) -> contentObject.put(key, value));
-
-                    messageObject.put("content", contentObject);
+                    messageObject.put("content", jsObject(content));
                 }
             }
 
@@ -579,11 +574,7 @@ public class Bridgefy extends Plugin {
             {
                 HashMap<String, Object> content = message.getContent();
                 if (content != null) {
-                    JSObject contentObject = new JSObject();
-
-                    content.forEach((key, value) -> contentObject.put(key, value));
-
-                    messageObject.put("content", contentObject);
+                    messageObject.put("content", jsObject(content));
                 }
             }
 
@@ -662,5 +653,69 @@ public class Bridgefy extends Plugin {
             case "NO_FORWARDING":
                 return BFEngineProfile.BFConfigProfileNoFowarding;
         }
+    }
+
+    @SuppressLint("NewApi")
+    private JSObject jsObject(AbstractMap<String, Object> map) {
+        JSObject object = new JSObject();
+
+        map.forEach((key, value) -> {
+            if (value instanceof ArrayList) {
+                value = JSArray.from(value);
+            } else if (value instanceof LinkedTreeMap) {
+                value = jsObject((AbstractMap<String, Object>) value);
+            }
+
+            object.put(key, value);
+        });
+
+        return object;
+    }
+
+    private static HashMap<String, Object> hashMap(JSObject object) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        if (object != JSObject.NULL) {
+            map = toMap(object);
+        }
+
+        return map;
+    }
+
+    @SuppressLint("NewApi")
+    private static HashMap<String, Object> toMap(JSONObject object) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        object.keys().forEachRemaining((key) -> {
+            Object value = object.opt(key);
+
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+
+            map.put(key, value);
+        });
+
+        return map;
+    }
+
+    private static ArrayList<Object> toList(JSONArray array) {
+        ArrayList<Object> list = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            Object value = array.opt(i);
+
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+
+            list.add(value);
+        }
+
+        return list;
     }
 }
