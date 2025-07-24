@@ -1,19 +1,30 @@
 import type { PluginListenerHandle } from '@capacitor/core';
 
+export type Base64 = string;
 export type UUID = string;
-
-export enum PropagationProfile {
-  DEFAULT = 'default',
-}
 
 /**
  * There are several modes for sending packets:
  * 
  * **Broadcast**: Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
- * **Mesh(val receiver: String)**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
- * **P2P(val receiver: String)**: Sends the packet only when the receiver is in range.
+ * **Mesh**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+ * **P2P**: Sends the packet only when the receiver is in range.
  */
-export enum TransmissionMode {
+export type TransmissionMode = {
+  type: TransmissionType.BROADCAST,
+
+  senderID: UUID;
+} | {
+  type: TransmissionType.MESH,
+
+  receiverID: UUID;
+} | {
+  type: TransmissionType.P2P,
+
+  receiverID: UUID;
+};
+
+export enum TransmissionType {
   /**
    * Broadcast type propagate message on mesh network
    */
@@ -32,11 +43,28 @@ export enum TransmissionMode {
 }
 
 export enum PropagationProfile {
-  Standard,
-  HighDensityEnvironment,
-  SparseEnvironment,
-  LongReach,
-  ShortReach,
+  STANDARD = 'standard',
+  HIGH_DENSITY_ENVIRONMENT = 'highDensityEnvironment',
+  SPARSE_ENVIRONMENT = 'sparseEnvironment',
+  LONG_REACH = 'longReach',
+  SHORT_REACH = 'shortReach',
+}
+
+export enum BridgefyException {
+  ALREADY_STARTED = 'alreadyStarted',
+  DEVICE_CAPABILITIES = 'deviceCapabilities',
+  EXPIRED_LICENSE = 'expiredLicense',
+  GENERIC = 'generic',
+  INCONSISTENT_DEVICE_TIME = 'inconsistentDeviceTime',
+  INTERNET_CONNECTION_REQUIRED = 'internetConnectionRequired',
+  INVALID_API_KEY_FORMAT = 'invalidAPIKeyFormat',
+  MISSING_APPLICATION_ID = 'missingApplicationID',
+  PERMISSION = 'permission',
+  REGISTRATION = 'registration',
+  SESSION_ERROR = 'sessionError',
+  SIMULATOR_IS_NOT_SUPPORTED = 'simulatorIsNotSupported',
+  SIZE_LIMIT_EXCEEDED = 'sizeLimitExceeded',
+  UNKNOWN = 'unknown',
 }
 
 export interface InitializeOptions {
@@ -59,7 +87,7 @@ export interface StartOptions {
    * 
    * If not provided, a new user ID will be generated.
    */
-  userId?: UUID
+  userID?: UUID
 
   /**
    * A profile that defines a series of properties and rules for the propagation of messages. 
@@ -73,8 +101,8 @@ export interface ExpirationDateResult {
   expirationDate?: string
 }
 
-export interface UserIdResult {
-  userId: UUID
+export interface UserIDResult {
+  userID: UUID
 }
 
 export interface ConnectedPeersResult {
@@ -82,12 +110,12 @@ export interface ConnectedPeersResult {
 }
 
 export interface SendOptions {
-  data: Base64URLString
+  data: Base64
   transmissionMode: TransmissionMode
 }
 
 export interface SendResult {
-  messageId: UUID
+  messageID: UUID
 }
 
 export interface BridgefyPlugin {
@@ -108,6 +136,12 @@ export interface BridgefyPlugin {
    * @returns A promise that resolves when the initialization is complete, or rejects if there is an error during initialization.
    */
   initialize(options: InitializeOptions): Promise<void>;
+  /**
+   * Checks if the Bridgefy SDK has been initialized.
+   * 
+   * @return A promise that resolves with a boolean indicating whether the SDK is initialized.
+   */
+  isInitialized(): Promise<boolean>;
 
   /**
    * Stops Bridgefy operations and releases associated resources.
@@ -118,10 +152,16 @@ export interface BridgefyPlugin {
    * Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy network.
    * 
    * @param options - The parameters to pass into this method.
-   * @property {UUID} [userId] - The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated.
+   * @property {UUID} [userID] - The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated.
    * @property {PropagationProfile} [propagationProfile] - A profile that defines a series of properties and rules for the propagation of messages. Defaults to `PropagationProfile.DEFAULT`.
    */
   start(options: StartOptions): Promise<void>;
+  /**
+   * Indicates whether the Bridgefy SDK is currently started.
+   * 
+   * @return A promise that resolves with a boolean indicating whether the SDK is started.
+   */
+  isStarted(): Promise<boolean>;
 
   /**
    * License
@@ -152,18 +192,11 @@ export interface BridgefyPlugin {
   destroySession(): Promise<void>;
 
   /**
-   * Indicates whether the Bridgefy SDK is currently started.
-   * 
-   * @return A promise that resolves with a boolean indicating whether the SDK is started.
-   */
-  isStarted(): Promise<boolean>;
-
-  /**
    * Retrieves the UUID of the current Bridgefy user.
    * 
    * @returns A promise that resolves with an object containing the user ID or rejects if the user ID cannot be retrieved.
    */
-  currentUserId(): Promise<UserIdResult>;
+  currentUserID(): Promise<UserIDResult>;
 
   /**
    * Connection
@@ -184,7 +217,7 @@ export interface BridgefyPlugin {
    * Sends data using a specific transmission mode.
    * 
    * @param options - The parameters to pass into this method.
-   * @property {Base64URLString} data - The data to be sent, encoded as a Base64 URL string.
+   * @property {Base64} data - The data to be sent, encoded as a Base64 string.
    * @property {TransmissionMode} transmissionMode - The mode of transmission for the data. It can be one of the following:
    * - `TransmissionMode.BROADCAST`: Broadcasts the data to all nearby users in the Bridgefy network.
    * - `TransmissionMode.MESH`: Sends the data to a specific receiver using the mesh network, allowing for delivery even if the receiver is not currently in range.
@@ -193,6 +226,20 @@ export interface BridgefyPlugin {
    * @throws {Error} If there is an error during the sending process, the promise will be rejected with an error message.
    */
   send(options: SendOptions): Promise<SendResult>;
+
+  /**
+   * Initialization Listeners
+   */
+  addListener(eventName: 'onFailToStart', listenerFunc: (error: BridgefyException) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onStarted', listenerFunc: (userID: UUID) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToStop', listenerFunc: (error: BridgefyException) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onStopped', listenerFunc: () => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onDestroySession', listenerFunc: () => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: BridgefyException) => void): Promise<PluginListenerHandle>;
+
+  /** 
+   * Connectivity Listeners
+   */
 
   /**
    * When a peer has established connection
@@ -214,40 +261,44 @@ export interface BridgefyPlugin {
   addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: UUID[]) => void): Promise<PluginListenerHandle>;
 
   /**
+   * When an on-demand secure connection was successfully established
+   * 
+   * @param {UUID} userID - Identifier of the user with whom the secure connection is established.
+   */
+  addListener(eventName: 'onEstablishSecureConnection', listenerFunc: (userID: UUID) => void): Promise<PluginListenerHandle>;
+  /**
+   * When an on-demand secure connection failed to establish
+   * 
+   * @param {UUID} userID - Identifier of the user with whom the secure connection was attempted.
+   * @param {Exception} error - The error that occurred during the connection attempt.
+   */
+  addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UUID, error: BridgefyException) => void): Promise<PluginListenerHandle>;
+
+  /**
+   * Transmission Listeners
+   */
+
+  /**
    * When a message is sent
    * 
    * @param {UUID} messageID - Identifier of the sent message.
    */
   addListener(eventName: 'onSend', listenerFunc: (messageID: UUID) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: UUID, position: number, total: number) => void): Promise<PluginListenerHandle>;
   /**
    * When a message fails to send
    * 
    * @param {UUID} messageID - Identifier of the failed message.
    */
-  addListener(eventName: 'onFailToSend', listenerFunc: (messageID: UUID) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToSend', listenerFunc: (messageID: UUID, error: BridgefyException) => void): Promise<PluginListenerHandle>;
   /**
    * When data is received
    * 
-   * @param {Base64URLString} data - The received data, encoded as a Base64 URL string.
+   * @param {Base64} data - The received data, encoded as a Base64 string.
    * @param {UUID} messageID - Identifier of the received message.
    * @param {TransmissionMode} transmissionMode - The transmission mode used when sending the message.
    */
-  addListener(eventName: 'onReceiveData', listenerFunc: (data: Base64URLString, messageID: UUID, transmissionMode: TransmissionMode) => void): Promise<PluginListenerHandle>;
-
-
-  /**
-   * When an on-demand secure connection was successfully established
-   * 
-   * @param {UUID} userId - Identifier of the user with whom the secure connection is established.
-   */
-  addListener(eventName: 'onEstablishSecureConnection', listenerFunc: (userId: UUID) => void): Promise<PluginListenerHandle>;
-  /**
-   * When an on-demand secure connection failed to establish
-   * 
-   * @param {UUID} userId - Identifier of the user with whom the secure connection was attempted.
-   * @param {Exception} error - The error that occurred during the connection attempt.
-   */
-  addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userId: UUID, error: Exception) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onReceiveData', listenerFunc: (data: Base64, messageID: UUID, transmissionMode: TransmissionMode) => void): Promise<PluginListenerHandle>;
 
   /**
    * Removes all listeners
