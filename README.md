@@ -158,12 +158,12 @@ Destroys the current session, terminating any active connections and cleaning up
 ### currentUserID()
 
 ```typescript
-currentUserID() => Promise<UserIDResult>
+currentUserID() => Promise<UserID>
 ```
 
 Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
 
-**Returns:** <code>Promise&lt;<a href="#useridresult">UserIDResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#uuid">UUID</a>&gt;</code>
 
 --------------------
 
@@ -171,12 +171,12 @@ Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
 ### connectedPeers()
 
 ```typescript
-connectedPeers() => Promise<ConnectedPeersResult>
+connectedPeers() => Promise<PeerIDs>
 ```
 
 Retrieves a list of UUIDs representing the connected peers in the current session.
 
-**Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#peerids">PeerIDs</a>&gt;</code>
 
 --------------------
 
@@ -184,7 +184,7 @@ Retrieves a list of UUIDs representing the connected peers in the current sessio
 ### send(...)
 
 ```typescript
-send(options: SendOptions) => Promise<SendResult>
+send(options: SendOptions) => Promise<MessageID>
 ```
 
 Sends data using a specific transmission mode.
@@ -193,7 +193,7 @@ Sends data using a specific transmission mode.
 | ------------- | --------------------------------------------------- | ------------------------------------------ |
 | **`options`** | <code><a href="#sendoptions">SendOptions</a></code> | - The parameters to pass into this method. |
 
-**Returns:** <code>Promise&lt;<a href="#sendresult">SendResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#uuid">UUID</a>&gt;</code>
 
 --------------------
 
@@ -219,13 +219,13 @@ Initialization Listeners
 ### addListener('onStarted', ...)
 
 ```typescript
-addListener(eventName: 'onStarted', listenerFunc: (userID: UUID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onStarted', listenerFunc: (userID: UserID) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                     |
-| ------------------ | ---------------------------------------- |
-| **`eventName`**    | <code>'onStarted'</code>                 |
-| **`listenerFunc`** | <code>(userID: string) =&gt; void</code> |
+| Param              | Type                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **`eventName`**    | <code>'onStarted'</code>                                   |
+| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -299,15 +299,15 @@ addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: BridgefyE
 ### addListener('onConnected', ...)
 
 ```typescript
-addListener(eventName: 'onConnected', listenerFunc: (peerID: UUID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onConnected', listenerFunc: (peerID: PeerID) => void) => Promise<PluginListenerHandle>
 ```
 
 When a peer has established connection
 
-| Param              | Type                                     |
-| ------------------ | ---------------------------------------- |
-| **`eventName`**    | <code>'onConnected'</code>               |
-| **`listenerFunc`** | <code>(peerID: string) =&gt; void</code> |
+| Param              | Type                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **`eventName`**    | <code>'onConnected'</code>                                 |
+| **`listenerFunc`** | <code>(peerID: <a href="#uuid">UUID</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -317,15 +317,15 @@ When a peer has established connection
 ### addListener('onDisconnected', ...)
 
 ```typescript
-addListener(eventName: 'onDisconnected', listenerFunc: (peerID: UUID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onDisconnected', listenerFunc: (peerID: PeerID) => void) => Promise<PluginListenerHandle>
 ```
 
 When a peer is disconnected (out of range)
 
-| Param              | Type                                     |
-| ------------------ | ---------------------------------------- |
-| **`eventName`**    | <code>'onDisconnected'</code>            |
-| **`listenerFunc`** | <code>(peerID: string) =&gt; void</code> |
+| Param              | Type                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **`eventName`**    | <code>'onDisconnected'</code>                              |
+| **`listenerFunc`** | <code>(peerID: <a href="#uuid">UUID</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -335,15 +335,15 @@ When a peer is disconnected (out of range)
 ### addListener('onConnectedPeers', ...)
 
 ```typescript
-addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: UUID[]) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: PeerIDs) => void) => Promise<PluginListenerHandle>
 ```
 
 When a device is detected, notifies the list of connected users
 
-| Param              | Type                                               |
-| ------------------ | -------------------------------------------------- |
-| **`eventName`**    | <code>'onConnectedPeers'</code>                    |
-| **`listenerFunc`** | <code>(connectedPeers: string[]) =&gt; void</code> |
+| Param              | Type                                                                     |
+| ------------------ | ------------------------------------------------------------------------ |
+| **`eventName`**    | <code>'onConnectedPeers'</code>                                          |
+| **`listenerFunc`** | <code>(connectedPeers: <a href="#peerids">PeerIDs</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -353,15 +353,15 @@ When a device is detected, notifies the list of connected users
 ### addListener('onEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onEstablishSecureConnection', listenerFunc: (userID: UUID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onEstablishSecureConnection', listenerFunc: (userID: UserID) => void) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection was successfully established
 
-| Param              | Type                                       |
-| ------------------ | ------------------------------------------ |
-| **`eventName`**    | <code>'onEstablishSecureConnection'</code> |
-| **`listenerFunc`** | <code>(userID: string) =&gt; void</code>   |
+| Param              | Type                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **`eventName`**    | <code>'onEstablishSecureConnection'</code>                 |
+| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -371,15 +371,15 @@ When an on-demand secure connection was successfully established
 ### addListener('onFailToEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UUID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection failed to establish
 
-| Param              | Type                                                                                                |
-| ------------------ | --------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                    |
-| **`listenerFunc`** | <code>(userID: string, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                                      |
+| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -389,15 +389,15 @@ When an on-demand secure connection failed to establish
 ### addListener('onSend', ...)
 
 ```typescript
-addListener(eventName: 'onSend', listenerFunc: (messageID: UUID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onSend', listenerFunc: (messageID: MessageID) => void) => Promise<PluginListenerHandle>
 ```
 
 When a message is sent
 
-| Param              | Type                                        |
-| ------------------ | ------------------------------------------- |
-| **`eventName`**    | <code>'onSend'</code>                       |
-| **`listenerFunc`** | <code>(messageID: string) =&gt; void</code> |
+| Param              | Type                                                          |
+| ------------------ | ------------------------------------------------------------- |
+| **`eventName`**    | <code>'onSend'</code>                                         |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -407,13 +407,13 @@ When a message is sent
 ### addListener('onProgressOfSend', ...)
 
 ```typescript
-addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: UUID, position: number, total: number) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: MessageID, position: number, total: number) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                         |
-| ------------------ | ---------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onProgressOfSend'</code>                                              |
-| **`listenerFunc`** | <code>(messageID: string, position: number, total: number) =&gt; void</code> |
+| Param              | Type                                                                                           |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onProgressOfSend'</code>                                                                |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, position: number, total: number) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -423,15 +423,15 @@ addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: UUID, posit
 ### addListener('onFailToSend', ...)
 
 ```typescript
-addListener(eventName: 'onFailToSend', listenerFunc: (messageID: UUID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
 ```
 
 When a message fails to send
 
-| Param              | Type                                                                                                   |
-| ------------------ | ------------------------------------------------------------------------------------------------------ |
-| **`eventName`**    | <code>'onFailToSend'</code>                                                                            |
-| **`listenerFunc`** | <code>(messageID: string, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| **`eventName`**    | <code>'onFailToSend'</code>                                                                                              |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -441,15 +441,15 @@ When a message fails to send
 ### addListener('onReceiveData', ...)
 
 ```typescript
-addListener(eventName: 'onReceiveData', listenerFunc: (data: Base64, messageID: UUID, transmissionMode: TransmissionMode) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onReceiveData', listenerFunc: (data: Base64, messageID: MessageID, transmissionMode: TransmissionMode) => void) => Promise<PluginListenerHandle>
 ```
 
 When data is received
 
-| Param              | Type                                                                                                                          |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onReceiveData'</code>                                                                                                  |
-| **`listenerFunc`** | <code>(data: string, messageID: string, transmissionMode: <a href="#transmissionmode">TransmissionMode</a>) =&gt; void</code> |
+| Param              | Type                                                                                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onReceiveData'</code>                                                                                                                                          |
+| **`listenerFunc`** | <code>(data: <a href="#base64">Base64</a>, messageID: <a href="#uuid">UUID</a>, transmissionMode: <a href="#transmissionmode">TransmissionMode</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -482,7 +482,7 @@ Removes all listeners
 
 | Prop                     | Type                                                              | Description                                                                                                                                                          |
 | ------------------------ | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`userID`**             | <code><a href="#uuid">UUID</a></code>                             | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated.                                                          |
+| **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated.                                                          |
 | **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages. Defaults to <a href="#propagationprofile">`PropagationProfile</a>.DEFAULT`. |
 
 
@@ -491,27 +491,6 @@ Removes all listeners
 | Prop                 | Type                |
 | -------------------- | ------------------- |
 | **`expirationDate`** | <code>string</code> |
-
-
-#### UserIDResult
-
-| Prop         | Type                                  |
-| ------------ | ------------------------------------- |
-| **`userID`** | <code><a href="#uuid">UUID</a></code> |
-
-
-#### ConnectedPeersResult
-
-| Prop        | Type                  |
-| ----------- | --------------------- |
-| **`peers`** | <code>string[]</code> |
-
-
-#### SendResult
-
-| Prop            | Type                                  |
-| --------------- | ------------------------------------- |
-| **`messageID`** | <code><a href="#uuid">UUID</a></code> |
 
 
 #### SendOptions
@@ -534,12 +513,27 @@ Removes all listeners
 
 #### UUID
 
-<code>string</code>
+<code>string & { readonly __brand: unique symbol }</code>
+
+
+#### UserID
+
+<code><a href="#uuid">UUID</a></code>
+
+
+#### PeerIDs
+
+<code>PeerID[]</code>
+
+
+#### PeerID
+
+<code><a href="#uuid">UUID</a></code>
 
 
 #### Base64
 
-<code>string</code>
+<code>string & { readonly __brand: unique symbol }</code>
 
 
 #### TransmissionMode
@@ -551,6 +545,11 @@ There are several modes for sending packets:
 **P2P**: Sends the packet only when the receiver is in range.
 
 <code>{ type: <a href="#transmissiontype">TransmissionType.BROADCAST</a>, senderID: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.MESH</a>, receiverID: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.P2P</a>, receiverID: <a href="#uuid">UUID</a>; }</code>
+
+
+#### MessageID
+
+<code><a href="#uuid">UUID</a></code>
 
 
 ### Enums

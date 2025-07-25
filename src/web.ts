@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { BridgefyPlugin, ConnectedPeersResult, ExpirationDateResult, InitializeOptions, SendOptions, SendResult, StartOptions, UserIDResult } from './definitions';
+import type { BridgefyPlugin, PeerIDs, ExpirationDateResult, InitializeOptions, SendOptions, MessageID, StartOptions, UserID } from './definitions';
 
 export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   initialize(options: InitializeOptions): Promise<void> {
@@ -29,13 +29,13 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   destroySession(): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  currentUserID(): Promise<UserIDResult> {
+  currentUserID(): Promise<UserID> {
     throw new Error('Method not implemented.');
   }
-  connectedPeers(): Promise<ConnectedPeersResult> {
+  connectedPeers(): Promise<PeerIDs> {
     throw new Error('Method not implemented.');
   }
-  send(options: SendOptions): Promise<SendResult> {
+  send(options: SendOptions): Promise<MessageID> {
     options = options || {};
     throw new Error('Method not implemented.');
   }
