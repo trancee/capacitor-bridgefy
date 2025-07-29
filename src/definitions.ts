@@ -157,15 +157,15 @@ export interface IsStartedResult {
 }
 
 export interface LicenseExpirationDateResult {
-  licenseExpirationDate?: string;
+  licenseExpirationDate?: number;
 }
 
 export interface UserIDResult {
-  userID: UserID;
+  userID?: UserID;
 }
 
 export interface ConnectedPeersResult {
-  peers: PeerIDs;
+  peers?: PeerIDs;
 }
 
 export interface SendOptions {
@@ -185,7 +185,7 @@ export interface FingerprintOptions {
   userID: UserID;
 }
 export interface FingerprintResult {
-  fingerprint: Base64;
+  fingerprint?: Base64;
 }
 
 export interface IsFingerprintValidOptions {

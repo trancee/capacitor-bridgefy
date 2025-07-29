@@ -592,7 +592,7 @@ Removes all listeners
 
 | Prop                        | Type                |
 | --------------------------- | ------------------- |
-| **`licenseExpirationDate`** | <code>string</code> |
+| **`licenseExpirationDate`** | <code>number</code> |
 
 
 #### UserIDResult

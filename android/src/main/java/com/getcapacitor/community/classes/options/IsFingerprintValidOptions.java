@@ -1,11 +1,8 @@
 package com.getcapacitor.community.classes.options;
 
 import android.util.Base64;
-
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.PluginCall;
-
 import java.util.UUID;
 
 public class IsFingerprintValidOptions {

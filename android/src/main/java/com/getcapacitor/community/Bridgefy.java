@@ -5,11 +5,8 @@ import static com.getcapacitor.community.BridgefyHelper.getBridgefyExceptionType
 import static com.getcapacitor.community.BridgefyHelper.getTransmissionMode;
 
 import android.content.Context;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.community.classes.options.EstablishSecureConnectionOptions;
 import com.getcapacitor.community.classes.options.FingerprintOptions;
 import com.getcapacitor.community.classes.options.InitializeOptions;
@@ -25,20 +22,15 @@ import com.getcapacitor.community.classes.results.LicenseExpirationDateResult;
 import com.getcapacitor.community.classes.results.SendResult;
 import com.getcapacitor.community.classes.results.UserIDResult;
 import com.getcapacitor.community.interfaces.Callback;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 import me.bridgefy.commons.exception.BridgefyException;
 import me.bridgefy.commons.listener.BridgefyDelegate;
 import me.bridgefy.commons.propagation.PropagationProfile;
-import me.bridgefy.logger.enums.LogType;
 
 public class Bridgefy {
 
-    private final String NOT_IMPLEMENTED = "not implemented";
     private final String MISSING_API_KEY = "missing API key";
     private final String MISSING_USER_IDENTIFIER = "missing user identifier";
     private final String MISSING_FINGERPRINT = "missing fingerprint";
@@ -51,7 +43,7 @@ public class Bridgefy {
     @NonNull
     private final BridgefyConfig config;
 
-    private final me.bridgefy.Bridgefy bridgefy;
+    private final BridgefyController bridgefy;
 
     public Bridgefy(@NonNull BridgefyConfig config, @NonNull BridgefyPlugin plugin) {
         this.config = config;
@@ -59,7 +51,7 @@ public class Bridgefy {
 
         Context context = plugin.getContext();
 
-        bridgefy = new me.bridgefy.Bridgefy(context);
+        bridgefy = new BridgefyController(context);
     }
 
     /**
@@ -78,11 +70,7 @@ public class Bridgefy {
         @Nullable
         Boolean verboseLogging = options.getVerboseLogging() != null ? options.getVerboseLogging() : config.getVerboseLogging();
 
-        LogType logging = (verboseLogging == null)
-                ? new LogType.None()
-                : new LogType.ConsoleLogger((verboseLogging) ? Log.DEBUG : Log.WARN);
-
-        bridgefy.init(apiKey, delegate, logging);
+        bridgefy.initialize(apiKey, verboseLogging, delegate);
 
         callback.success();
     }
@@ -124,12 +112,10 @@ public class Bridgefy {
      */
 
     public void licenseExpirationDate(@NonNull Callback callback) {
-        Date licenseExpirationDate = new Date(); // bridgefy.licenseExpirationDate();
+        Date licenseExpirationDate = bridgefy.licenseExpirationDate();
 
         LicenseExpirationDateResult result = new LicenseExpirationDateResult(licenseExpirationDate);
         callback.success(result);
-
-        // callback.error(new Exception(NOT_IMPLEMENTED));
     }
 
     public void updateLicense(@NonNull Callback callback) {
@@ -149,21 +135,17 @@ public class Bridgefy {
     }
 
     public void currentUserID(@NonNull Callback callback) {
-        UUID userID = new UUID(0, 0); // bridgefy.currentUserId();
+        UUID userID = bridgefy.currentUserId();
 
         UserIDResult result = new UserIDResult(userID);
         callback.success(result);
-
-        // callback.error(new Exception(NOT_IMPLEMENTED));
     }
 
     public void connectedPeers(@NonNull Callback callback) {
-        List<UUID> peers = new ArrayList<>(); // bridgefy.connectedPeers();
+        List<UUID> peers = bridgefy.connectedPeers();
 
         ConnectedPeersResult result = new ConnectedPeersResult(peers);
         callback.success(result);
-
-        // callback.error(new Exception(NOT_IMPLEMENTED));
     }
 
     /**
@@ -193,7 +175,7 @@ public class Bridgefy {
             return;
         }
 
-        var fingerprint = new byte[]{}; // bridgefy.fingerprint(userID);
+        var fingerprint = bridgefy.fingerprint(userID);
 
         FingerprintResult result = new FingerprintResult(fingerprint);
         callback.success(result);
@@ -216,7 +198,7 @@ public class Bridgefy {
             return;
         }
 
-        var isValid = false; // bridgefy.isFingerprintValid(fingerprint, userID);
+        var isValid = bridgefy.isFingerprintValid(userID, fingerprint);
 
         IsFingerprintValidResult result = new IsFingerprintValidResult(isValid);
         callback.success(result);

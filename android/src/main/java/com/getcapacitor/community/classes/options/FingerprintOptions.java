@@ -1,9 +1,7 @@
 package com.getcapacitor.community.classes.options;
 
 import androidx.annotation.Nullable;
-
 import com.getcapacitor.PluginCall;
-
 import java.util.UUID;
 
 public class FingerprintOptions {

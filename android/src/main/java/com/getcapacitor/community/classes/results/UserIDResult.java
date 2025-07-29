@@ -2,7 +2,6 @@ package com.getcapacitor.community.classes.results;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.community.interfaces.Result;
-
 import java.util.UUID;
 
 public class UserIDResult implements Result {
