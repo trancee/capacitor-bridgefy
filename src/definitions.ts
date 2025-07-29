@@ -177,6 +177,25 @@ export interface SendResult {
   messageID: MessageID;
 }
 
+export interface EstablishSecureConnectionOptions {
+  userID: UserID;
+}
+
+export interface FingerprintOptions {
+  userID: UserID;
+}
+export interface FingerprintResult {
+  fingerprint: Base64;
+}
+
+export interface IsFingerprintValidOptions {
+  userID: UserID;
+  fingerprint: Base64;
+}
+export interface IsFingerprintValidResult {
+  isValid: boolean;
+}
+
 export interface BridgefyException {
   type: ExceptionType;
   message: string;
@@ -292,15 +311,43 @@ export interface BridgefyPlugin {
   currentUserID(): Promise<UserIDResult>;
 
   /**
-   * Connection
-   */
-
-  /**
    * Retrieves a list of UUIDs representing the connected peers in the current session.
    *
    * @returns A promise that resolves with an object containing a list of UUIDs representing the connected peers.
    */
   connectedPeers(): Promise<ConnectedPeersResult>;
+
+  /**
+   * Secure Connection
+   */
+
+  /**
+   * Establishes a secure connection with the user.
+   *
+   * @param options The parameters to pass into this method.
+   * @property {UserID} [userID] The UUID of the user to establish a secure connection with.
+   */
+  establishSecureConnection(options: EstablishSecureConnectionOptions): Promise<void>;
+
+  /**
+   * Generates a fingerprint for the secure connection established with a specified user.
+   *
+   * @param options The parameters to pass into this method.
+   * @property {UserID} [userID] The UUID of the user for whom the fingerprint should be generated.
+   * @returns A promise that resolves with an object containing the fingerprint of the user, encoded as a Base64 string.
+   * @throws {Error} If a secure connection hasn't been established with the user, the promise will be rejected with an error message.
+   */
+  fingerprint(options: FingerprintOptions): Promise<FingerprintResult>;
+
+  /**
+   * Verifies the validity of a fingerprint for a particular user.
+   *
+   * @param options The parameters to pass into this method.
+   * @property {UserID} [userID] The UUID of the user whose fingerprint is being verified.
+   * @property {Base64} fingerprint The fingerprint data to be verified, encoded as a Base64 string.
+   * @returns A promise that resolves with an object containing if the provided fingerprint data is valid.
+   */
+  isFingerprintValid(options: IsFingerprintValidOptions): Promise<IsFingerprintValidResult>;
 
   /**
    * Payload

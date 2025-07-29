@@ -23,6 +23,9 @@ npx cap sync
 * [`destroySession()`](#destroysession)
 * [`currentUserID()`](#currentuserid)
 * [`connectedPeers()`](#connectedpeers)
+* [`establishSecureConnection(...)`](#establishsecureconnection)
+* [`fingerprint(...)`](#fingerprint)
+* [`isFingerprintValid(...)`](#isfingerprintvalid)
 * [`send(...)`](#send)
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions(...)`](#requestpermissions)
@@ -179,6 +182,55 @@ connectedPeers() => Promise<ConnectedPeersResult>
 Retrieves a list of UUIDs representing the connected peers in the current session.
 
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
+
+--------------------
+
+
+### establishSecureConnection(...)
+
+```typescript
+establishSecureConnection(options: EstablishSecureConnectionOptions) => Promise<void>
+```
+
+Establishes a secure connection with the user.
+
+| Param         | Type                                                                                          | Description                              |
+| ------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#establishsecureconnectionoptions">EstablishSecureConnectionOptions</a></code> | The parameters to pass into this method. |
+
+--------------------
+
+
+### fingerprint(...)
+
+```typescript
+fingerprint(options: FingerprintOptions) => Promise<FingerprintResult>
+```
+
+Generates a fingerprint for the secure connection established with a specified user.
+
+| Param         | Type                                                              | Description                              |
+| ------------- | ----------------------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#fingerprintoptions">FingerprintOptions</a></code> | The parameters to pass into this method. |
+
+**Returns:** <code>Promise&lt;<a href="#fingerprintresult">FingerprintResult</a>&gt;</code>
+
+--------------------
+
+
+### isFingerprintValid(...)
+
+```typescript
+isFingerprintValid(options: IsFingerprintValidOptions) => Promise<IsFingerprintValidResult>
+```
+
+Verifies the validity of a fingerprint for a particular user.
+
+| Param         | Type                                                                            | Description                              |
+| ------------- | ------------------------------------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#isfingerprintvalidoptions">IsFingerprintValidOptions</a></code> | The parameters to pass into this method. |
+
+**Returns:** <code>Promise&lt;<a href="#isfingerprintvalidresult">IsFingerprintValidResult</a>&gt;</code>
 
 --------------------
 
@@ -557,6 +609,42 @@ Removes all listeners
 | **`peers`** | <code><a href="#peerids">PeerIDs</a></code> |
 
 
+#### EstablishSecureConnectionOptions
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+
+
+#### FingerprintResult
+
+| Prop              | Type                                      |
+| ----------------- | ----------------------------------------- |
+| **`fingerprint`** | <code><a href="#base64">Base64</a></code> |
+
+
+#### FingerprintOptions
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+
+
+#### IsFingerprintValidResult
+
+| Prop          | Type                 |
+| ------------- | -------------------- |
+| **`isValid`** | <code>boolean</code> |
+
+
+#### IsFingerprintValidOptions
+
+| Prop              | Type                                      |
+| ----------------- | ----------------------------------------- |
+| **`userID`**      | <code><a href="#userid">UserID</a></code> |
+| **`fingerprint`** | <code><a href="#base64">Base64</a></code> |
+
+
 #### SendResult
 
 | Prop            | Type                                            |
@@ -625,14 +713,14 @@ Removes all listeners
 <code><a href="#uuid">UUID</a></code>
 
 
-#### MessageID
-
-<code><a href="#uuid">UUID</a></code>
-
-
 #### Base64
 
 <code>string & { readonly __brand: unique symbol }</code>
+
+
+#### MessageID
+
+<code><a href="#uuid">UUID</a></code>
 
 
 #### TransmissionMode

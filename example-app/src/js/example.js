@@ -1,4 +1,4 @@
-import { Bridgefy } from '@capacitor-trancee/bridgefy'
+import { Bridgefy, TransmissionType } from '@capacitor-trancee/bridgefy'
 
 const scrollToBottom = t => t.scrollTop = t.scrollHeight
 
@@ -99,10 +99,41 @@ window.testCurrentUserID = async () => {
     const result = await window.execute("currentUserID", options)
 }
 
+window.testEstablishSecureConnection = async () => {
+    const options = {}
+
+    if (document.getElementById("peers") && document.getElementById("peers").value.length > 0) {
+        options.userID = document.getElementById("peers").value
+    }
+
+    const result = await window.execute("establishSecureConnection", options)
+}
+window.testFingerprint = async () => {
+    const options = {}
+
+    if (document.getElementById("peers") && document.getElementById("peers").value.length > 0) {
+        options.userID = document.getElementById("peers").value
+    }
+
+    const result = await window.execute("fingerprint", options)
+}
+window.testIsFingerprintValid = async () => {
+    const options = {}
+
+    if (document.getElementById("peers") && document.getElementById("peers").value.length > 0) {
+        options.userID = document.getElementById("peers").value
+    }
+    if (document.getElementById("fingerprint") && document.getElementById("fingerprint").value.length > 0) {
+        options.fingerprint = document.getElementById("fingerprint").value
+    }
+
+    const result = await window.execute("isFingerprintValid", options)
+}
+
 window.testSend = async () => {
     const options = {}
 
-    if (document.getElementById("data")) {
+    if (document.getElementById("data") && document.getElementById("data").value.length > 0) {
         options.data = document.getElementById("data").value
     }
     if (document.getElementById("transmissionMode") && document.getElementById("transmissionMode").value.length > 0) {
@@ -110,7 +141,9 @@ window.testSend = async () => {
 
         options.transmissionMode.type = document.getElementById("transmissionMode").value
 
-        if (document.getElementById("peers") && document.getElementById("peers").value.length > 0) {
+        if (document.getElementById("transmissionMode").value === TransmissionType.BROADCAST) {
+            options.transmissionMode.uuid = document.getElementById("userID").value
+        } else if (document.getElementById("peers") && document.getElementById("peers").value.length > 0) {
             options.transmissionMode.uuid = document.getElementById("peers").value
         }
     }
@@ -162,6 +195,8 @@ Bridgefy.addListener('onStarted',
         logEvent(`onStarted(${JSON.stringify(event) || ""})`)
 
         const userID = event.userID
+
+        document.getElementById("userID").value = userID
     })
 Bridgefy.addListener('onFailToStart',
     (event) => {
@@ -188,6 +223,8 @@ Bridgefy.addListener('onFailToDestroySession',
         logEvent(`onFailToDestroySession(${JSON.stringify(event) || ""})`)
 
         const exception = event.exception
+
+        alert(exception)
     })
 
 Bridgefy.addListener('onConnected',
@@ -229,6 +266,8 @@ Bridgefy.addListener('onFailToEstablishSecureConnection',
 
         const userID = event.userID
         const exception = event.exception
+
+        alert(exception)
     })
 
 Bridgefy.addListener('onSend',
@@ -243,6 +282,8 @@ Bridgefy.addListener('onFailToSend',
 
         const messageID = event.messageID
         const exception = event.exception
+
+        alert(exception)
     })
 Bridgefy.addListener('onProgressOfSend',
     (event) => {

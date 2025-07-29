@@ -5,8 +5,10 @@ import static com.getcapacitor.community.BridgefyHelper.TransmissionMode;
 import static com.getcapacitor.community.BridgefyHelper.makeBoolean;
 
 import android.Manifest;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PermissionState;
@@ -31,56 +33,61 @@ import com.getcapacitor.community.classes.events.ReceiveDataEvent;
 import com.getcapacitor.community.classes.events.SendEvent;
 import com.getcapacitor.community.classes.events.StartedEvent;
 import com.getcapacitor.community.classes.events.StoppedEvent;
+import com.getcapacitor.community.classes.options.EstablishSecureConnectionOptions;
+import com.getcapacitor.community.classes.options.FingerprintOptions;
 import com.getcapacitor.community.classes.options.InitializeOptions;
+import com.getcapacitor.community.classes.options.IsFingerprintValidOptions;
 import com.getcapacitor.community.classes.options.SendOptions;
 import com.getcapacitor.community.classes.options.StartOptions;
 import com.getcapacitor.community.interfaces.Callback;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.json.JSONException;
 
 @CapacitorPlugin(
-    name = "Bridgefy",
-    permissions = {
-        @Permission(
-            strings = {
-                // Required to be able to connect to paired Bluetooth devices.
-                Manifest.permission.BLUETOOTH_CONNECT,
-                // Required to be able to advertise to nearby Bluetooth devices.
-                Manifest.permission.BLUETOOTH_ADVERTISE,
-                // Required to be able to discover and pair nearby Bluetooth devices.
-                Manifest.permission.BLUETOOTH_SCAN
-            },
-            alias = "bluetoothNearby"
-        ),
-        @Permission(
-            strings = {
-                // Allows applications to connect to paired bluetooth devices.
-                Manifest.permission.BLUETOOTH,
-                // Allows applications to discover and pair bluetooth devices.
-                Manifest.permission.BLUETOOTH_ADMIN
-            },
-            alias = "bluetoothLegacy"
-        ),
-        @Permission(
-            strings = {
-                // Allows an app to access approximate location.
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                // Allows an app to access precise location.
-                Manifest.permission.ACCESS_FINE_LOCATION
-            },
-            alias = "location"
-        ),
-        @Permission(
-            strings = {
-                // Allows an app to access approximate location.
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            },
-            alias = "locationCoarse"
-        )
-    }
+        name = "Bridgefy",
+        permissions = {
+                @Permission(
+                        strings = {
+                                // Required to be able to connect to paired Bluetooth devices.
+                                Manifest.permission.BLUETOOTH_CONNECT,
+                                // Required to be able to advertise to nearby Bluetooth devices.
+                                Manifest.permission.BLUETOOTH_ADVERTISE,
+                                // Required to be able to discover and pair nearby Bluetooth devices.
+                                Manifest.permission.BLUETOOTH_SCAN
+                        },
+                        alias = "bluetoothNearby"
+                ),
+                @Permission(
+                        strings = {
+                                // Allows applications to connect to paired bluetooth devices.
+                                Manifest.permission.BLUETOOTH,
+                                // Allows applications to discover and pair bluetooth devices.
+                                Manifest.permission.BLUETOOTH_ADMIN
+                        },
+                        alias = "bluetoothLegacy"
+                ),
+                @Permission(
+                        strings = {
+                                // Allows an app to access approximate location.
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                // Allows an app to access precise location.
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                        },
+                        alias = "location"
+                ),
+                @Permission(
+                        strings = {
+                                // Allows an app to access approximate location.
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                        },
+                        alias = "locationCoarse"
+                )
+        }
 )
 public class BridgefyPlugin extends Plugin {
 
@@ -125,7 +132,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void initialize(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             InitializeOptions options = new InitializeOptions(call);
@@ -138,7 +146,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void isInitialized(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.isInitialized(callback);
@@ -149,7 +158,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void start(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             StartOptions options = new StartOptions(call);
@@ -162,7 +172,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void isStarted(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.isStarted(callback);
@@ -173,7 +184,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void stop(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.stop(callback);
@@ -188,7 +200,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void licenseExpirationDate(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.licenseExpirationDate(callback);
@@ -199,7 +212,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void updateLicense(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.updateLicense(callback);
@@ -214,7 +228,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void destroySession(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.destroySession(callback);
@@ -225,7 +240,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void currentUserID(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.currentUserID(callback);
@@ -236,10 +252,57 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void connectedPeers(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             implementation.connectedPeers(callback);
+        } catch (Exception exception) {
+            callback.error(exception);
+        }
+    }
+
+    /**
+     * Secure Connection
+     */
+
+    @PluginMethod
+    public void establishSecureConnection(PluginCall call) {
+        Callback callback = new Callback(call) {
+        };
+
+        try {
+            EstablishSecureConnectionOptions options = new EstablishSecureConnectionOptions(call);
+
+            implementation.establishSecureConnection(options, callback);
+        } catch (Exception exception) {
+            callback.error(exception);
+        }
+    }
+
+    @PluginMethod
+    public void fingerprint(PluginCall call) {
+        Callback callback = new Callback(call) {
+        };
+
+        try {
+            FingerprintOptions options = new FingerprintOptions(call);
+
+            implementation.fingerprint(options, callback);
+        } catch (Exception exception) {
+            callback.error(exception);
+        }
+    }
+
+    @PluginMethod
+    public void isFingerprintValid(PluginCall call) {
+        Callback callback = new Callback(call) {
+        };
+
+        try {
+            IsFingerprintValidOptions options = new IsFingerprintValidOptions(call);
+
+            implementation.isFingerprintValid(options, callback);
         } catch (Exception exception) {
             callback.error(exception);
         }
@@ -251,7 +314,8 @@ public class BridgefyPlugin extends Plugin {
 
     @PluginMethod
     public void send(PluginCall call) {
-        Callback callback = new Callback(call) {};
+        Callback callback = new Callback(call) {
+        };
 
         try {
             SendOptions options = new SendOptions(call);
@@ -344,7 +408,8 @@ public class BridgefyPlugin extends Plugin {
                             break;
                     }
                 }
-            } catch (JSONException ignored) {}
+            } catch (JSONException ignored) {
+            }
         }
 
         requestPermissionForAliases(aliases.toArray(new String[0]), call, "permissionsCallback");

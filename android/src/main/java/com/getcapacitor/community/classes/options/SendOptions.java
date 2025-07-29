@@ -35,7 +35,7 @@ public class SendOptions {
     }
 
     private void setData(@Nullable String data) {
-        this.data = (data == null) ? null : Base64.decode(data, Base64.NO_WRAP);
+        this.data = (data == null || data.isEmpty()) ? null : Base64.decode(data, Base64.NO_WRAP);
     }
 
     private void setTransmissionMode(@NonNull String type, @NonNull UUID uuid) {

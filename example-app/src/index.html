@@ -170,9 +170,20 @@
           <span style="display: none;">
             <p>
               <label for="peers">Peers</label>
-              <select id="peers" name="peers" size="5" rows="5" multiple></select>
+              <select id="peers" name="peers" size="5" rows="5"></select>
             </p>
             <button onclick="testConnectedPeers()">Connected Peers</button>
+
+            <hr>
+
+            <button onclick="testEstablishSecureConnection()">Establish Secure Connection</button>
+
+            <p>
+              <label for="fingerprint">Fingerprint</label>
+              <textarea id="fingerprint" name="fingerprint"></textarea>
+            </p>
+            <button onclick="testFingerprint()">Fingerprint</button>
+            <button onclick="testIsFingerprintValid()">Is Fingerprint Valid</button>
 
             <hr>
 
