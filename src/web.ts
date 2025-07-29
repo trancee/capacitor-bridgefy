@@ -1,42 +1,67 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { BridgefyPlugin, PeerIDs, ExpirationDateResult, InitializeOptions, SendOptions, MessageID, StartOptions, UserID } from './definitions';
+import type {
+  BridgefyPlugin,
+  ConnectedPeersResult,
+  LicenseExpirationDateResult,
+  InitializeOptions,
+  SendOptions,
+  StartOptions,
+  UserIDResult,
+  BridgefyPermissions,
+  PermissionStatus,
+  IsInitializedResult,
+  IsStartedResult,
+  SendResult,
+} from './definitions';
 
 export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   initialize(options: InitializeOptions): Promise<void> {
-    options = options || {};
-    throw new Error('Method not implemented.');
+    console.info('initialize', options);
+    throw this.unimplemented('Method not implemented.');
   }
-  isInitialized(): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  isInitialized(): Promise<IsInitializedResult> {
+    throw this.unimplemented('Method not implemented.');
   }
+
   stop(): Promise<void> {
-    throw new Error('Method not implemented.');
+    throw this.unimplemented('Method not implemented.');
   }
   start(options: StartOptions): Promise<void> {
-    options = options || {};
-    throw new Error('Method not implemented.');
+    console.info('start', options);
+    throw this.unimplemented('Method not implemented.');
   }
-  isStarted(): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  isStarted(): Promise<IsStartedResult> {
+    throw this.unimplemented('Method not implemented.');
   }
-  licenseExpirationDate(): Promise<ExpirationDateResult> {
-    throw new Error('Method not implemented.');
+
+  licenseExpirationDate(): Promise<LicenseExpirationDateResult> {
+    throw this.unimplemented('Method not implemented.');
   }
   updateLicense(): Promise<void> {
-    throw new Error('Method not implemented.');
+    throw this.unimplemented('Method not implemented.');
   }
+
   destroySession(): Promise<void> {
-    throw new Error('Method not implemented.');
+    throw this.unimplemented('Method not implemented.');
   }
-  currentUserID(): Promise<UserID> {
-    throw new Error('Method not implemented.');
+  currentUserID(): Promise<UserIDResult> {
+    throw this.unimplemented('Method not implemented.');
   }
-  connectedPeers(): Promise<PeerIDs> {
-    throw new Error('Method not implemented.');
+  connectedPeers(): Promise<ConnectedPeersResult> {
+    throw this.unimplemented('Method not implemented.');
   }
-  send(options: SendOptions): Promise<MessageID> {
-    options = options || {};
-    throw new Error('Method not implemented.');
+
+  send(options: SendOptions): Promise<SendResult> {
+    console.info('send', options);
+    throw this.unimplemented('Method not implemented.');
+  }
+
+  checkPermissions(): Promise<PermissionStatus> {
+    throw this.unimplemented('Method not implemented.');
+  }
+  requestPermissions(permissions?: BridgefyPermissions): Promise<PermissionStatus> {
+    console.info('requestPermissions', permissions);
+    throw this.unimplemented('Method not implemented.');
   }
 }

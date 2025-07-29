@@ -15,19 +15,21 @@ npx cap sync
 
 * [`initialize(...)`](#initialize)
 * [`isInitialized()`](#isinitialized)
-* [`stop()`](#stop)
 * [`start(...)`](#start)
 * [`isStarted()`](#isstarted)
+* [`stop()`](#stop)
 * [`licenseExpirationDate()`](#licenseexpirationdate)
 * [`updateLicense()`](#updatelicense)
 * [`destroySession()`](#destroysession)
 * [`currentUserID()`](#currentuserid)
 * [`connectedPeers()`](#connectedpeers)
 * [`send(...)`](#send)
-* [`addListener('onFailToStart', ...)`](#addlisteneronfailtostart-)
+* [`checkPermissions()`](#checkpermissions)
+* [`requestPermissions(...)`](#requestpermissions)
 * [`addListener('onStarted', ...)`](#addlisteneronstarted-)
-* [`addListener('onFailToStop', ...)`](#addlisteneronfailtostop-)
+* [`addListener('onFailToStart', ...)`](#addlisteneronfailtostart-)
 * [`addListener('onStopped', ...)`](#addlisteneronstopped-)
+* [`addListener('onFailToStop', ...)`](#addlisteneronfailtostop-)
 * [`addListener('onDestroySession', ...)`](#addlistenerondestroysession-)
 * [`addListener('onFailToDestroySession', ...)`](#addlisteneronfailtodestroysession-)
 * [`addListener('onConnected', ...)`](#addlisteneronconnected-)
@@ -36,8 +38,8 @@ npx cap sync
 * [`addListener('onEstablishSecureConnection', ...)`](#addlisteneronestablishsecureconnection-)
 * [`addListener('onFailToEstablishSecureConnection', ...)`](#addlisteneronfailtoestablishsecureconnection-)
 * [`addListener('onSend', ...)`](#addlisteneronsend-)
-* [`addListener('onProgressOfSend', ...)`](#addlisteneronprogressofsend-)
 * [`addListener('onFailToSend', ...)`](#addlisteneronfailtosend-)
+* [`addListener('onProgressOfSend', ...)`](#addlisteneronprogressofsend-)
 * [`addListener('onReceiveData', ...)`](#addlisteneronreceivedata-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -71,23 +73,12 @@ This method is asynchronous and returns a promise that resolves when the initial
 ### isInitialized()
 
 ```typescript
-isInitialized() => Promise<boolean>
+isInitialized() => Promise<IsInitializedResult>
 ```
 
 Checks if the Bridgefy SDK has been initialized.
 
-**Returns:** <code>Promise&lt;boolean&gt;</code>
-
---------------------
-
-
-### stop()
-
-```typescript
-stop() => Promise<void>
-```
-
-Stops Bridgefy operations and releases associated resources.
+**Returns:** <code>Promise&lt;<a href="#isinitializedresult">IsInitializedResult</a>&gt;</code>
 
 --------------------
 
@@ -110,12 +101,23 @@ Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy netw
 ### isStarted()
 
 ```typescript
-isStarted() => Promise<boolean>
+isStarted() => Promise<IsStartedResult>
 ```
 
 Indicates whether the Bridgefy SDK is currently started.
 
-**Returns:** <code>Promise&lt;boolean&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#isstartedresult">IsStartedResult</a>&gt;</code>
+
+--------------------
+
+
+### stop()
+
+```typescript
+stop() => Promise<void>
+```
+
+Stops Bridgefy operations and releases associated resources.
 
 --------------------
 
@@ -123,12 +125,12 @@ Indicates whether the Bridgefy SDK is currently started.
 ### licenseExpirationDate()
 
 ```typescript
-licenseExpirationDate() => Promise<ExpirationDateResult>
+licenseExpirationDate() => Promise<LicenseExpirationDateResult>
 ```
 
 Retrieves the expiration date of the Bridgefy license.
 
-**Returns:** <code>Promise&lt;<a href="#expirationdateresult">ExpirationDateResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#licenseexpirationdateresult">LicenseExpirationDateResult</a>&gt;</code>
 
 --------------------
 
@@ -158,12 +160,12 @@ Destroys the current session, terminating any active connections and cleaning up
 ### currentUserID()
 
 ```typescript
-currentUserID() => Promise<UserID>
+currentUserID() => Promise<UserIDResult>
 ```
 
 Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
 
-**Returns:** <code>Promise&lt;<a href="#uuid">UUID</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#useridresult">UserIDResult</a>&gt;</code>
 
 --------------------
 
@@ -171,12 +173,12 @@ Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
 ### connectedPeers()
 
 ```typescript
-connectedPeers() => Promise<PeerIDs>
+connectedPeers() => Promise<ConnectedPeersResult>
 ```
 
 Retrieves a list of UUIDs representing the connected peers in the current session.
 
-**Returns:** <code>Promise&lt;<a href="#peerids">PeerIDs</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
 
 --------------------
 
@@ -184,7 +186,7 @@ Retrieves a list of UUIDs representing the connected peers in the current sessio
 ### send(...)
 
 ```typescript
-send(options: SendOptions) => Promise<MessageID>
+send(options: SendOptions) => Promise<SendResult>
 ```
 
 Sends data using a specific transmission mode.
@@ -193,25 +195,41 @@ Sends data using a specific transmission mode.
 | ------------- | --------------------------------------------------- | ------------------------------------------ |
 | **`options`** | <code><a href="#sendoptions">SendOptions</a></code> | - The parameters to pass into this method. |
 
-**Returns:** <code>Promise&lt;<a href="#uuid">UUID</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#sendresult">SendResult</a>&gt;</code>
 
 --------------------
 
 
-### addListener('onFailToStart', ...)
+### checkPermissions()
 
 ```typescript
-addListener(eventName: 'onFailToStart', listenerFunc: (error: BridgefyException) => void) => Promise<PluginListenerHandle>
+checkPermissions() => Promise<PermissionStatus>
 ```
 
-Initialization Listeners
+Check for the appropriate permissions to use Nearby.
 
-| Param              | Type                                                                                |
-| ------------------ | ----------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStart'</code>                                                        |
-| **`listenerFunc`** | <code>(error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Since:** 0.0.1
+
+--------------------
+
+
+### requestPermissions(...)
+
+```typescript
+requestPermissions(permissions?: BridgefyPermissions | undefined) => Promise<PermissionStatus>
+```
+
+Request the appropriate permissions to use Nearby.
+
+| Param             | Type                                                                |
+| ----------------- | ------------------------------------------------------------------- |
+| **`permissions`** | <code><a href="#bridgefypermissions">BridgefyPermissions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+
+**Since:** 0.0.1
 
 --------------------
 
@@ -221,6 +239,8 @@ Initialization Listeners
 ```typescript
 addListener(eventName: 'onStarted', listenerFunc: (userID: UserID) => void) => Promise<PluginListenerHandle>
 ```
+
+Initialization Listeners
 
 | Param              | Type                                                       |
 | ------------------ | ---------------------------------------------------------- |
@@ -232,16 +252,16 @@ addListener(eventName: 'onStarted', listenerFunc: (userID: UserID) => void) => P
 --------------------
 
 
-### addListener('onFailToStop', ...)
+### addListener('onFailToStart', ...)
 
 ```typescript
-addListener(eventName: 'onFailToStop', listenerFunc: (error: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToStart', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                                |
-| ------------------ | ----------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStop'</code>                                                         |
-| **`listenerFunc`** | <code>(error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStart'</code>                                                            |
+| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -258,6 +278,22 @@ addListener(eventName: 'onStopped', listenerFunc: () => void) => Promise<PluginL
 | ------------------ | -------------------------- |
 | **`eventName`**    | <code>'onStopped'</code>   |
 | **`listenerFunc`** | <code>() =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('onFailToStop', ...)
+
+```typescript
+addListener(eventName: 'onFailToStop', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+```
+
+| Param              | Type                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStop'</code>                                                             |
+| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -283,13 +319,13 @@ addListener(eventName: 'onDestroySession', listenerFunc: () => void) => Promise<
 ### addListener('onFailToDestroySession', ...)
 
 ```typescript
-addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToDestroySession', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                                |
-| ------------------ | ----------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToDestroySession'</code>                                               |
-| **`listenerFunc`** | <code>(error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToDestroySession'</code>                                                   |
+| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -371,15 +407,15 @@ When an on-demand secure connection was successfully established
 ### addListener('onFailToEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, exception: BridgefyException) => void) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection failed to establish
 
-| Param              | Type                                                                                                                  |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                                      |
-| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                                          |
+| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -404,6 +440,24 @@ When a message is sent
 --------------------
 
 
+### addListener('onFailToSend', ...)
+
+```typescript
+addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+```
+
+When a message fails to send
+
+| Param              | Type                                                                                                                         |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToSend'</code>                                                                                                  |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
 ### addListener('onProgressOfSend', ...)
 
 ```typescript
@@ -420,28 +474,10 @@ addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: MessageID, 
 --------------------
 
 
-### addListener('onFailToSend', ...)
-
-```typescript
-addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, error: BridgefyException) => void) => Promise<PluginListenerHandle>
-```
-
-When a message fails to send
-
-| Param              | Type                                                                                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| **`eventName`**    | <code>'onFailToSend'</code>                                                                                              |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, error: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
-
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
-
---------------------
-
-
 ### addListener('onReceiveData', ...)
 
 ```typescript
-addListener(eventName: 'onReceiveData', listenerFunc: (data: Base64, messageID: MessageID, transmissionMode: TransmissionMode) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onReceiveData', listenerFunc: (messageID: MessageID, data: Base64, transmissionMode: TransmissionMode) => void) => Promise<PluginListenerHandle>
 ```
 
 When data is received
@@ -449,7 +485,7 @@ When data is received
 | Param              | Type                                                                                                                                                                  |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onReceiveData'</code>                                                                                                                                          |
-| **`listenerFunc`** | <code>(data: <a href="#base64">Base64</a>, messageID: <a href="#uuid">UUID</a>, transmissionMode: <a href="#transmissionmode">TransmissionMode</a>) =&gt; void</code> |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, data: <a href="#base64">Base64</a>, transmissionMode: <a href="#transmissionmode">TransmissionMode</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -478,6 +514,13 @@ Removes all listeners
 | **`verboseLogging`** | <code>boolean</code>                  | If true, enables verbose logging for debugging purposes. Defaults to `false`. |
 
 
+#### IsInitializedResult
+
+| Prop                | Type                 |
+| ------------------- | -------------------- |
+| **`isInitialized`** | <code>boolean</code> |
+
+
 #### StartOptions
 
 | Prop                     | Type                                                              | Description                                                                                                                                                          |
@@ -486,11 +529,39 @@ Removes all listeners
 | **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages. Defaults to <a href="#propagationprofile">`PropagationProfile</a>.DEFAULT`. |
 
 
-#### ExpirationDateResult
+#### IsStartedResult
 
-| Prop                 | Type                |
-| -------------------- | ------------------- |
-| **`expirationDate`** | <code>string</code> |
+| Prop            | Type                 |
+| --------------- | -------------------- |
+| **`isStarted`** | <code>boolean</code> |
+
+
+#### LicenseExpirationDateResult
+
+| Prop                        | Type                |
+| --------------------------- | ------------------- |
+| **`licenseExpirationDate`** | <code>string</code> |
+
+
+#### UserIDResult
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+
+
+#### ConnectedPeersResult
+
+| Prop        | Type                                        |
+| ----------- | ------------------------------------------- |
+| **`peers`** | <code><a href="#peerids">PeerIDs</a></code> |
+
+
+#### SendResult
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
 
 
 #### SendOptions
@@ -501,11 +572,34 @@ Removes all listeners
 | **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> |
 
 
+#### PermissionStatus
+
+| Prop            | Type                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                   | Since |
+| --------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`bluetooth`** | <code><a href="#permissionstate">PermissionState</a></code> | `BLUETOOTH_ADVERTISE` Required to be able to advertise to nearby Bluetooth devices. `BLUETOOTH_CONNECT` Required to be able to connect to paired Bluetooth devices. `BLUETOOTH_SCAN` Required to be able to discover and pair nearby Bluetooth devices. `BLUETOOTH` Allows applications to connect to paired bluetooth devices. `BLUETOOTH_ADMIN` Allows applications to discover and pair bluetooth devices. | 0.0.1 |
+| **`location`**  | <code><a href="#permissionstate">PermissionState</a></code> | `ACCESS_FINE_LOCATION` Allows an app to access precise location. `ACCESS_COARSE_LOCATION` Allows an app to access approximate location.                                                                                                                                                                                                                                                                       | 0.0.1 |
+
+
+#### BridgefyPermissions
+
+| Prop              | Type                                  |
+| ----------------- | ------------------------------------- |
+| **`permissions`** | <code>BridgefyPermissionType[]</code> |
+
+
 #### PluginListenerHandle
 
 | Prop         | Type                                      |
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### BridgefyException
+
+| Prop          | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`type`**    | <code><a href="#exceptiontype">ExceptionType</a></code> |
+| **`message`** | <code>string</code>                                     |
 
 
 ### Type Aliases
@@ -531,6 +625,11 @@ Removes all listeners
 <code><a href="#uuid">UUID</a></code>
 
 
+#### MessageID
+
+<code><a href="#uuid">UUID</a></code>
+
+
 #### Base64
 
 <code>string & { readonly __brand: unique symbol }</code>
@@ -544,12 +643,17 @@ There are several modes for sending packets:
 **Mesh**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
 **P2P**: Sends the packet only when the receiver is in range.
 
-<code>{ type: <a href="#transmissiontype">TransmissionType.BROADCAST</a>, senderID: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.MESH</a>, receiverID: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.P2P</a>, receiverID: <a href="#uuid">UUID</a>; }</code>
+<code>{ type: <a href="#transmissiontype">TransmissionType.BROADCAST</a>; uuid: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.MESH</a>; uuid: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.P2P</a>; uuid: <a href="#uuid">UUID</a>; }</code>
 
 
-#### MessageID
+#### PermissionState
 
-<code><a href="#uuid">UUID</a></code>
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+#### BridgefyPermissionType
+
+<code>'bluetooth' | 'location'</code>
 
 
 ### Enums
@@ -575,7 +679,7 @@ There are several modes for sending packets:
 | **`P2P`**       | <code>'p2p'</code>       | Direct type allow direct message and if receiver isn't connected, the SDK change and propagate message with Mesh type |
 
 
-#### BridgefyException
+#### ExceptionType
 
 | Members                            | Value                                     |
 | ---------------------------------- | ----------------------------------------- |

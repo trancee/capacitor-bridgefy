@@ -1,26 +1,225 @@
 <!doctype html>
 <html lang="en" dir="ltr" class="hydrated">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Example Capacitor App</title>
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
-  </head>
-  <body>
-    <main>
-      <h1>Capacitor Test Plugin Project</h1>
-      <p>
-        This project can be used to test out the functionality of your plugin. Nothing in the
-        <em>example-app/</em> folder will be published to npm when using this template, so you can create away!
-      </p>
-      <label for="echoInput">Echo Text:</label>
-      <input type="text" id="echoInput" name="echoInput" value="Hello World!" />
-      <button onclick="testEcho()">Click Me!</button>
-    </main>
 
-    <script src="./js/example.js" type="module"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Example Capacitor App</title>
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <style>
+    html {
+      overflow-x: hidden;
+
+      scrollbar-width: none;
+    }
+
+    label {
+      float: inline-start;
+      vertical-align: middle;
+    }
+
+    input[type='text'],
+    select {
+      width: -webkit-fill-available;
+      padding: 0.25em 1em;
+    }
+
+    input[type='checkbox'] {
+      float: inline-end;
+      width: 1.25em;
+      height: 1.25em;
+      margin: 0;
+    }
+
+    textarea {
+      width: -webkit-fill-available;
+      height: 100%;
+      padding: 0.25em 1em;
+      resize: vertical;
+    }
+
+    button {
+      clear: both;
+      margin-top: 0.25em;
+      padding: 0.25em 1em;
+      height: fit-content;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin-bottom: 1em;
+      position: relative;
+    }
+
+    fieldset+fieldset {
+      margin-top: 0.25em;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+
+    legend:empty {
+      display: none;
+    }
+
+    p {
+      display: flow-root;
+      margin: 0.5em 0;
+    }
+
+    p:empty {
+      display: none;
+    }
+
+    .float {
+      position: absolute;
+      bottom: 1.2em;
+      right: 1.2em;
+
+      width: initial;
+      height: fit-content;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notification {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Capacitor Test Plugin Project</h1>
+    <p>
+      This project can be used to test out the functionality of your plugin. Nothing in the
+      <em>example-app/</em> folder will be published to npm when using this template, so you can create away!
+    </p>
+
+    <div class="container">
+      <div style="flex: 1;">
+
+        <fieldset>
+          <legend title="Permissions">Permissions</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+            <p>
+              <label for="bluetooth">Bluetooth</label>
+              <input type="checkbox" id="bluetooth" name="bluetooth" checked />
+            </p>
+            <p>
+              <label for="location">Location</label>
+              <input type="checkbox" id="location" name="location" checked />
+            </p>
+          </span>
+          <button onclick="testCheckPermissions()">Check Permissions</button>
+          <button onclick="testRequestPermissions()">Request Permissions</button>
+        </fieldset>
+
+        <fieldset>
+          <legend title="Initialize">Initialize</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+            <p>
+              <label for="apiKey">API Key</label>
+              <input type="text" id="apiKey" name="apiKey" value="" />
+            </p>
+            <p>
+              <label for="verboseLogging">Verbose Logging</label>
+              <input type="checkbox" id="verboseLogging" name="verboseLogging" checked />
+            </p>
+          </span>
+          <button onclick="testInitialize()">Initialize</button>
+          <button onclick="testIsInitialized()">Is Initialized</button>
+        </fieldset>
+
+        <fieldset>
+          <legend title="Operation">Operation</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+            <p>
+              <label for="userID">User ID</label>
+              <input type="text" id="userID" name="userID" value="" />
+            </p>
+            <p>
+              <label for="propagationProfile">Propagation Profile</label>
+              <select id="propagationProfile" name="propagationProfile" size="5">
+                <option value="standard">Standard</option>
+                <option value="highDensityEnvironment">High Density Environment</option>
+                <option value="sparseEnvironment">Sparse Environment</option>
+                <option value="longReach">Long Reach</option>
+                <option value="shortReach">Short Reach</option>
+              </select>
+            </p>
+          </span>
+          <button onclick="testStart()">Start</button>
+          <button onclick="testIsStarted()">Is Started</button>
+          <button onclick="testStop()">Stop</button>
+        </fieldset>
+
+        <fieldset>
+          <legend title="Connectivity">Connectivity</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+            <p>
+              <label for="peers">Peers</label>
+              <select id="peers" name="peers" size="5" rows="5" multiple></select>
+            </p>
+            <button onclick="testConnectedPeers()">Connected Peers</button>
+
+            <hr>
+
+            <p>
+              <label for="transmissionMode">Transmission Mode</label>
+              <select id="transmissionMode" name="transmissionMode" size="3" rows="3">
+                <option value="broadcast">Broadcast</option>
+                <option value="mesh">Mesh</option>
+                <option value="p2p">P2P</option>
+              </select>
+            </p>
+            <p>
+              <label for="data">Data</label>
+              <textarea id="data" name="data" rows="3">TXkgQXBw</textarea>
+            </p>
+          </span>
+          <button onclick="testSend()">Send</button>
+        </fieldset>
+
+        <fieldset>
+          <legend title="License Management">License Management</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+          </span>
+          <button onclick="testLicenseExpirationDate()">License Expiration Date</button>
+          <button onclick="testUpdateLicense()">Update License</button>
+        </fieldset>
+
+        <fieldset>
+          <legend title="Session Management">Session Management</legend>
+          <button onclick="toggle(this)" class="float">▼</button>
+          <span style="display: none;">
+          </span>
+          <button onclick="testDestroySession()">Destroy Session</button>
+          <button onclick="testCurrentUserID()">Current UserID</button>
+        </fieldset>
+      </div>
+
+      <div class="notification" style="flex: 1;">
+        <textarea id="status" rows="10" disabled style="flex: 1;"></textarea>
+        <textarea id="events" rows="10" disabled style="flex: 1;"></textarea>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="./js/example.js" type="module"></script>
+</body>
+
 </html>

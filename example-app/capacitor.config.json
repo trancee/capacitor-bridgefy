@@ -3,6 +3,10 @@
   "appName": "example-app",
   "webDir": "dist",
   "plugins": {
+    "Bridgefy": {
+      "apiKey": "1b672abe-23bc-412d-94fd-0cb444b3b9e9",
+      "verboseLogging": true
+    },
     "SplashScreen": {
       "launchAutoHide": false
     }
