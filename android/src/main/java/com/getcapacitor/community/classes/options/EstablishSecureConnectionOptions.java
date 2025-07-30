@@ -1,5 +1,7 @@
 package com.getcapacitor.community.classes.options;
 
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
+
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import java.util.UUID;
@@ -16,11 +18,7 @@ public class EstablishSecureConnectionOptions {
     }
 
     private void setUserID(@Nullable String userID) {
-        try {
-            this.userID = UUID.fromString(userID);
-        } catch (Exception ignored) {
-            this.userID = null;
-        }
+        this.userID = makeUUID(userID);
     }
 
     @Nullable

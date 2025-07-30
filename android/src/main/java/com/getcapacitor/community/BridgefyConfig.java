@@ -1,7 +1,7 @@
 package com.getcapacitor.community;
 
-import android.content.Context;
-import androidx.annotation.NonNull;
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
+
 import java.util.UUID;
 import javax.annotation.Nullable;
 
@@ -19,11 +19,7 @@ public class BridgefyConfig {
     }
 
     public void setAPIKey(@Nullable String apiKey) {
-        try {
-            this.apiKey = UUID.fromString(apiKey);
-        } catch (Exception ignored) {
-            this.apiKey = null;
-        }
+        this.apiKey = makeUUID(apiKey);
     }
 
     public void setVerboseLogging(@Nullable Boolean verboseLogging) {

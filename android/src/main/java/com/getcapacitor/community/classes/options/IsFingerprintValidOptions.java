@@ -1,5 +1,7 @@
 package com.getcapacitor.community.classes.options;
 
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
+
 import android.util.Base64;
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
@@ -24,11 +26,7 @@ public class IsFingerprintValidOptions {
     }
 
     private void setUserID(@Nullable String userID) {
-        try {
-            this.userID = UUID.fromString(userID);
-        } catch (Exception ignored) {
-            this.userID = null;
-        }
+        this.userID = makeUUID(userID);
     }
 
     private void setFingerprint(@Nullable String fingerprint) {

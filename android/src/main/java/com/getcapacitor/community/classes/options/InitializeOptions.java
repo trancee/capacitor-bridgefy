@@ -1,5 +1,8 @@
 package com.getcapacitor.community.classes.options;
 
+import static com.getcapacitor.community.BridgefyHelper.makeBoolean;
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
+
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import java.util.UUID;
@@ -19,17 +22,11 @@ public class InitializeOptions {
 
         @Nullable
         String verboseLogging = call.getString("verboseLogging");
-        if (verboseLogging != null && !verboseLogging.isEmpty()) {
-            this.setVerboseLogging(Boolean.parseBoolean(verboseLogging));
-        }
+        this.setVerboseLogging(makeBoolean(verboseLogging));
     }
 
     private void setAPIKey(@Nullable String apiKey) {
-        try {
-            this.apiKey = UUID.fromString(apiKey);
-        } catch (Exception ignored) {
-            this.apiKey = null;
-        }
+        this.apiKey = makeUUID(apiKey);
     }
 
     private void setVerboseLogging(@Nullable Boolean verboseLogging) {

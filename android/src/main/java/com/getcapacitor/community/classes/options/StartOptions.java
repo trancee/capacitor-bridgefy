@@ -1,20 +1,18 @@
 package com.getcapacitor.community.classes.options;
 
-import static com.getcapacitor.community.BridgefyHelper.toPropagationProfile;
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.PluginCall;
 import java.util.UUID;
-import me.bridgefy.commons.propagation.PropagationProfile;
 
 public class StartOptions {
 
     @Nullable
     private UUID userID;
 
-    @NonNull
-    private PropagationProfile propagationProfile = PropagationProfile.Standard;
+    @Nullable
+    private String propagationProfile;
 
     public StartOptions(PluginCall call) {
         @Nullable
@@ -23,21 +21,15 @@ public class StartOptions {
 
         @Nullable
         String propagationProfile = call.getString("propagationProfile");
-        if (propagationProfile != null && !propagationProfile.isEmpty()) {
-            this.setPropagationProfile(propagationProfile);
-        }
+        this.setPropagationProfile(propagationProfile);
     }
 
     private void setUserID(@Nullable String userID) {
-        try {
-            this.userID = UUID.fromString(userID);
-        } catch (Exception ignored) {
-            this.userID = null;
-        }
+        this.userID = makeUUID(userID);
     }
 
-    private void setPropagationProfile(@NonNull String propagationProfile) {
-        this.propagationProfile = toPropagationProfile(propagationProfile);
+    private void setPropagationProfile(@Nullable String propagationProfile) {
+        this.propagationProfile = propagationProfile;
     }
 
     @Nullable
@@ -45,8 +37,8 @@ public class StartOptions {
         return userID;
     }
 
-    @NonNull
-    public PropagationProfile getPropagationProfile() {
+    @Nullable
+    public String getPropagationProfile() {
         return propagationProfile;
     }
 }

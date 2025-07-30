@@ -307,13 +307,13 @@ Initialization Listeners
 ### addListener('onFailToStart', ...)
 
 ```typescript
-addListener(eventName: 'onFailToStart', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToStart', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                                    |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStart'</code>                                                            |
-| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStart'</code>                                |
+| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -339,13 +339,13 @@ addListener(eventName: 'onStopped', listenerFunc: () => void) => Promise<PluginL
 ### addListener('onFailToStop', ...)
 
 ```typescript
-addListener(eventName: 'onFailToStop', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToStop', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                                    |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStop'</code>                                                             |
-| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStop'</code>                                 |
+| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -371,13 +371,13 @@ addListener(eventName: 'onDestroySession', listenerFunc: () => void) => Promise<
 ### addListener('onFailToDestroySession', ...)
 
 ```typescript
-addListener(eventName: 'onFailToDestroySession', listenerFunc: (exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                                                    |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToDestroySession'</code>                                                   |
-| **`listenerFunc`** | <code>(exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToDestroySession'</code>                       |
+| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -459,15 +459,15 @@ When an on-demand secure connection was successfully established
 ### addListener('onFailToEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, error: Error) => void) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection failed to establish
 
-| Param              | Type                                                                                                                      |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                                          |
-| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                              |
+| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, error: <a href="#error">Error</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -495,15 +495,15 @@ When a message is sent
 ### addListener('onFailToSend', ...)
 
 ```typescript
-addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, exception: BridgefyException) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, error: Error) => void) => Promise<PluginListenerHandle>
 ```
 
 When a message fails to send
 
-| Param              | Type                                                                                                                         |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToSend'</code>                                                                                                  |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, exception: <a href="#bridgefyexception">BridgefyException</a>) =&gt; void</code> |
+| Param              | Type                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| **`eventName`**    | <code>'onFailToSend'</code>                                                                      |
+| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, error: <a href="#error">Error</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -682,12 +682,13 @@ Removes all listeners
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
-#### BridgefyException
+#### Error
 
-| Prop          | Type                                                    |
-| ------------- | ------------------------------------------------------- |
-| **`type`**    | <code><a href="#exceptiontype">ExceptionType</a></code> |
-| **`message`** | <code>string</code>                                     |
+| Prop          | Type                |
+| ------------- | ------------------- |
+| **`name`**    | <code>string</code> |
+| **`message`** | <code>string</code> |
+| **`stack`**   | <code>string</code> |
 
 
 ### Type Aliases
@@ -765,25 +766,5 @@ There are several modes for sending packets:
 | **`BROADCAST`** | <code>'broadcast'</code> | Broadcast type propagate message on mesh network                                                                      |
 | **`MESH`**      | <code>'mesh'</code>      | Mesh type propagate message and find receiver on mesh network                                                         |
 | **`P2P`**       | <code>'p2p'</code>       | Direct type allow direct message and if receiver isn't connected, the SDK change and propagate message with Mesh type |
-
-
-#### ExceptionType
-
-| Members                            | Value                                     |
-| ---------------------------------- | ----------------------------------------- |
-| **`ALREADY_STARTED`**              | <code>'alreadyStarted'</code>             |
-| **`DEVICE_CAPABILITIES`**          | <code>'deviceCapabilities'</code>         |
-| **`EXPIRED_LICENSE`**              | <code>'expiredLicense'</code>             |
-| **`GENERIC`**                      | <code>'generic'</code>                    |
-| **`INCONSISTENT_DEVICE_TIME`**     | <code>'inconsistentDeviceTime'</code>     |
-| **`INTERNET_CONNECTION_REQUIRED`** | <code>'internetConnectionRequired'</code> |
-| **`INVALID_API_KEY_FORMAT`**       | <code>'invalidAPIKeyFormat'</code>        |
-| **`MISSING_APPLICATION_ID`**       | <code>'missingApplicationID'</code>       |
-| **`PERMISSION`**                   | <code>'permission'</code>                 |
-| **`REGISTRATION`**                 | <code>'registration'</code>               |
-| **`SESSION_ERROR`**                | <code>'sessionError'</code>               |
-| **`SIMULATOR_IS_NOT_SUPPORTED`**   | <code>'simulatorIsNotSupported'</code>    |
-| **`SIZE_LIMIT_EXCEEDED`**          | <code>'sizeLimitExceeded'</code>          |
-| **`UNKNOWN`**                      | <code>'unknown'</code>                    |
 
 </docgen-api>

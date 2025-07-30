@@ -1,8 +1,7 @@
 package com.getcapacitor.community.classes.events;
 
-import static com.getcapacitor.community.BridgefyHelper.TransmissionMode;
-
 import android.util.Base64;
+import android.util.Pair;
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
 import java.util.UUID;
@@ -10,9 +9,9 @@ import java.util.UUID;
 public class ReceiveDataEvent extends MessageIDEvent {
 
     private final byte[] data;
-    private final TransmissionMode transmissionMode;
+    private final Pair<String, UUID> transmissionMode;
 
-    public ReceiveDataEvent(@NonNull UUID messageID, byte[] data, TransmissionMode transmissionMode) {
+    public ReceiveDataEvent(@NonNull UUID messageID, byte[] data, Pair<String, UUID> transmissionMode) {
         super(messageID);
         this.data = data;
         this.transmissionMode = transmissionMode;
@@ -29,8 +28,8 @@ public class ReceiveDataEvent extends MessageIDEvent {
         if (transmissionMode != null) {
             JSObject jsTransmissionMode = new JSObject();
 
-            jsTransmissionMode.put("type", transmissionMode.type());
-            jsTransmissionMode.put("uuid", transmissionMode.uuid());
+            jsTransmissionMode.put("type", transmissionMode.first);
+            jsTransmissionMode.put("uuid", transmissionMode.second);
 
             result.put("transmissionMode", jsTransmissionMode);
         }

@@ -1,14 +1,14 @@
 package com.getcapacitor.community.classes.options;
 
-import static com.getcapacitor.community.BridgefyHelper.toTransmissionMode;
+import static com.getcapacitor.community.BridgefyHelper.makeUUID;
 
 import android.util.Base64;
+import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import java.util.UUID;
-import me.bridgefy.commons.TransmissionMode;
 
 public class SendOptions {
 
@@ -16,7 +16,7 @@ public class SendOptions {
     private byte[] data;
 
     @Nullable
-    private TransmissionMode transmissionMode;
+    private Pair<String, UUID> transmissionMode;
 
     public SendOptions(PluginCall call) {
         @Nullable
@@ -29,7 +29,7 @@ public class SendOptions {
             String type = transmissionMode.getString("type");
             String uuid = transmissionMode.getString("uuid");
             if (type != null && !type.isEmpty() && uuid != null && !uuid.isEmpty()) {
-                this.setTransmissionMode(type, UUID.fromString(uuid));
+                this.setTransmissionMode(type, makeUUID(uuid));
             }
         }
     }
@@ -38,8 +38,8 @@ public class SendOptions {
         this.data = (data == null || data.isEmpty()) ? null : Base64.decode(data, Base64.NO_WRAP);
     }
 
-    private void setTransmissionMode(@NonNull String type, @NonNull UUID uuid) {
-        this.transmissionMode = toTransmissionMode(type, uuid);
+    private void setTransmissionMode(@NonNull String type, @Nullable UUID uuid) {
+        this.transmissionMode = new Pair<>(type, uuid);
     }
 
     @Nullable
@@ -48,7 +48,7 @@ public class SendOptions {
     }
 
     @Nullable
-    public TransmissionMode getTransmissionMode() {
+    public Pair<String, UUID> getTransmissionMode() {
         return transmissionMode;
     }
 }

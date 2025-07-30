@@ -1,9 +1,5 @@
 package com.getcapacitor.community;
 
-import static com.getcapacitor.community.BridgefyHelper.TransmissionMode;
-import static com.getcapacitor.community.BridgefyHelper.getBridgefyExceptionType;
-import static com.getcapacitor.community.BridgefyHelper.getTransmissionMode;
-
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,9 +21,6 @@ import com.getcapacitor.community.interfaces.Callback;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import me.bridgefy.commons.exception.BridgefyException;
-import me.bridgefy.commons.listener.BridgefyDelegate;
-import me.bridgefy.commons.propagation.PropagationProfile;
 
 public class Bridgefy {
 
@@ -38,20 +31,14 @@ public class Bridgefy {
     private final String MISSING_TRANSMISSION_MODE = "missing transmission mode";
 
     @NonNull
-    private final BridgefyPlugin plugin;
-
-    @NonNull
     private final BridgefyConfig config;
 
     private final BridgefyController bridgefy;
 
     public Bridgefy(@NonNull BridgefyConfig config, @NonNull BridgefyPlugin plugin) {
         this.config = config;
-        this.plugin = plugin;
 
-        Context context = plugin.getContext();
-
-        bridgefy = new BridgefyController(context);
+        bridgefy = new BridgefyController(plugin);
     }
 
     /**
@@ -70,7 +57,7 @@ public class Bridgefy {
         @Nullable
         Boolean verboseLogging = options.getVerboseLogging() != null ? options.getVerboseLogging() : config.getVerboseLogging();
 
-        bridgefy.initialize(apiKey, verboseLogging, delegate);
+        bridgefy.initialize(apiKey, verboseLogging);
 
         callback.success();
     }
@@ -86,8 +73,8 @@ public class Bridgefy {
         @Nullable
         UUID userID = options.getUserID();
 
-        @NonNull
-        PropagationProfile propagationProfile = options.getPropagationProfile();
+        @Nullable
+        String propagationProfile = options.getPropagationProfile();
 
         bridgefy.start(userID, propagationProfile);
 
@@ -230,103 +217,4 @@ public class Bridgefy {
         SendResult result = new SendResult(messageID);
         callback.success(result);
     }
-
-    /**
-     * Delegate
-     */
-
-    BridgefyDelegate delegate = new BridgefyDelegate() {
-        // Initialization Listeners
-
-        @Override
-        public void onStarted(UUID userID) {
-            plugin.onStartedEvent(userID);
-        }
-
-        @Override
-        public void onFailToStart(BridgefyException exception) {
-            String type = getBridgefyExceptionType(exception);
-
-            plugin.onFailToStartEvent(type, exception);
-        }
-
-        @Override
-        public void onStopped() {
-            plugin.onStoppedEvent();
-        }
-
-        @Override
-        public void onFailToStop(BridgefyException exception) {
-            String type = getBridgefyExceptionType(exception);
-
-            plugin.onFailToStopEvent(type, exception);
-        }
-
-        @Override
-        public void onDestroySession() {
-            plugin.onDestroySessionEvent();
-        }
-
-        @Override
-        public void onFailToDestroySession(BridgefyException exception) {
-            String type = getBridgefyExceptionType(exception);
-
-            plugin.onFailToDestroySessionEvent(type, exception);
-        }
-
-        // Connectivity Listeners
-
-        @Override
-        public void onConnected(UUID peerID) {
-            plugin.onConnectedEvent(peerID);
-        }
-
-        @Override
-        public void onDisconnected(UUID peerID) {
-            plugin.onDisconnectedEvent(peerID);
-        }
-
-        @Override
-        public void onConnectedPeers(List<UUID> peerIDs) {
-            plugin.onConnectedPeersEvent(peerIDs);
-        }
-
-        @Override
-        public void onEstablishSecureConnection(UUID userID) {
-            plugin.onEstablishSecureConnectionEvent(userID);
-        }
-
-        @Override
-        public void onFailToEstablishSecureConnection(UUID userID, BridgefyException exception) {
-            String type = getBridgefyExceptionType(exception);
-
-            plugin.onFailToEstablishSecureConnectionEvent(userID, type, exception);
-        }
-
-        // Transmission Listeners
-
-        @Override
-        public void onSend(UUID messageID) {
-            plugin.onSendEvent(messageID);
-        }
-
-        @Override
-        public void onFailToSend(UUID messageID, BridgefyException exception) {
-            String type = getBridgefyExceptionType(exception);
-
-            plugin.onFailToSendEvent(messageID, type, exception);
-        }
-
-        @Override
-        public void onProgressOfSend(UUID messageID, int position, int total) {
-            plugin.onProgressOfSendEvent(messageID, position, total);
-        }
-
-        @Override
-        public void onReceiveData(byte[] bytes, UUID messageID, me.bridgefy.commons.TransmissionMode bridgefyTransmissionMode) {
-            TransmissionMode transmissionMode = getTransmissionMode(bridgefyTransmissionMode);
-
-            plugin.onReceiveDataEvent(messageID, bytes, transmissionMode);
-        }
-    };
 }

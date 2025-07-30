@@ -101,7 +101,7 @@ export enum PropagationProfile {
   SHORT_REACH = 'shortReach',
 }
 
-export enum ExceptionType {
+export enum ErrorType {
   ALREADY_STARTED = 'alreadyStarted',
   DEVICE_CAPABILITIES = 'deviceCapabilities',
   EXPIRED_LICENSE = 'expiredLicense',
@@ -196,9 +196,10 @@ export interface IsFingerprintValidResult {
   isValid: boolean;
 }
 
-export interface BridgefyException {
-  type: ExceptionType;
-  message: string;
+export interface Error {
+  type: ErrorType;
+  message?: string;
+  code?: number;
 }
 
 export interface PermissionStatus {
@@ -385,20 +386,11 @@ export interface BridgefyPlugin {
    * Initialization Listeners
    */
   addListener(eventName: 'onStarted', listenerFunc: (userID: UserID) => void): Promise<PluginListenerHandle>;
-  addListener(
-    eventName: 'onFailToStart',
-    listenerFunc: (exception: BridgefyException) => void,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToStart', listenerFunc: (error: Error) => void): Promise<PluginListenerHandle>;
   addListener(eventName: 'onStopped', listenerFunc: () => void): Promise<PluginListenerHandle>;
-  addListener(
-    eventName: 'onFailToStop',
-    listenerFunc: (exception: BridgefyException) => void,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToStop', listenerFunc: (error: Error) => void): Promise<PluginListenerHandle>;
   addListener(eventName: 'onDestroySession', listenerFunc: () => void): Promise<PluginListenerHandle>;
-  addListener(
-    eventName: 'onFailToDestroySession',
-    listenerFunc: (exception: BridgefyException) => void,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: Error) => void): Promise<PluginListenerHandle>;
 
   /**
    * Connectivity Listeners
@@ -443,7 +435,7 @@ export interface BridgefyPlugin {
    */
   addListener(
     eventName: 'onFailToEstablishSecureConnection',
-    listenerFunc: (userID: UserID, exception: BridgefyException) => void,
+    listenerFunc: (userID: UserID, error: Error) => void,
   ): Promise<PluginListenerHandle>;
 
   /**
@@ -463,7 +455,7 @@ export interface BridgefyPlugin {
    */
   addListener(
     eventName: 'onFailToSend',
-    listenerFunc: (messageID: MessageID, exception: BridgefyException) => void,
+    listenerFunc: (messageID: MessageID, error: Error) => void,
   ): Promise<PluginListenerHandle>;
   addListener(
     eventName: 'onProgressOfSend',

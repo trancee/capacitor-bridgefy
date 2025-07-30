@@ -1,10 +1,10 @@
 package com.getcapacitor.community;
 
-import static android.os.Build.*;
-import static com.getcapacitor.community.BridgefyHelper.TransmissionMode;
 import static com.getcapacitor.community.BridgefyHelper.makeBoolean;
 
 import android.Manifest;
+import android.os.Build;
+import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
@@ -16,6 +16,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
+import com.getcapacitor.community.BridgefyController.Error;
 import com.getcapacitor.community.classes.events.ConnectedEvent;
 import com.getcapacitor.community.classes.events.ConnectedPeersEvent;
 import com.getcapacitor.community.classes.events.DestroySessionEvent;
@@ -339,12 +340,12 @@ public class BridgefyPlugin extends Plugin {
     private List<String> getAliases() {
         List<String> aliases = new ArrayList<>();
 
-        if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             aliases.add("bluetoothNearby");
-        } else if (VERSION.SDK_INT >= VERSION_CODES.S) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             aliases.add("bluetoothNearby");
             aliases.add("location");
-        } else if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             aliases.add("bluetoothLegacy");
             aliases.add("location");
         } else {
@@ -367,22 +368,22 @@ public class BridgefyPlugin extends Plugin {
                 for (String permission : permissionsList) {
                     switch (permission) {
                         case "bluetooth":
-                            if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 aliases.add("bluetoothNearby");
-                            } else if (VERSION.SDK_INT >= VERSION_CODES.S) {
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                 aliases.add("bluetoothNearby");
-                            } else if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 aliases.add("bluetoothLegacy");
                             } else {
                                 aliases.add("bluetoothLegacy");
                             }
                             break;
                         case "location":
-                            if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 aliases.add("location");
-                            } else if (VERSION.SDK_INT >= VERSION_CODES.S) {
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                 aliases.add("location");
-                            } else if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 aliases.add("location");
                             } else {
                                 aliases.add("locationCoarse");
@@ -425,8 +426,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(STARTED_EVENT, event.toJSObject());
     }
 
-    protected void onFailToStartEvent(String type, Exception exception) {
-        FailToStartEvent event = new FailToStartEvent(type, exception);
+    protected void onFailToStartEvent(Error error) {
+        FailToStartEvent event = new FailToStartEvent(error);
 
         notifyListeners(FAIL_TO_START_EVENT, event.toJSObject());
     }
@@ -437,8 +438,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(STOPPED_EVENT, event.toJSObject());
     }
 
-    protected void onFailToStopEvent(String type, Exception exception) {
-        FailToStopEvent event = new FailToStopEvent(type, exception);
+    protected void onFailToStopEvent(Error error) {
+        FailToStopEvent event = new FailToStopEvent(error);
 
         notifyListeners(FAIL_TO_STOP_EVENT, event.toJSObject());
     }
@@ -449,8 +450,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(DESTROY_SESSION_EVENT, event.toJSObject());
     }
 
-    protected void onFailToDestroySessionEvent(String type, Exception exception) {
-        FailToDestroySessionEvent event = new FailToDestroySessionEvent(type, exception);
+    protected void onFailToDestroySessionEvent(Error error) {
+        FailToDestroySessionEvent event = new FailToDestroySessionEvent(error);
 
         notifyListeners(FAIL_TO_DESTROY_SESSION_EVENT, event.toJSObject());
     }
@@ -471,8 +472,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(DISCONNECTED_EVENT, event.toJSObject());
     }
 
-    protected void onConnectedPeersEvent(List<UUID> peerIDs) {
-        ConnectedPeersEvent event = new ConnectedPeersEvent(peerIDs);
+    protected void onConnectedPeersEvent(List<UUID> connectedPeers) {
+        ConnectedPeersEvent event = new ConnectedPeersEvent(connectedPeers);
 
         notifyListeners(CONNECTED_PEERS_EVENT, event.toJSObject());
     }
@@ -483,8 +484,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(ESTABLISH_SECURE_CONNECTION_EVENT, event.toJSObject());
     }
 
-    protected void onFailToEstablishSecureConnectionEvent(UUID userID, String type, Exception exception) {
-        FailToEstablishSecureConnectionEvent event = new FailToEstablishSecureConnectionEvent(userID, type, exception);
+    protected void onFailToEstablishSecureConnectionEvent(UUID userID, Error error) {
+        FailToEstablishSecureConnectionEvent event = new FailToEstablishSecureConnectionEvent(userID, error);
 
         notifyListeners(FAIL_TO_ESTABLISH_SECURE_CONNECTION_EVENT, event.toJSObject());
     }
@@ -499,8 +500,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(SEND_EVENT, event.toJSObject());
     }
 
-    protected void onFailToSendEvent(UUID messageID, String type, Exception exception) {
-        FailToSendEvent event = new FailToSendEvent(messageID, type, exception);
+    protected void onFailToSendEvent(UUID messageID, Error error) {
+        FailToSendEvent event = new FailToSendEvent(messageID, error);
 
         notifyListeners(FAIL_TO_SEND_EVENT, event.toJSObject());
     }
@@ -511,7 +512,7 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(PROGRESS_OF_SEND_EVENT, event.toJSObject());
     }
 
-    protected void onReceiveDataEvent(UUID messageID, byte[] bytes, TransmissionMode transmissionMode) {
+    protected void onReceiveDataEvent(UUID messageID, byte[] bytes, Pair<String, UUID> transmissionMode) {
         ReceiveDataEvent event = new ReceiveDataEvent(messageID, bytes, transmissionMode);
 
         notifyListeners(RECEIVE_DATA_EVENT, event.toJSObject());
