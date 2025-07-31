@@ -22,15 +22,15 @@ public class InitializeOptions {
 
         @Nullable
         String verboseLogging = call.getString("verboseLogging");
-        this.setVerboseLogging(makeBoolean(verboseLogging));
+        this.setVerboseLogging(verboseLogging);
     }
 
     private void setAPIKey(@Nullable String apiKey) {
         this.apiKey = makeUUID(apiKey);
     }
 
-    private void setVerboseLogging(@Nullable Boolean verboseLogging) {
-        this.verboseLogging = verboseLogging;
+    private void setVerboseLogging(@Nullable String verboseLogging) {
+        this.verboseLogging = makeBoolean(verboseLogging);
     }
 
     @Nullable

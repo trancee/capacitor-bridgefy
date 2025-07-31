@@ -8,7 +8,7 @@ import type {
   SendOptions,
   StartOptions,
   UserIDResult,
-  BridgefyPermissions,
+  Permissions,
   PermissionStatus,
   IsInitializedResult,
   IsStartedResult,
@@ -80,7 +80,7 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   checkPermissions(): Promise<PermissionStatus> {
     throw this.unimplemented('Method not implemented.');
   }
-  requestPermissions(permissions?: BridgefyPermissions): Promise<PermissionStatus> {
+  requestPermissions(permissions?: Permissions): Promise<PermissionStatus> {
     console.info('requestPermissions', permissions);
     throw this.unimplemented('Method not implemented.');
   }

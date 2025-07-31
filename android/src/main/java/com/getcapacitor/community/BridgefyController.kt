@@ -265,7 +265,7 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
         const val GENERIC: String = "generic"
         const val INCONSISTENT_DEVICE_TIME: String = "inconsistentDeviceTime"
         const val INTERNET_CONNECTION_REQUIRED: String = "internetConnectionRequired"
-        const val INVALID_API_KEY_FORMAT: String = "invalidAPIKeyFormat"
+        const val INVALID_API_KEY: String = "invalidAPIKey"
         const val MISSING_APPLICATION_ID: String = "missingApplicationID"
         const val PERMISSION: String = "permission"
         const val REGISTRATION: String = "registration"
@@ -312,7 +312,7 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
             )
 
             is BridgefyException.InvalidAPIKeyFormatException -> Error(
-                ErrorType.INVALID_API_KEY_FORMAT,
+                ErrorType.INVALID_API_KEY,
                 bridgefyException.message,
             )
 

@@ -512,8 +512,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(PROGRESS_OF_SEND_EVENT, event.toJSObject());
     }
 
-    protected void onReceiveDataEvent(UUID messageID, byte[] bytes, Pair<String, UUID> transmissionMode) {
-        ReceiveDataEvent event = new ReceiveDataEvent(messageID, bytes, transmissionMode);
+    protected void onReceiveDataEvent(UUID messageID, byte[] data, Pair<String, UUID> transmissionMode) {
+        ReceiveDataEvent event = new ReceiveDataEvent(messageID, data, transmissionMode);
 
         notifyListeners(RECEIVE_DATA_EVENT, event.toJSObject());
     }

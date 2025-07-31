@@ -66,9 +66,9 @@ An Internet connection is needed at least for the first time in order to validat
 
 This method is asynchronous and returns a promise that resolves when the initialization is complete.
 
-| Param         | Type                                                            | Description                                |
-| ------------- | --------------------------------------------------------------- | ------------------------------------------ |
-| **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> | - The parameters to pass into this method. |
+| Param         | Type                                                            | Description                              |
+| ------------- | --------------------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> | The parameters to pass into this method. |
 
 --------------------
 
@@ -94,9 +94,9 @@ start(options: StartOptions) => Promise<void>
 
 Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy network.
 
-| Param         | Type                                                  | Description                                |
-| ------------- | ----------------------------------------------------- | ------------------------------------------ |
-| **`options`** | <code><a href="#startoptions">StartOptions</a></code> | - The parameters to pass into this method. |
+| Param         | Type                                                  | Description                              |
+| ------------- | ----------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#startoptions">StartOptions</a></code> | The parameters to pass into this method. |
 
 --------------------
 
@@ -166,7 +166,7 @@ Destroys the current session, terminating any active connections and cleaning up
 currentUserID() => Promise<UserIDResult>
 ```
 
-Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
+Retrieves the <a href="#uuid">`UUID`</a> of the current Bridgefy user.
 
 **Returns:** <code>Promise&lt;<a href="#useridresult">UserIDResult</a>&gt;</code>
 
@@ -179,7 +179,7 @@ Retrieves the <a href="#uuid">UUID</a> of the current Bridgefy user.
 connectedPeers() => Promise<ConnectedPeersResult>
 ```
 
-Retrieves a list of UUIDs representing the connected peers in the current session.
+Retrieves a list of `UUID`s representing the connected peers in the current session.
 
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
 
@@ -243,9 +243,9 @@ send(options: SendOptions) => Promise<SendResult>
 
 Sends data using a specific transmission mode.
 
-| Param         | Type                                                | Description                                |
-| ------------- | --------------------------------------------------- | ------------------------------------------ |
-| **`options`** | <code><a href="#sendoptions">SendOptions</a></code> | - The parameters to pass into this method. |
+| Param         | Type                                                | Description                              |
+| ------------- | --------------------------------------------------- | ---------------------------------------- |
+| **`options`** | <code><a href="#sendoptions">SendOptions</a></code> | The parameters to pass into this method. |
 
 **Returns:** <code>Promise&lt;<a href="#sendresult">SendResult</a>&gt;</code>
 
@@ -270,14 +270,14 @@ Check for the appropriate permissions to use Nearby.
 ### requestPermissions(...)
 
 ```typescript
-requestPermissions(permissions?: BridgefyPermissions | undefined) => Promise<PermissionStatus>
+requestPermissions(permissions?: Permissions | undefined) => Promise<PermissionStatus>
 ```
 
 Request the appropriate permissions to use Nearby.
 
-| Param             | Type                                                                |
-| ----------------- | ------------------------------------------------------------------- |
-| **`permissions`** | <code><a href="#bridgefypermissions">BridgefyPermissions</a></code> |
+| Param             | Type                                                |
+| ----------------- | --------------------------------------------------- |
+| **`permissions`** | <code><a href="#permissions">Permissions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
@@ -428,6 +428,8 @@ addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: PeerID
 
 When a device is detected, notifies the list of connected users
 
+Note: Android only.
+
 | Param              | Type                                                                     |
 | ------------------ | ------------------------------------------------------------------------ |
 | **`eventName`**    | <code>'onConnectedPeers'</code>                                          |
@@ -516,6 +518,10 @@ When a message fails to send
 addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: MessageID, position: number, total: number) => void) => Promise<PluginListenerHandle>
 ```
 
+When sending progress update
+
+Note: Android only.
+
 | Param              | Type                                                                                           |
 | ------------------ | ---------------------------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onProgressOfSend'</code>                                                                |
@@ -560,10 +566,10 @@ Removes all listeners
 
 #### InitializeOptions
 
-| Prop                 | Type                                  | Description                                                                   |
-| -------------------- | ------------------------------------- | ----------------------------------------------------------------------------- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                                     |
-| **`verboseLogging`** | <code>boolean</code>                  | If true, enables verbose logging for debugging purposes. Defaults to `false`. |
+| Prop                 | Type                                  | Description                                                                     |
+| -------------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                                       |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. Defaults to `false`. |
 
 
 #### IsInitializedResult
@@ -590,9 +596,60 @@ Removes all listeners
 
 #### LicenseExpirationDateResult
 
-| Prop                        | Type                |
-| --------------------------- | ------------------- |
-| **`licenseExpirationDate`** | <code>number</code> |
+| Prop                        | Type                                  | Description                                                                                                   |
+| --------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **`licenseExpirationDate`** | <code><a href="#date">Date</a></code> | The expiration date as a <a href="#date">Date</a> object or null if the license information is not available. |
+
+
+#### Date
+
+Enables basic storage and retrieval of dates and times.
+
+| Method                 | Signature                                                                                                    | Description                                                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **toString**           | () =&gt; string                                                                                              | Returns a string representation of a date. The format of the string depends on the locale.                                              |
+| **toDateString**       | () =&gt; string                                                                                              | Returns a date as a string value.                                                                                                       |
+| **toTimeString**       | () =&gt; string                                                                                              | Returns a time as a string value.                                                                                                       |
+| **toLocaleString**     | () =&gt; string                                                                                              | Returns a value as a string value appropriate to the host environment's current locale.                                                 |
+| **toLocaleDateString** | () =&gt; string                                                                                              | Returns a date as a string value appropriate to the host environment's current locale.                                                  |
+| **toLocaleTimeString** | () =&gt; string                                                                                              | Returns a time as a string value appropriate to the host environment's current locale.                                                  |
+| **valueOf**            | () =&gt; number                                                                                              | Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.                                                      |
+| **getTime**            | () =&gt; number                                                                                              | Gets the time value in milliseconds.                                                                                                    |
+| **getFullYear**        | () =&gt; number                                                                                              | Gets the year, using local time.                                                                                                        |
+| **getUTCFullYear**     | () =&gt; number                                                                                              | Gets the year using Universal Coordinated Time (UTC).                                                                                   |
+| **getMonth**           | () =&gt; number                                                                                              | Gets the month, using local time.                                                                                                       |
+| **getUTCMonth**        | () =&gt; number                                                                                              | Gets the month of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                             |
+| **getDate**            | () =&gt; number                                                                                              | Gets the day-of-the-month, using local time.                                                                                            |
+| **getUTCDate**         | () =&gt; number                                                                                              | Gets the day-of-the-month, using Universal Coordinated Time (UTC).                                                                      |
+| **getDay**             | () =&gt; number                                                                                              | Gets the day of the week, using local time.                                                                                             |
+| **getUTCDay**          | () =&gt; number                                                                                              | Gets the day of the week using Universal Coordinated Time (UTC).                                                                        |
+| **getHours**           | () =&gt; number                                                                                              | Gets the hours in a date, using local time.                                                                                             |
+| **getUTCHours**        | () =&gt; number                                                                                              | Gets the hours value in a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                       |
+| **getMinutes**         | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object, using local time.                                                                |
+| **getUTCMinutes**      | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
+| **getSeconds**         | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object, using local time.                                                                |
+| **getUTCSeconds**      | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
+| **getMilliseconds**    | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a>, using local time.                                                                  |
+| **getUTCMilliseconds** | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
+| **getTimezoneOffset**  | () =&gt; number                                                                                              | Gets the difference in minutes between the time on the local computer and Universal Coordinated Time (UTC).                             |
+| **setTime**            | (time: number) =&gt; number                                                                                  | Sets the date and time value in the <a href="#date">Date</a> object.                                                                    |
+| **setMilliseconds**    | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using local time.                                                    |
+| **setUTCMilliseconds** | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                              |
+| **setSeconds**         | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using local time.                                                         |
+| **setUTCSeconds**      | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
+| **setMinutes**         | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using local time.                                                         |
+| **setUTCMinutes**      | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
+| **setHours**           | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hour value in the <a href="#date">Date</a> object using local time.                                                            |
+| **setUTCHours**        | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hours value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
+| **setDate**            | (date: number) =&gt; number                                                                                  | Sets the numeric day-of-the-month value of the <a href="#date">Date</a> object using local time.                                        |
+| **setUTCDate**         | (date: number) =&gt; number                                                                                  | Sets the numeric day of the month in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                        |
+| **setMonth**           | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using local time.                                                           |
+| **setUTCMonth**        | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
+| **setFullYear**        | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year of the <a href="#date">Date</a> object using local time.                                                                  |
+| **setUTCFullYear**     | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
+| **toUTCString**        | () =&gt; string                                                                                              | Returns a date converted to a string using Universal Coordinated Time (UTC).                                                            |
+| **toISOString**        | () =&gt; string                                                                                              | Returns a date as a string value in ISO format.                                                                                         |
+| **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
 
 
 #### UserIDResult
@@ -668,11 +725,11 @@ Removes all listeners
 | **`location`**  | <code><a href="#permissionstate">PermissionState</a></code> | `ACCESS_FINE_LOCATION` Allows an app to access precise location. `ACCESS_COARSE_LOCATION` Allows an app to access approximate location.                                                                                                                                                                                                                                                                       | 0.0.1 |
 
 
-#### BridgefyPermissions
+#### Permissions
 
-| Prop              | Type                                  |
-| ----------------- | ------------------------------------- |
-| **`permissions`** | <code>BridgefyPermissionType[]</code> |
+| Prop              | Type                          |
+| ----------------- | ----------------------------- |
+| **`permissions`** | <code>PermissionType[]</code> |
 
 
 #### PluginListenerHandle
@@ -732,7 +789,7 @@ There are several modes for sending packets:
 **Mesh**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
 **P2P**: Sends the packet only when the receiver is in range.
 
-<code>{ type: <a href="#transmissiontype">TransmissionType.BROADCAST</a>; uuid: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.MESH</a>; uuid: <a href="#uuid">UUID</a>; } | { type: <a href="#transmissiontype">TransmissionType.P2P</a>; uuid: <a href="#uuid">UUID</a>; }</code>
+<code>{ type: <a href="#transmissiontype">TransmissionType</a>; uuid: <a href="#uuid">UUID</a>; }</code>
 
 
 #### PermissionState
@@ -740,7 +797,7 @@ There are several modes for sending packets:
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
 
-#### BridgefyPermissionType
+#### PermissionType
 
 <code>'bluetooth' | 'location'</code>
 
