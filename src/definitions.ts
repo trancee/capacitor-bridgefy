@@ -46,7 +46,6 @@ export function UUID(value: string): UUID {
 
 export type UserID = UUID;
 export type PeerID = UUID;
-export type PeerIDs = PeerID[];
 export type MessageID = UUID;
 
 export enum TransmissionType {
@@ -70,9 +69,12 @@ export enum TransmissionType {
 /**
  * There are several modes for sending packets:
  *
- * **Broadcast**: Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
- * **Mesh**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
- * **P2P**: Sends the packet only when the receiver is in range.
+ * - **Broadcast**  
+ * Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
+ * - **Mesh**  
+ * Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+ * - **P2P**  
+ * Sends the packet only when the receiver is in range.
  */
 export type TransmissionMode = {
   type: TransmissionType;
@@ -160,7 +162,7 @@ export interface StartOptions {
   /**
    * A profile that defines a series of properties and rules for the propagation of messages.
    *
-   * @default PropagationProfile.DEFAULT
+   * @default PropagationProfile.STANDARD
    */
   propagationProfile?: PropagationProfile;
 }
@@ -181,7 +183,7 @@ export interface UserIDResult {
 }
 
 export interface ConnectedPeersResult {
-  peers?: PeerIDs;
+  peers?: PeerID[];
 }
 
 export interface SendOptions {
@@ -426,11 +428,11 @@ export interface BridgefyPlugin {
    *
    * Note: Android only.
    *
-   * @param {PeerIDs} connectedPeers List of identifiers of the connected peers.
+   * @param {PeerID[]} connectedPeers List of identifiers of the connected peers.
    */
   addListener(
     eventName: 'onConnectedPeers',
-    listenerFunc: (connectedPeers: PeerIDs) => void,
+    listenerFunc: (connectedPeers: PeerID[]) => void,
   ): Promise<PluginListenerHandle>;
 
   /**

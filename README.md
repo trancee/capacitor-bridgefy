@@ -531,17 +531,17 @@ When a peer is disconnected (out of range)
 ### addListener('onConnectedPeers', ...)
 
 ```typescript
-addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: PeerIDs) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: PeerID[]) => void) => Promise<PluginListenerHandle>
 ```
 
 When a device is detected, notifies the list of connected users
 
 Note: Android only.
 
-| Param              | Type                                                                     |
-| ------------------ | ------------------------------------------------------------------------ |
-| **`eventName`**    | <code>'onConnectedPeers'</code>                                          |
-| **`listenerFunc`** | <code>(connectedPeers: <a href="#peerids">PeerIDs</a>) =&gt; void</code> |
+| Param              | Type                                             |
+| ------------------ | ------------------------------------------------ |
+| **`eventName`**    | <code>'onConnectedPeers'</code>                  |
+| **`listenerFunc`** | <code>(connectedPeers: UUID[]) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -689,10 +689,10 @@ Removes all listeners
 
 #### StartOptions
 
-| Prop                     | Type                                                              | Description                                                                                                 | Default                                 |
-| ------------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated. |                                         |
-| **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages.                    | <code>PropagationProfile.DEFAULT</code> |
+| Prop                     | Type                                                              | Description                                                                                                 | Default                                  |
+| ------------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated. |                                          |
+| **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages.                    | <code>PropagationProfile.STANDARD</code> |
 
 
 #### IsStartedResult
@@ -769,9 +769,9 @@ Enables basic storage and retrieval of dates and times.
 
 #### ConnectedPeersResult
 
-| Prop        | Type                                        |
-| ----------- | ------------------------------------------- |
-| **`peers`** | <code><a href="#peerids">PeerIDs</a></code> |
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`peers`** | <code>UUID[]</code> |
 
 
 #### EstablishSecureConnectionOptions
@@ -869,11 +869,6 @@ Enables basic storage and retrieval of dates and times.
 <code><a href="#uuid">UUID</a></code>
 
 
-#### PeerIDs
-
-<code>PeerID[]</code>
-
-
 #### PeerID
 
 <code><a href="#uuid">UUID</a></code>
@@ -893,9 +888,12 @@ Enables basic storage and retrieval of dates and times.
 
 There are several modes for sending packets:
 
-**Broadcast**: Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
-**Mesh**: Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
-**P2P**: Sends the packet only when the receiver is in range.
+- **Broadcast**  
+Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
+- **Mesh**  
+Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+- **P2P**  
+Sends the packet only when the receiver is in range.
 
 <code>{ type: <a href="#transmissiontype">TransmissionType</a>; uuid: <a href="#uuid">UUID</a>; }</code>
 
