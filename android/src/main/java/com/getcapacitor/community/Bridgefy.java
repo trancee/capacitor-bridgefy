@@ -1,6 +1,5 @@
 package com.getcapacitor.community;
 
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.community.classes.options.EstablishSecureConnectionOptions;
@@ -10,13 +9,13 @@ import com.getcapacitor.community.classes.options.IsFingerprintValidOptions;
 import com.getcapacitor.community.classes.options.SendOptions;
 import com.getcapacitor.community.classes.options.StartOptions;
 import com.getcapacitor.community.classes.results.ConnectedPeersResult;
+import com.getcapacitor.community.classes.results.CurrentUserIDResult;
 import com.getcapacitor.community.classes.results.FingerprintResult;
 import com.getcapacitor.community.classes.results.IsFingerprintValidResult;
 import com.getcapacitor.community.classes.results.IsInitializedResult;
 import com.getcapacitor.community.classes.results.IsStartedResult;
 import com.getcapacitor.community.classes.results.LicenseExpirationDateResult;
 import com.getcapacitor.community.classes.results.SendResult;
-import com.getcapacitor.community.classes.results.UserIDResult;
 import com.getcapacitor.community.interfaces.Callback;
 import java.util.Date;
 import java.util.List;
@@ -124,7 +123,7 @@ public class Bridgefy {
     public void currentUserID(@NonNull Callback callback) {
         UUID userID = bridgefy.currentUserId();
 
-        UserIDResult result = new UserIDResult(userID);
+        CurrentUserIDResult result = new CurrentUserIDResult(userID);
         callback.success(result);
     }
 

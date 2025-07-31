@@ -258,7 +258,7 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
         }
     }
 
-    object ErrorType {
+    object ReasonType {
         const val ALREADY_STARTED: String = "alreadyStarted"
         const val DEVICE_CAPABILITIES: String = "deviceCapabilities"
         const val EXPIRED_LICENSE: String = "expiredLicense"
@@ -276,78 +276,78 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
     }
 
     @JvmRecord
-    data class Error(val type: String, val message: String?, val code: Int? = null)
+    data class Reason(val type: String, val message: String?, val code: Int? = null)
 
-    fun fromBridgefyException(bridgefyException: BridgefyException): Error? {
+    fun fromBridgefyException(bridgefyException: BridgefyException): Reason? {
         return when (bridgefyException) {
-            is BridgefyException.AlreadyStartedException -> Error(
-                ErrorType.ALREADY_STARTED,
+            is BridgefyException.AlreadyStartedException -> Reason(
+                ReasonType.ALREADY_STARTED,
                 bridgefyException.message,
             )
 
-            is BridgefyException.DeviceCapabilitiesException -> Error(
-                ErrorType.DEVICE_CAPABILITIES,
+            is BridgefyException.DeviceCapabilitiesException -> Reason(
+                ReasonType.DEVICE_CAPABILITIES,
                 bridgefyException.message,
             )
 
-            is BridgefyException.ExpiredLicenseException -> Error(
-                ErrorType.EXPIRED_LICENSE,
+            is BridgefyException.ExpiredLicenseException -> Reason(
+                ReasonType.EXPIRED_LICENSE,
                 bridgefyException.message,
             )
 
-            is BridgefyException.GenericException -> Error(
-                ErrorType.GENERIC,
+            is BridgefyException.GenericException -> Reason(
+                ReasonType.GENERIC,
                 bridgefyException.message,
                 bridgefyException.code,
             )
 
-            is BridgefyException.InconsistentDeviceTimeException -> Error(
-                ErrorType.INCONSISTENT_DEVICE_TIME,
+            is BridgefyException.InconsistentDeviceTimeException -> Reason(
+                ReasonType.INCONSISTENT_DEVICE_TIME,
                 bridgefyException.message,
             )
 
-            is BridgefyException.InternetConnectionRequiredException -> Error(
-                ErrorType.INTERNET_CONNECTION_REQUIRED,
+            is BridgefyException.InternetConnectionRequiredException -> Reason(
+                ReasonType.INTERNET_CONNECTION_REQUIRED,
                 bridgefyException.message,
             )
 
-            is BridgefyException.InvalidAPIKeyFormatException -> Error(
-                ErrorType.INVALID_API_KEY,
+            is BridgefyException.InvalidAPIKeyFormatException -> Reason(
+                ReasonType.INVALID_API_KEY,
                 bridgefyException.message,
             )
 
-            is BridgefyException.MissingApplicationIdException -> Error(
-                ErrorType.MISSING_APPLICATION_ID,
+            is BridgefyException.MissingApplicationIdException -> Reason(
+                ReasonType.MISSING_APPLICATION_ID,
                 bridgefyException.message,
             )
 
-            is BridgefyException.PermissionException -> Error(
-                ErrorType.PERMISSION,
+            is BridgefyException.PermissionException -> Reason(
+                ReasonType.PERMISSION,
                 bridgefyException.message,
             )
 
-            is BridgefyException.RegistrationException -> Error(
-                ErrorType.REGISTRATION,
+            is BridgefyException.RegistrationException -> Reason(
+                ReasonType.REGISTRATION,
                 bridgefyException.message,
             )
 
-            is BridgefyException.SessionErrorException -> Error(
-                ErrorType.SESSION_ERROR,
+            is BridgefyException.SessionErrorException -> Reason(
+                ReasonType.SESSION_ERROR,
                 bridgefyException.message,
             )
 
-            is BridgefyException.SimulatorIsNotSupportedException -> Error(
-                ErrorType.SIMULATOR_IS_NOT_SUPPORTED,
+            is BridgefyException.SimulatorIsNotSupportedException -> Reason(
+                ReasonType.SIMULATOR_IS_NOT_SUPPORTED,
                 bridgefyException.message,
             )
 
-            is BridgefyException.SizeLimitExceededException -> Error(
-                ErrorType.SIZE_LIMIT_EXCEEDED,
+            is BridgefyException.SizeLimitExceededException -> Reason(
+                ReasonType.SIZE_LIMIT_EXCEEDED,
                 bridgefyException.message,
             )
 
-            is BridgefyException.UnknownException -> Error(
-                ErrorType.UNKNOWN,
+            is BridgefyException.UnknownException -> Reason(
+                ReasonType.UNKNOWN,
                 bridgefyException.message,
             )
 

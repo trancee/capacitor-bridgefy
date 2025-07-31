@@ -202,7 +202,9 @@ Bridgefy.addListener('onFailToStart',
     (event) => {
         logEvent(`onFailToStart(${JSON.stringify(event) || ""})`)
 
-        const exception = event.exception
+        const reason = event.reason
+
+        alert(reason)
     })
 Bridgefy.addListener('onStopped',
     () => {
@@ -212,7 +214,9 @@ Bridgefy.addListener('onFailToStop',
     (event) => {
         logEvent(`onFailToStop(${JSON.stringify(event) || ""})`)
 
-        const exception = event.exception
+        const reason = event.reason
+
+        alert(reason)
     })
 Bridgefy.addListener('onDestroySession',
     () => {
@@ -222,9 +226,9 @@ Bridgefy.addListener('onFailToDestroySession',
     (event) => {
         logEvent(`onFailToDestroySession(${JSON.stringify(event) || ""})`)
 
-        const exception = event.exception
+        const reason = event.reason
 
-        alert(exception)
+        alert(reason)
     })
 
 Bridgefy.addListener('onConnected',
@@ -265,9 +269,9 @@ Bridgefy.addListener('onFailToEstablishSecureConnection',
         logEvent(`onFailToEstablishSecureConnection(${JSON.stringify(event) || ""})`)
 
         const userID = event.userID
-        const exception = event.exception
+        const reason = event.reason
 
-        alert(exception)
+        alert(reason)
     })
 
 Bridgefy.addListener('onSend',
@@ -281,9 +285,9 @@ Bridgefy.addListener('onFailToSend',
         logEvent(`onFailToSend(${JSON.stringify(event) || ""})`)
 
         const messageID = event.messageID
-        const exception = event.exception
+        const reason = event.reason
 
-        alert(exception)
+        alert(reason)
     })
 Bridgefy.addListener('onProgressOfSend',
     (event) => {

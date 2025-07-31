@@ -7,7 +7,7 @@ import type {
   InitializeOptions,
   SendOptions,
   StartOptions,
-  UserIDResult,
+  CurrentUserIDResult,
   Permissions,
   PermissionStatus,
   IsInitializedResult,
@@ -51,7 +51,7 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   destroySession(): Promise<void> {
     throw this.unimplemented('Method not implemented.');
   }
-  currentUserID(): Promise<UserIDResult> {
+  currentUserID(): Promise<CurrentUserIDResult> {
     throw this.unimplemented('Method not implemented.');
   }
 

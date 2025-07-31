@@ -68,6 +68,7 @@ If your app has a deployment target earlier than iOS 13, add the `NSBluetoothPer
 
 ```xml
 <key>NSBluetoothPeripheralUsageDescription</key>
+<string>This app requires Bluetooth access to communicate with other devices.</string>
 ```
 
 > ⚠️ **Warning**  
@@ -80,8 +81,8 @@ These configuration values are available:
 
 | Prop                 | Type                                  | Description                                                | Default            | Since |
 | -------------------- | ------------------------------------- | ---------------------------------------------------------- | ------------------ | ----- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 0.0.1 |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 0.0.1 |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 0.1.0 |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 0.1.0 |
 
 ### Examples
 
@@ -174,9 +175,11 @@ Initializes Bridgefy operations.
 
 An Internet connection is needed at least for the first time in order to validate the license.
 
-| Param         | Type                                                            | Description                              |
-| ------------- | --------------------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> | The parameters to pass into this method. |
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -191,6 +194,8 @@ Checks if the Bridgefy SDK has been initialized.
 
 **Returns:** <code>Promise&lt;<a href="#isinitializedresult">IsInitializedResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -202,9 +207,11 @@ start(options: StartOptions) => Promise<void>
 
 Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy network.
 
-| Param         | Type                                                  | Description                              |
-| ------------- | ----------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#startoptions">StartOptions</a></code> | The parameters to pass into this method. |
+| Param         | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| **`options`** | <code><a href="#startoptions">StartOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -219,6 +226,8 @@ Indicates whether the Bridgefy SDK is currently started.
 
 **Returns:** <code>Promise&lt;<a href="#isstartedresult">IsStartedResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -229,6 +238,8 @@ stop() => Promise<void>
 ```
 
 Stops Bridgefy operations and releases associated resources.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -243,6 +254,8 @@ Retrieves the expiration date of the Bridgefy license.
 
 **Returns:** <code>Promise&lt;<a href="#licenseexpirationdateresult">LicenseExpirationDateResult</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -253,6 +266,8 @@ updateLicense() => Promise<void>
 ```
 
 Updates the Bridgefy license, if necessary.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -265,18 +280,22 @@ destroySession() => Promise<void>
 
 Destroys the current session, terminating any active connections and cleaning up resources.
 
+**Since:** 0.1.0
+
 --------------------
 
 
 ### currentUserID()
 
 ```typescript
-currentUserID() => Promise<UserIDResult>
+currentUserID() => Promise<CurrentUserIDResult>
 ```
 
 Retrieves the <a href="#uuid">`UUID`</a> of the current Bridgefy user.
 
-**Returns:** <code>Promise&lt;<a href="#useridresult">UserIDResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#currentuseridresult">CurrentUserIDResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -289,7 +308,11 @@ connectedPeers() => Promise<ConnectedPeersResult>
 
 Retrieves a list of `UUID`s representing the connected peers in the current session.
 
+Only available for Android.
+
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -302,9 +325,11 @@ establishSecureConnection(options: EstablishSecureConnectionOptions) => Promise<
 
 Establishes a secure connection with the user.
 
-| Param         | Type                                                                                          | Description                              |
-| ------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#establishsecureconnectionoptions">EstablishSecureConnectionOptions</a></code> | The parameters to pass into this method. |
+| Param         | Type                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#establishsecureconnectionoptions">EstablishSecureConnectionOptions</a></code> |
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -317,11 +342,15 @@ fingerprint(options: FingerprintOptions) => Promise<FingerprintResult>
 
 Generates a fingerprint for the secure connection established with a specified user.
 
-| Param         | Type                                                              | Description                              |
-| ------------- | ----------------------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#fingerprintoptions">FingerprintOptions</a></code> | The parameters to pass into this method. |
+Only available for Android.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#fingerprintoptions">FingerprintOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#fingerprintresult">FingerprintResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -334,11 +363,15 @@ isFingerprintValid(options: IsFingerprintValidOptions) => Promise<IsFingerprintV
 
 Verifies the validity of a fingerprint for a particular user.
 
-| Param         | Type                                                                            | Description                              |
-| ------------- | ------------------------------------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#isfingerprintvalidoptions">IsFingerprintValidOptions</a></code> | The parameters to pass into this method. |
+Only available for Android.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#isfingerprintvalidoptions">IsFingerprintValidOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#isfingerprintvalidresult">IsFingerprintValidResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -351,11 +384,13 @@ send(options: SendOptions) => Promise<SendResult>
 
 Sends data using a specific transmission mode.
 
-| Param         | Type                                                | Description                              |
-| ------------- | --------------------------------------------------- | ---------------------------------------- |
-| **`options`** | <code><a href="#sendoptions">SendOptions</a></code> | The parameters to pass into this method. |
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#sendoptions">SendOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#sendresult">SendResult</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -370,7 +405,7 @@ Check for the appropriate permissions to use Nearby.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
-**Since:** 0.0.1
+**Since:** 0.1.0
 
 --------------------
 
@@ -389,7 +424,7 @@ Request the appropriate permissions to use Nearby.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
-**Since:** 0.0.1
+**Since:** 0.1.0
 
 --------------------
 
@@ -397,15 +432,15 @@ Request the appropriate permissions to use Nearby.
 ### addListener('onStarted', ...)
 
 ```typescript
-addListener(eventName: 'onStarted', listenerFunc: (userID: UserID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onStarted', listenerFunc: OnStartedListener) => Promise<PluginListenerHandle>
 ```
 
 Initialization Listeners
 
-| Param              | Type                                                       |
-| ------------------ | ---------------------------------------------------------- |
-| **`eventName`**    | <code>'onStarted'</code>                                   |
-| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>) =&gt; void</code> |
+| Param              | Type                                                            |
+| ------------------ | --------------------------------------------------------------- |
+| **`eventName`**    | <code>'onStarted'</code>                                        |
+| **`listenerFunc`** | <code><a href="#onstartedlistener">OnStartedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -415,13 +450,13 @@ Initialization Listeners
 ### addListener('onFailToStart', ...)
 
 ```typescript
-addListener(eventName: 'onFailToStart', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                        |
-| ------------------ | ----------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStart'</code>                                |
-| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStart'</code>                                            |
+| **`listenerFunc`** | <code><a href="#onfailtostartlistener">OnFailToStartListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -447,13 +482,13 @@ addListener(eventName: 'onStopped', listenerFunc: () => void) => Promise<PluginL
 ### addListener('onFailToStop', ...)
 
 ```typescript
-addListener(eventName: 'onFailToStop', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                        |
-| ------------------ | ----------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToStop'</code>                                 |
-| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
+| Param              | Type                                                                  |
+| ------------------ | --------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToStop'</code>                                           |
+| **`listenerFunc`** | <code><a href="#onfailtostoplistener">OnFailToStopListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -479,13 +514,13 @@ addListener(eventName: 'onDestroySession', listenerFunc: () => void) => Promise<
 ### addListener('onFailToDestroySession', ...)
 
 ```typescript
-addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: Error) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToDestroySession', listenerFunc: OnFailToDestroySessionListener) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                                                        |
-| ------------------ | ----------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToDestroySession'</code>                       |
-| **`listenerFunc`** | <code>(error: <a href="#error">Error</a>) =&gt; void</code> |
+| Param              | Type                                                                                      |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToDestroySession'</code>                                                     |
+| **`listenerFunc`** | <code><a href="#onfailtodestroysessionlistener">OnFailToDestroySessionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -495,15 +530,15 @@ addListener(eventName: 'onFailToDestroySession', listenerFunc: (error: Error) =>
 ### addListener('onConnected', ...)
 
 ```typescript
-addListener(eventName: 'onConnected', listenerFunc: (peerID: PeerID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener) => Promise<PluginListenerHandle>
 ```
 
 When a peer has established connection
 
-| Param              | Type                                                       |
-| ------------------ | ---------------------------------------------------------- |
-| **`eventName`**    | <code>'onConnected'</code>                                 |
-| **`listenerFunc`** | <code>(peerID: <a href="#uuid">UUID</a>) =&gt; void</code> |
+| Param              | Type                                                                |
+| ------------------ | ------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onConnected'</code>                                          |
+| **`listenerFunc`** | <code><a href="#onconnectedlistener">OnConnectedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -513,15 +548,15 @@ When a peer has established connection
 ### addListener('onDisconnected', ...)
 
 ```typescript
-addListener(eventName: 'onDisconnected', listenerFunc: (peerID: PeerID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener) => Promise<PluginListenerHandle>
 ```
 
 When a peer is disconnected (out of range)
 
-| Param              | Type                                                       |
-| ------------------ | ---------------------------------------------------------- |
-| **`eventName`**    | <code>'onDisconnected'</code>                              |
-| **`listenerFunc`** | <code>(peerID: <a href="#uuid">UUID</a>) =&gt; void</code> |
+| Param              | Type                                                                      |
+| ------------------ | ------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onDisconnected'</code>                                             |
+| **`listenerFunc`** | <code><a href="#ondisconnectedlistener">OnDisconnectedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -531,17 +566,17 @@ When a peer is disconnected (out of range)
 ### addListener('onConnectedPeers', ...)
 
 ```typescript
-addListener(eventName: 'onConnectedPeers', listenerFunc: (connectedPeers: PeerID[]) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListener) => Promise<PluginListenerHandle>
 ```
 
 When a device is detected, notifies the list of connected users
 
-Note: Android only.
+Only available for Android.
 
-| Param              | Type                                             |
-| ------------------ | ------------------------------------------------ |
-| **`eventName`**    | <code>'onConnectedPeers'</code>                  |
-| **`listenerFunc`** | <code>(connectedPeers: UUID[]) =&gt; void</code> |
+| Param              | Type                                                                          |
+| ------------------ | ----------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onConnectedPeers'</code>                                               |
+| **`listenerFunc`** | <code><a href="#onconnectedpeerslistener">OnConnectedPeersListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -551,15 +586,15 @@ Note: Android only.
 ### addListener('onEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onEstablishSecureConnection', listenerFunc: (userID: UserID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onEstablishSecureConnection', listenerFunc: OnEstablishSecureConnectionListener) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection was successfully established
 
-| Param              | Type                                                       |
-| ------------------ | ---------------------------------------------------------- |
-| **`eventName`**    | <code>'onEstablishSecureConnection'</code>                 |
-| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>) =&gt; void</code> |
+| Param              | Type                                                                                                |
+| ------------------ | --------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onEstablishSecureConnection'</code>                                                          |
+| **`listenerFunc`** | <code><a href="#onestablishsecureconnectionlistener">OnEstablishSecureConnectionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -569,15 +604,15 @@ When an on-demand secure connection was successfully established
 ### addListener('onFailToEstablishSecureConnection', ...)
 
 ```typescript
-addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: (userID: UserID, error: Error) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: OnFailToEstablishSecureConnectionListener) => Promise<PluginListenerHandle>
 ```
 
 When an on-demand secure connection failed to establish
 
-| Param              | Type                                                                                          |
-| ------------------ | --------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                              |
-| **`listenerFunc`** | <code>(userID: <a href="#uuid">UUID</a>, error: <a href="#error">Error</a>) =&gt; void</code> |
+| Param              | Type                                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToEstablishSecureConnection'</code>                                                                |
+| **`listenerFunc`** | <code><a href="#onfailtoestablishsecureconnectionlistener">OnFailToEstablishSecureConnectionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -587,15 +622,15 @@ When an on-demand secure connection failed to establish
 ### addListener('onSend', ...)
 
 ```typescript
-addListener(eventName: 'onSend', listenerFunc: (messageID: MessageID) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onSend', listenerFunc: OnSendListener) => Promise<PluginListenerHandle>
 ```
 
 When a message is sent
 
-| Param              | Type                                                          |
-| ------------------ | ------------------------------------------------------------- |
-| **`eventName`**    | <code>'onSend'</code>                                         |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>) =&gt; void</code> |
+| Param              | Type                                                      |
+| ------------------ | --------------------------------------------------------- |
+| **`eventName`**    | <code>'onSend'</code>                                     |
+| **`listenerFunc`** | <code><a href="#onsendlistener">OnSendListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -605,15 +640,15 @@ When a message is sent
 ### addListener('onFailToSend', ...)
 
 ```typescript
-addListener(eventName: 'onFailToSend', listenerFunc: (messageID: MessageID, error: Error) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener) => Promise<PluginListenerHandle>
 ```
 
 When a message fails to send
 
-| Param              | Type                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------ |
-| **`eventName`**    | <code>'onFailToSend'</code>                                                                      |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, error: <a href="#error">Error</a>) =&gt; void</code> |
+| Param              | Type                                                                  |
+| ------------------ | --------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onFailToSend'</code>                                           |
+| **`listenerFunc`** | <code><a href="#onfailtosendlistener">OnFailToSendListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -623,17 +658,17 @@ When a message fails to send
 ### addListener('onProgressOfSend', ...)
 
 ```typescript
-addListener(eventName: 'onProgressOfSend', listenerFunc: (messageID: MessageID, position: number, total: number) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener) => Promise<PluginListenerHandle>
 ```
 
 When sending progress update
 
-Note: Android only.
+Only available for Android.
 
-| Param              | Type                                                                                           |
-| ------------------ | ---------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onProgressOfSend'</code>                                                                |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, position: number, total: number) =&gt; void</code> |
+| Param              | Type                                                                          |
+| ------------------ | ----------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onProgressOfSend'</code>                                               |
+| **`listenerFunc`** | <code><a href="#onprogressofsendlistener">OnProgressOfSendListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -643,15 +678,15 @@ Note: Android only.
 ### addListener('onReceiveData', ...)
 
 ```typescript
-addListener(eventName: 'onReceiveData', listenerFunc: (messageID: MessageID, data: Base64, transmissionMode: TransmissionMode) => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener) => Promise<PluginListenerHandle>
 ```
 
 When data is received
 
-| Param              | Type                                                                                                                                                                  |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onReceiveData'</code>                                                                                                                                          |
-| **`listenerFunc`** | <code>(messageID: <a href="#uuid">UUID</a>, data: <a href="#base64">Base64</a>, transmissionMode: <a href="#transmissionmode">TransmissionMode</a>) =&gt; void</code> |
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onReceiveData'</code>                                            |
+| **`listenerFunc`** | <code><a href="#onreceivedatalistener">OnReceiveDataListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -664,7 +699,9 @@ When data is received
 removeAllListeners() => Promise<void>
 ```
 
-Removes all listeners
+Remove all listeners for this plugin.
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -704,63 +741,12 @@ Removes all listeners
 
 #### LicenseExpirationDateResult
 
-| Prop                        | Type                                  | Description                                                                                                   |
-| --------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **`licenseExpirationDate`** | <code><a href="#date">Date</a></code> | The expiration date as a <a href="#date">Date</a> object or null if the license information is not available. |
+| Prop                        | Type                                            | Description                         | Since |
+| --------------------------- | ----------------------------------------------- | ----------------------------------- | ----- |
+| **`licenseExpirationDate`** | <code><a href="#timestamp">Timestamp</a></code> | The expiration date of the license. | 0.1.0 |
 
 
-#### Date
-
-Enables basic storage and retrieval of dates and times.
-
-| Method                 | Signature                                                                                                    | Description                                                                                                                             |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| **toString**           | () =&gt; string                                                                                              | Returns a string representation of a date. The format of the string depends on the locale.                                              |
-| **toDateString**       | () =&gt; string                                                                                              | Returns a date as a string value.                                                                                                       |
-| **toTimeString**       | () =&gt; string                                                                                              | Returns a time as a string value.                                                                                                       |
-| **toLocaleString**     | () =&gt; string                                                                                              | Returns a value as a string value appropriate to the host environment's current locale.                                                 |
-| **toLocaleDateString** | () =&gt; string                                                                                              | Returns a date as a string value appropriate to the host environment's current locale.                                                  |
-| **toLocaleTimeString** | () =&gt; string                                                                                              | Returns a time as a string value appropriate to the host environment's current locale.                                                  |
-| **valueOf**            | () =&gt; number                                                                                              | Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.                                                      |
-| **getTime**            | () =&gt; number                                                                                              | Gets the time value in milliseconds.                                                                                                    |
-| **getFullYear**        | () =&gt; number                                                                                              | Gets the year, using local time.                                                                                                        |
-| **getUTCFullYear**     | () =&gt; number                                                                                              | Gets the year using Universal Coordinated Time (UTC).                                                                                   |
-| **getMonth**           | () =&gt; number                                                                                              | Gets the month, using local time.                                                                                                       |
-| **getUTCMonth**        | () =&gt; number                                                                                              | Gets the month of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                             |
-| **getDate**            | () =&gt; number                                                                                              | Gets the day-of-the-month, using local time.                                                                                            |
-| **getUTCDate**         | () =&gt; number                                                                                              | Gets the day-of-the-month, using Universal Coordinated Time (UTC).                                                                      |
-| **getDay**             | () =&gt; number                                                                                              | Gets the day of the week, using local time.                                                                                             |
-| **getUTCDay**          | () =&gt; number                                                                                              | Gets the day of the week using Universal Coordinated Time (UTC).                                                                        |
-| **getHours**           | () =&gt; number                                                                                              | Gets the hours in a date, using local time.                                                                                             |
-| **getUTCHours**        | () =&gt; number                                                                                              | Gets the hours value in a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                       |
-| **getMinutes**         | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object, using local time.                                                                |
-| **getUTCMinutes**      | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
-| **getSeconds**         | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object, using local time.                                                                |
-| **getUTCSeconds**      | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
-| **getMilliseconds**    | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a>, using local time.                                                                  |
-| **getUTCMilliseconds** | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
-| **getTimezoneOffset**  | () =&gt; number                                                                                              | Gets the difference in minutes between the time on the local computer and Universal Coordinated Time (UTC).                             |
-| **setTime**            | (time: number) =&gt; number                                                                                  | Sets the date and time value in the <a href="#date">Date</a> object.                                                                    |
-| **setMilliseconds**    | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using local time.                                                    |
-| **setUTCMilliseconds** | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                              |
-| **setSeconds**         | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using local time.                                                         |
-| **setUTCSeconds**      | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
-| **setMinutes**         | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using local time.                                                         |
-| **setUTCMinutes**      | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
-| **setHours**           | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hour value in the <a href="#date">Date</a> object using local time.                                                            |
-| **setUTCHours**        | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hours value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
-| **setDate**            | (date: number) =&gt; number                                                                                  | Sets the numeric day-of-the-month value of the <a href="#date">Date</a> object using local time.                                        |
-| **setUTCDate**         | (date: number) =&gt; number                                                                                  | Sets the numeric day of the month in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                        |
-| **setMonth**           | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using local time.                                                           |
-| **setUTCMonth**        | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
-| **setFullYear**        | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year of the <a href="#date">Date</a> object using local time.                                                                  |
-| **setUTCFullYear**     | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
-| **toUTCString**        | () =&gt; string                                                                                              | Returns a date converted to a string using Universal Coordinated Time (UTC).                                                            |
-| **toISOString**        | () =&gt; string                                                                                              | Returns a date as a string value in ISO format.                                                                                         |
-| **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
-
-
-#### UserIDResult
+#### CurrentUserIDResult
 
 | Prop         | Type                                      |
 | ------------ | ----------------------------------------- |
@@ -825,6 +811,23 @@ Enables basic storage and retrieval of dates and times.
 | **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> |
 
 
+#### TransmissionMode
+
+There are several modes for sending packets:
+
+- **Broadcast**
+Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
+- **Mesh**
+Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+- **P2P**
+Sends the packet only when the receiver is in range.
+
+| Prop       | Type                                                          |
+| ---------- | ------------------------------------------------------------- |
+| **`type`** | <code><a href="#transmissiontype">TransmissionType</a></code> |
+| **`uuid`** | <code><a href="#uuid">UUID</a></code>                         |
+
+
 #### PermissionStatus
 
 | Prop            | Type                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                   | Since |
@@ -847,13 +850,110 @@ Enables basic storage and retrieval of dates and times.
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
-#### Error
+#### OnStartedEvent
 
-| Prop          | Type                |
-| ------------- | ------------------- |
-| **`name`**    | <code>string</code> |
-| **`message`** | <code>string</code> |
-| **`stack`**   | <code>string</code> |
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+
+
+#### OnFailToStartEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> |
+
+
+#### Reason
+
+| Prop          | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`type`**    | <code><a href="#reasontype">ReasonType</a></code> |
+| **`message`** | <code>string</code>                               |
+| **`code`**    | <code>number</code>                               |
+
+
+#### OnFailToStopEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> |
+
+
+#### OnFailToDestroySessionEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> |
+
+
+#### OnConnectedEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> |
+
+
+#### OnDisconnectedEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> |
+
+
+#### OnConnectedPeersEvent
+
+| Prop                 | Type                |
+| -------------------- | ------------------- |
+| **`connectedPeers`** | <code>UUID[]</code> |
+
+
+#### OnEstablishSecureConnectionEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+
+
+#### OnFailToEstablishSecureConnectionEvent
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> |
+| **`reason`** | <code><a href="#reason">Reason</a></code> |
+
+
+#### OnSendEvent
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
+
+
+#### OnFailToSendEvent
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
+| **`reason`**    | <code><a href="#reason">Reason</a></code>       |
+
+
+#### OnProgressOfSendEvent
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
+| **`position`**  | <code>number</code>                             |
+| **`total`**     | <code>number</code>                             |
+
+
+#### OnReceiveDataEvent
+
+| Prop                   | Type                                                          |
+| ---------------------- | ------------------------------------------------------------- |
+| **`messageID`**        | <code><a href="#messageid">MessageID</a></code>               |
+| **`data`**             | <code><a href="#base64">Base64</a></code>                     |
+| **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> |
 
 
 ### Type Aliases
@@ -867,6 +967,14 @@ Enables basic storage and retrieval of dates and times.
 #### UserID
 
 <code><a href="#uuid">UUID</a></code>
+
+
+#### Timestamp
+
+The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch).
+This timestamp is timezone-agnostic and uniquely defines an instant in history.
+
+<code>number</code>
 
 
 #### PeerID
@@ -884,20 +992,6 @@ Enables basic storage and retrieval of dates and times.
 <code><a href="#uuid">UUID</a></code>
 
 
-#### TransmissionMode
-
-There are several modes for sending packets:
-
-- **Broadcast**  
-Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
-- **Mesh**  
-Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
-- **P2P**  
-Sends the packet only when the receiver is in range.
-
-<code>{ type: <a href="#transmissiontype">TransmissionType</a>; uuid: <a href="#uuid">UUID</a>; }</code>
-
-
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
@@ -908,26 +1002,135 @@ Sends the packet only when the receiver is in range.
 <code>'bluetooth' | 'location'</code>
 
 
+#### OnStartedListener
+
+<code>(event: <a href="#onstartedevent">OnStartedEvent</a>): void</code>
+
+
+#### OnFailToStartListener
+
+<code>(event: <a href="#onfailtostartevent">OnFailToStartEvent</a>): void</code>
+
+
+#### OnFailToStopListener
+
+<code>(event: <a href="#onfailtostopevent">OnFailToStopEvent</a>): void</code>
+
+
+#### OnFailToDestroySessionListener
+
+<code>(event: <a href="#onfailtodestroysessionevent">OnFailToDestroySessionEvent</a>): void</code>
+
+
+#### OnConnectedListener
+
+<code>(event: <a href="#onconnectedevent">OnConnectedEvent</a>): void</code>
+
+
+#### OnDisconnectedListener
+
+<code>(event: <a href="#ondisconnectedevent">OnDisconnectedEvent</a>): void</code>
+
+
+#### OnConnectedPeersListener
+
+<code>(event: <a href="#onconnectedpeersevent">OnConnectedPeersEvent</a>): void</code>
+
+
+#### OnEstablishSecureConnectionListener
+
+<code>(event: <a href="#onestablishsecureconnectionevent">OnEstablishSecureConnectionEvent</a>): void</code>
+
+
+#### OnFailToEstablishSecureConnectionListener
+
+<code>(event: <a href="#onfailtoestablishsecureconnectionevent">OnFailToEstablishSecureConnectionEvent</a>): void</code>
+
+
+#### OnSendListener
+
+<code>(event: <a href="#onsendevent">OnSendEvent</a>): void</code>
+
+
+#### OnFailToSendListener
+
+<code>(event: <a href="#onfailtosendevent">OnFailToSendEvent</a>): void</code>
+
+
+#### OnProgressOfSendListener
+
+<code>(event: <a href="#onprogressofsendevent">OnProgressOfSendEvent</a>): void</code>
+
+
+#### OnReceiveDataListener
+
+<code>(event: <a href="#onreceivedataevent">OnReceiveDataEvent</a>): void</code>
+
+
 ### Enums
 
 
 #### PropagationProfile
 
-| Members                        | Value                                 |
-| ------------------------------ | ------------------------------------- |
-| **`STANDARD`**                 | <code>'standard'</code>               |
-| **`HIGH_DENSITY_ENVIRONMENT`** | <code>'highDensityEnvironment'</code> |
-| **`SPARSE_ENVIRONMENT`**       | <code>'sparseEnvironment'</code>      |
-| **`LONG_REACH`**               | <code>'longReach'</code>              |
-| **`SHORT_REACH`**              | <code>'shortReach'</code>             |
+| Members                        | Value                                 | Description                                                              | Since |
+| ------------------------------ | ------------------------------------- | ------------------------------------------------------------------------ | ----- |
+| **`STANDARD`**                 | <code>'standard'</code>               | Represents a standard propagation profile.                               | 0.1.0 |
+| **`HIGH_DENSITY_ENVIRONMENT`** | <code>'highDensityEnvironment'</code> | Indicates a propagation profile suitable for high-density networks.      | 0.1.0 |
+| **`SPARSE_ENVIRONMENT`**       | <code>'sparseEnvironment'</code>      | Represents a propagation profile tailored for sparse networks.           | 0.1.0 |
+| **`LONG_REACH`**               | <code>'longReach'</code>              | Indicates a propagation profile optimized for long reach.                | 0.1.0 |
+| **`SHORT_REACH`**              | <code>'shortReach'</code>             | Represents a propagation profile designed for short reach communication. | 0.1.0 |
 
 
 #### TransmissionType
 
-| Members         | Value                    | Description                                                                                                           |
-| --------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| **`BROADCAST`** | <code>'broadcast'</code> | Broadcast type propagate message on mesh network                                                                      |
-| **`MESH`**      | <code>'mesh'</code>      | Mesh type propagate message and find receiver on mesh network                                                         |
-| **`P2P`**       | <code>'p2p'</code>       | Direct type allow direct message and if receiver isn't connected, the SDK change and propagate message with Mesh type |
+| Members         | Value                    | Description                                                                             | Since |
+| --------------- | ------------------------ | --------------------------------------------------------------------------------------- | ----- |
+| **`BROADCAST`** | <code>'broadcast'</code> | Propagate a message readable by every device that receives it.                          | 0.1.0 |
+| **`MESH`**      | <code>'mesh'</code>      | Deliver a message to a specific recipient using nearby devices to propagate it.         | 0.1.0 |
+| **`P2P`**       | <code>'p2p'</code>       | Deliver a message to a specific recipient only if there's an active connection with it. | 0.1.0 |
+
+
+#### ReasonType
+
+| Members                               | Value                                       | Description                                                                                       | Since |
+| ------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----- |
+| **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                              | 0.1.0 |
+| **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                           | 0.1.0 |
+| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                              | 0.1.0 |
+| **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                       | 0.1.0 |
+| **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                  | 0.1.0 |
+| **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                     | 0.1.0 |
+| **`SIMULATOR_IS_NOT_SUPPORTED`**      | <code>'simulatorIsNotSupported'</code>      | The Bridgefy SDK cannot run in the simulator.                                                     | 0.1.0 |
+| **`DEVICE_CAPABILITIES`**             | <code>'deviceCapabilities'</code>           | Only available for Android.                                                                       | 0.1.0 |
+| **`GENERIC`**                         | <code>'generic'</code>                      | Only available for Android.                                                                       | 0.1.0 |
+| **`MISSING_APPLICATION_ID`**          | <code>'missingApplicationID'</code>         | Only available for Android.                                                                       | 0.1.0 |
+| **`PERMISSION`**                      | <code>'permission'</code>                   | Only available for Android.                                                                       | 0.1.0 |
+| **`REGISTRATION`**                    | <code>'registration'</code>                 | Only available for Android.                                                                       | 0.1.0 |
+| **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | Only available for Android.                                                                       | 0.1.0 |
+| **`UNKNOWN`**                         | <code>'unknown'</code>                      | Only available for Android.                                                                       | 0.1.0 |
+| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. Only available for iOS.                                               | 0.1.0 |
+| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserId'</code>           | The userId passed in the start function is different from the stored one. Only available for iOS. | 0.1.0 |
+| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. Only available for iOS.                                     | 0.1.0 |
+| **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. Only available for iOS.                                   | 0.1.0 |
+| **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. Only available for iOS.                         | 0.1.0 |
+| **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. Only available for iOS.                          | 0.1.0 |
+| **`DESTROY_SESSION_IN_PROGRESS`**     | <code>'destroySessionInProgress'</code>     | The Bridgefy SDK is destroying the current session. Only available for iOS.                       | 0.1.0 |
+| **`SERVICE_NOT_STARTED`**             | <code>'serviceNotStarted'</code>            | The Bridgefy SDK service is not started. Only available for iOS.                                  | 0.1.0 |
+| **`BLE_USAGE_NOT_GRANTED`**           | <code>'BLEUsageNotGranted'</code>           | The user does not allow the use of BLE. Only available for iOS.                                   | 0.1.0 |
+| **`BLE_USAGE_RESTRICTED`**            | <code>'BLEUsageRestricted'</code>           | The use of BLE in this device is restricted. Only available for iOS.                              | 0.1.0 |
+| **`BLE_POWERED_OFF`**                 | <code>'BLEPoweredOff'</code>                | The BLE antenna has been turned off. Only available for iOS.                                      | 0.1.0 |
+| **`BLE_UNSUPPORTED`**                 | <code>'BLEUnsupported'</code>               | The usage of BLE is not supported in the device. Only available for iOS.                          | 0.1.0 |
+| **`BLE_UNKNOWN_ERROR`**               | <code>'BLEUnknownError'</code>              | BLE usage failed with an unknown error. Only available for iOS.                                   | 0.1.0 |
+| **`INCONSISTENT_CONNECTION`**         | <code>'inconsistentConnection'</code>       |                                                                                                   |       |
+| **`CONNECTION_IS_ALREADY_SECURE`**    | <code>'connectionIsAlreadySecure'</code>    |                                                                                                   |       |
+| **`CANNOT_CREATE_SECURE_CONNECTION`** | <code>'cannotCreateSecureConnection'</code> |                                                                                                   |       |
+| **`DATA_LENGTH_EXCEEDED`**            | <code>'dataLengthExceeded'</code>           | The length of the data exceed the maximum limit. Only available for iOS.                          | 0.1.0 |
+| **`DATA_VALUE_IS_EMPTY`**             | <code>'dataValueIsEmpty'</code>             | The data to send is empty. Only available for iOS.                                                | 0.1.0 |
+| **`PEER_IS_NOT_CONNECTED`**           | <code>'peerIsNotConnected'</code>           | The requested peer is not connected. Only available for iOS.                                      | 0.1.0 |
+| **`INTERNAL_ERROR`**                  | <code>'internalError'</code>                | An internal error occurred. Only available for iOS.                                               | 0.1.0 |
+| **`LICENSE_ERROR`**                   | <code>'licenseError'</code>                 | An error occurred while validating the license. Only available for iOS.                           | 0.1.0 |
+| **`STORAGE_ERROR`**                   | <code>'storageError'</code>                 | An error occurred while storing data. Only available for iOS.                                     | 0.1.0 |
+| **`ENCODING_ERROR`**                  | <code>'encodingError'</code>                | An error occurred while encoding the message. Only available for iOS.                             | 0.1.0 |
+| **`ENCRYPTION_ERROR`**                | <code>'encryptionError'</code>              | An error occurred while encrypting the message. Only available for iOS.                           | 0.1.0 |
 
 </docgen-api>

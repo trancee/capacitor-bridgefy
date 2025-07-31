@@ -9,23 +9,23 @@ import java.util.UUID;
 public class ConnectedPeersEvent {
 
     @NonNull
-    List<UUID> peerIDs;
+    List<UUID> peers;
 
-    public ConnectedPeersEvent(@NonNull List<UUID> peerIDs) {
-        this.peerIDs = peerIDs;
+    public ConnectedPeersEvent(@NonNull List<UUID> peers) {
+        this.peers = peers;
     }
 
     @NonNull
     public JSObject toJSObject() {
         JSObject result = new JSObject();
 
-        JSArray peerIDs = new JSArray();
+        JSArray peers = new JSArray();
 
-        for (UUID peerID : this.peerIDs) {
-            peerIDs.put(peerID);
+        for (UUID peer : this.peers) {
+            peers.put(peer.toString());
         }
 
-        result.put("peerIDs", peerIDs);
+        result.put("peers", peers);
 
         return result;
     }

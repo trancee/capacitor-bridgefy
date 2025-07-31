@@ -3,15 +3,19 @@ package com.getcapacitor.community.classes.events;
 import android.util.Base64;
 import android.util.Pair;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import java.util.UUID;
 
 public class ReceiveDataEvent extends MessageIDEvent {
 
+    @Nullable
     private final byte[] data;
+
+    @Nullable
     private final Pair<String, UUID> transmissionMode;
 
-    public ReceiveDataEvent(@NonNull UUID messageID, byte[] data, Pair<String, UUID> transmissionMode) {
+    public ReceiveDataEvent(@NonNull UUID messageID, @Nullable byte[] data, @Nullable Pair<String, UUID> transmissionMode) {
         super(messageID);
         this.data = data;
         this.transmissionMode = transmissionMode;
@@ -21,7 +25,7 @@ public class ReceiveDataEvent extends MessageIDEvent {
     public JSObject toJSObject() {
         JSObject result = super.toJSObject();
 
-        if (data.length > 0) {
+        if (data != null && data.length > 0) {
             result.put("data", Base64.encodeToString(data, Base64.NO_WRAP));
         }
 

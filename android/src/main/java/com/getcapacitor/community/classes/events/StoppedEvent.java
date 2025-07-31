@@ -1,14 +1,13 @@
 package com.getcapacitor.community.classes.events;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 
 public class StoppedEvent {
 
-    @NonNull
+    @Nullable
     public JSObject toJSObject() {
-        JSObject result = new JSObject();
-
-        return result;
+        return null;
     }
 }

@@ -4,11 +4,11 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.community.interfaces.Result;
 import java.util.UUID;
 
-public class UserIDResult implements Result {
+public class CurrentUserIDResult implements Result {
 
     private final UUID userID;
 
-    public UserIDResult(UUID userID) {
+    public CurrentUserIDResult(UUID userID) {
         this.userID = userID;
     }
 

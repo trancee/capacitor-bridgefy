@@ -40,12 +40,11 @@ import BridgefySDK
         if let propagationProfile = propagationProfile {
             switch propagationProfile {
             case "highDensityNetwork": return .highDensityNetwork
-            case             "sparseNetwork": return .sparseNetwork
-            case            "longReach": return .longReach
-            case            "shortReach": return .shortReach
-            case            "standard":                 return .standard
-            default:
-                return nil
+            case "sparseNetwork": return .sparseNetwork
+            case "longReach": return .longReach
+            case "shortReach": return .shortReach
+            case "standard": return .standard
+            default: return nil
             }
         }
         return nil

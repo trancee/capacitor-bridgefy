@@ -16,7 +16,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
-import com.getcapacitor.community.BridgefyController.Error;
+import com.getcapacitor.community.BridgefyController.Reason;
 import com.getcapacitor.community.classes.events.ConnectedEvent;
 import com.getcapacitor.community.classes.events.ConnectedPeersEvent;
 import com.getcapacitor.community.classes.events.DestroySessionEvent;
@@ -426,8 +426,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(STARTED_EVENT, event.toJSObject());
     }
 
-    protected void onFailToStartEvent(Error error) {
-        FailToStartEvent event = new FailToStartEvent(error);
+    protected void onFailToStartEvent(Reason reason) {
+        FailToStartEvent event = new FailToStartEvent(reason);
 
         notifyListeners(FAIL_TO_START_EVENT, event.toJSObject());
     }
@@ -438,8 +438,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(STOPPED_EVENT, event.toJSObject());
     }
 
-    protected void onFailToStopEvent(Error error) {
-        FailToStopEvent event = new FailToStopEvent(error);
+    protected void onFailToStopEvent(Reason reason) {
+        FailToStopEvent event = new FailToStopEvent(reason);
 
         notifyListeners(FAIL_TO_STOP_EVENT, event.toJSObject());
     }
@@ -450,8 +450,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(DESTROY_SESSION_EVENT, event.toJSObject());
     }
 
-    protected void onFailToDestroySessionEvent(Error error) {
-        FailToDestroySessionEvent event = new FailToDestroySessionEvent(error);
+    protected void onFailToDestroySessionEvent(Reason reason) {
+        FailToDestroySessionEvent event = new FailToDestroySessionEvent(reason);
 
         notifyListeners(FAIL_TO_DESTROY_SESSION_EVENT, event.toJSObject());
     }
@@ -484,8 +484,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(ESTABLISH_SECURE_CONNECTION_EVENT, event.toJSObject());
     }
 
-    protected void onFailToEstablishSecureConnectionEvent(UUID userID, Error error) {
-        FailToEstablishSecureConnectionEvent event = new FailToEstablishSecureConnectionEvent(userID, error);
+    protected void onFailToEstablishSecureConnectionEvent(UUID userID, Reason reason) {
+        FailToEstablishSecureConnectionEvent event = new FailToEstablishSecureConnectionEvent(userID, reason);
 
         notifyListeners(FAIL_TO_ESTABLISH_SECURE_CONNECTION_EVENT, event.toJSObject());
     }
@@ -500,8 +500,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(SEND_EVENT, event.toJSObject());
     }
 
-    protected void onFailToSendEvent(UUID messageID, Error error) {
-        FailToSendEvent event = new FailToSendEvent(messageID, error);
+    protected void onFailToSendEvent(UUID messageID, Reason reason) {
+        FailToSendEvent event = new FailToSendEvent(messageID, reason);
 
         notifyListeners(FAIL_TO_SEND_EVENT, event.toJSObject());
     }

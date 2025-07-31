@@ -2,29 +2,29 @@ package com.getcapacitor.community.classes.events;
 
 import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
-import com.getcapacitor.community.BridgefyController.Error;
+import com.getcapacitor.community.BridgefyController.Reason;
 
 public class FailToEvent {
 
     @NonNull
-    Error error;
+    Reason reason;
 
-    public FailToEvent(@NonNull Error error) {
-        this.error = error;
+    public FailToEvent(@NonNull Reason reason) {
+        this.reason = reason;
     }
 
     @NonNull
     public JSObject toJSObject() {
         JSObject result = new JSObject();
 
-        result.put("type", error.type());
+        result.put("type", reason.type());
 
-        if (error.message() != null) {
-            result.put("message", error.message());
+        if (reason.message() != null) {
+            result.put("message", reason.message());
         }
 
-        if (error.code() != null) {
-            result.put("code", error.code());
+        if (reason.code() != null) {
+            result.put("code", reason.code());
         }
 
         return result;
