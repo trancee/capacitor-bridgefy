@@ -9,6 +9,116 @@ npm install @capacitor-trancee/bridgefy
 npx cap sync
 ```
 
+## Example
+
+```typescript
+```
+
+## Configuration
+    
+### Android
+
+Add the following permissions to your app’s manifest:
+
+```java
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+        
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADVERTISE"
+        android:minSdkVersion="31" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT"
+        android:minSdkVersion="31" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:minSdkVersion="31"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+        
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="31"
+        android:minSdkVersion="29"
+        tools:ignore="CoarseFineLocation" />
+```
+
+### iOS
+
+Add the following properties to your app’s Information Property List file:
+
+- A message that tells people why the app needs access to Bluetooth.
+
+```xml
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>This app requires Bluetooth access to communicate with other devices.</string>
+```
+
+> ⚠️ **Warning**  
+If your app has a deployment target earlier than iOS 13, add the `NSBluetoothPeripheralUsageDescription` key to your app’s Information Property List file in addition to this key.
+
+- A message that tells people why the app is requesting the ability to connect to Bluetooth peripherals.
+
+```xml
+<key>NSBluetoothPeripheralUsageDescription</key>
+```
+
+> ⚠️ **Warning**  
+This key is required if your app uses APIs that access Bluetooth peripherals and has a deployment target earlier than iOS 13.
+
+<docgen-config>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+These configuration values are available:
+
+| Prop                 | Type                                  | Description                                                | Default            | Since |
+| -------------------- | ------------------------------------- | ---------------------------------------------------------- | ------------------ | ----- |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 0.0.1 |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 0.0.1 |
+
+### Examples
+
+In `capacitor.config.json`:
+
+```json
+{
+  "plugins": {
+    "Bridgefy": {
+      "apiKey": '123e4567-e89b-12d3-a456-426614174000',
+      "verboseLogging": true
+    }
+  }
+}
+```
+
+In `capacitor.config.ts`:
+
+```ts
+/// <reference types="@capacitor-trancee/bridgefy" />
+
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  plugins: {
+    Bridgefy: {
+      apiKey: '123e4567-e89b-12d3-a456-426614174000',
+      verboseLogging: true,
+    },
+  },
+};
+
+export default config;
+```
+
+</docgen-config>
+
 ## API
 
 <docgen-index>
@@ -63,8 +173,6 @@ initialize(options: InitializeOptions) => Promise<void>
 Initializes Bridgefy operations.
 
 An Internet connection is needed at least for the first time in order to validate the license.
-
-This method is asynchronous and returns a promise that resolves when the initialization is complete.
 
 | Param         | Type                                                            | Description                              |
 | ------------- | --------------------------------------------------------------- | ---------------------------------------- |
@@ -566,10 +674,10 @@ Removes all listeners
 
 #### InitializeOptions
 
-| Prop                 | Type                                  | Description                                                                     |
-| -------------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                                       |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. Defaults to `false`. |
+| Prop                 | Type                                  | Description                                                |
+| -------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. |
 
 
 #### IsInitializedResult
@@ -581,10 +689,10 @@ Removes all listeners
 
 #### StartOptions
 
-| Prop                     | Type                                                              | Description                                                                                                                                                          |
-| ------------------------ | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated.                                                          |
-| **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages. Defaults to <a href="#propagationprofile">`PropagationProfile</a>.DEFAULT`. |
+| Prop                     | Type                                                              | Description                                                                                                 | Default                                 |
+| ------------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated. |                                         |
+| **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages.                    | <code>PropagationProfile.DEFAULT</code> |
 
 
 #### IsStartedResult

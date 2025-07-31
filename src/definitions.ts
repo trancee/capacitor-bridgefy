@@ -19,8 +19,6 @@ declare module '@capacitor/cli' {
       /**
        * If `true`, enables verbose logging for debugging purposes.
        *
-       * Defaults to `false`.
-       *
        * @since 0.0.1
        * @default false
        * @example true
@@ -143,8 +141,6 @@ export interface InitializeOptions {
 
   /**
    * If `true`, enables verbose logging for debugging purposes.
-   *
-   * Defaults to `false`.
    */
   verboseLogging?: boolean;
 }
@@ -164,7 +160,7 @@ export interface StartOptions {
   /**
    * A profile that defines a series of properties and rules for the propagation of messages.
    *
-   * Defaults to `PropagationProfile.DEFAULT`.
+   * @default PropagationProfile.DEFAULT
    */
   propagationProfile?: PropagationProfile;
 }
@@ -259,8 +255,6 @@ export interface BridgefyPlugin {
    * Initializes Bridgefy operations.
    *
    * An Internet connection is needed at least for the first time in order to validate the license.
-   *
-   * This method is asynchronous and returns a promise that resolves when the initialization is complete.
    *
    * @param options The parameters to pass into this method.
    * @property {UUID} [apiKey] The API key for Bridgefy.
