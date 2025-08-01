@@ -149,16 +149,12 @@ export interface BridgefyPlugin {
   /**
    * Generates a fingerprint for the secure connection established with a specified user.
    *
-   * ![Android](assets/android.svg) Only available for Android.
-   *
    * @since 0.1.0
    */
   fingerprint(options: FingerprintOptions): Promise<FingerprintResult>;
 
   /**
    * Verifies the validity of a fingerprint for a particular user.
-   *
-   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -295,7 +291,7 @@ export interface OnStartedEvent {
 export type OnFailToStartListener = (event: OnFailToStartEvent) => void;
 export interface OnFailToStartEvent {
   /**
-   * Reason for the failure.
+   * The reason for the failure.
    *
    * @since 0.1.0
    */
@@ -304,7 +300,7 @@ export interface OnFailToStartEvent {
 export type OnFailToStopListener = (event: OnFailToStopEvent) => void;
 export interface OnFailToStopEvent {
   /**
-   * Reason for the failure.
+   * The reason for the failure.
    *
    * @since 0.1.0
    */
@@ -313,7 +309,7 @@ export interface OnFailToStopEvent {
 export type OnFailToDestroySessionListener = (event: OnFailToDestroySessionEvent) => void;
 export interface OnFailToDestroySessionEvent {
   /**
-   * Reason for the failure.
+   * The reason for the failure.
    *
    * @since 0.1.0
    */
@@ -345,7 +341,7 @@ export interface OnConnectedPeersEvent {
    *
    * @since 0.1.0
    */
-  connectedPeers: PeerID[];
+  peers: PeerID[];
 }
 
 export type OnEstablishSecureConnectionListener = (event: OnEstablishSecureConnectionEvent) => void;
@@ -366,7 +362,7 @@ export interface OnFailToEstablishSecureConnectionEvent {
    */
   userID: UserID;
   /**
-   * Reason for the failure.
+   * The reason for the failure.
    *
    * @since 0.1.0
    */
@@ -391,7 +387,7 @@ export interface OnFailToSendEvent {
    */
   messageID: MessageID;
   /**
-   * Reason for the failure.
+   * The reason for the failure.
    *
    * @since 0.1.0
    */
@@ -416,7 +412,7 @@ export interface OnProgressOfSendEvent {
    *
    * @since 0.1.0
    */
-  total: number;
+  of: number;
 }
 export type OnReceiveDataListener = (event: OnReceiveDataEvent) => void;
 export interface OnReceiveDataEvent {
@@ -493,23 +489,18 @@ export interface IsStartedResult {
 }
 
 /**
- * The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch).
- * This timestamp is timezone-agnostic and uniquely defines an instant in history.
- *
- * @since 0.1.0
- */
-export type Timestamp = number;
-
-/**
  * @since 0.1.0
  */
 export interface LicenseExpirationDateResult {
   /**
    * The expiration date of the license.
    *
+   * The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch).
+   * This timestamp is timezone-agnostic and uniquely defines an instant in history.
+   *
    * @since 0.1.0
    */
-  licenseExpirationDate?: Timestamp;
+  licenseExpirationDate?: number;
 }
 
 /**

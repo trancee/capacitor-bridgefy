@@ -7,12 +7,12 @@ import java.util.UUID;
 public class ProgressOfSendEvent extends MessageIDEvent {
 
     private final int position;
-    private final int total;
+    private final int of;
 
-    public ProgressOfSendEvent(@NonNull UUID messageID, int position, int total) {
+    public ProgressOfSendEvent(@NonNull UUID messageID, int position, int of) {
         super(messageID);
         this.position = position;
-        this.total = total;
+        this.of = of;
     }
 
     @NonNull
@@ -20,7 +20,7 @@ public class ProgressOfSendEvent extends MessageIDEvent {
         JSObject result = super.toJSObject();
 
         result.put("position", position);
-        result.put("total", total);
+        result.put("of", of);
 
         return result;
     }

@@ -342,8 +342,6 @@ fingerprint(options: FingerprintOptions) => Promise<FingerprintResult>
 
 Generates a fingerprint for the secure connection established with a specified user.
 
-![Android](assets/android.svg) Only available for Android.
-
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#fingerprintoptions">FingerprintOptions</a></code> |
@@ -362,8 +360,6 @@ isFingerprintValid(options: IsFingerprintValidOptions) => Promise<IsFingerprintV
 ```
 
 Verifies the validity of a fingerprint for a particular user.
-
-![Android](assets/android.svg) Only available for Android.
 
 | Param         | Type                                                                            |
 | ------------- | ------------------------------------------------------------------------------- |
@@ -759,9 +755,9 @@ Remove all listeners for this plugin.
 
 #### LicenseExpirationDateResult
 
-| Prop                        | Type                                            | Description                         | Since |
-| --------------------------- | ----------------------------------------------- | ----------------------------------- | ----- |
-| **`licenseExpirationDate`** | <code><a href="#timestamp">Timestamp</a></code> | The expiration date of the license. | 0.1.0 |
+| Prop                        | Type                | Description                                                                                                                                                                                                                                                                              | Since |
+| --------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`licenseExpirationDate`** | <code>number</code> | The expiration date of the license. The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch). This timestamp is timezone-agnostic and uniquely defines an instant in history. | 0.1.0 |
 
 
 #### CurrentUserIDResult
@@ -877,9 +873,9 @@ Sends the packet only when the receiver is in range.
 
 #### OnFailToStartEvent
 
-| Prop         | Type                                      | Description                                   | Since |
-| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
+| Prop         | Type                                      | Description                 | Since |
+| ------------ | ----------------------------------------- | --------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
 
 
 #### Reason
@@ -893,16 +889,16 @@ Sends the packet only when the receiver is in range.
 
 #### OnFailToStopEvent
 
-| Prop         | Type                                      | Description                                   | Since |
-| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
+| Prop         | Type                                      | Description                 | Since |
+| ------------ | ----------------------------------------- | --------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
 
 
 #### OnFailToDestroySessionEvent
 
-| Prop         | Type                                      | Description                                   | Since |
-| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
+| Prop         | Type                                      | Description                 | Since |
+| ------------ | ----------------------------------------- | --------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
 
 
 #### OnConnectedEvent
@@ -921,9 +917,9 @@ Sends the packet only when the receiver is in range.
 
 #### OnConnectedPeersEvent
 
-| Prop                 | Type                | Description                                 | Since |
-| -------------------- | ------------------- | ------------------------------------------- | ----- |
-| **`connectedPeers`** | <code>UUID[]</code> | List of identifiers of the connected peers. | 0.1.0 |
+| Prop        | Type                | Description                                 | Since |
+| ----------- | ------------------- | ------------------------------------------- | ----- |
+| **`peers`** | <code>UUID[]</code> | List of identifiers of the connected peers. | 0.1.0 |
 
 
 #### OnEstablishSecureConnectionEvent
@@ -938,7 +934,7 @@ Sends the packet only when the receiver is in range.
 | Prop         | Type                                      | Description                                                           | Since |
 | ------------ | ----------------------------------------- | --------------------------------------------------------------------- | ----- |
 | **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection was attempted. | 0.1.0 |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure.                         | 0.1.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure.                                           | 0.1.0 |
 
 
 #### OnSendEvent
@@ -950,10 +946,10 @@ Sends the packet only when the receiver is in range.
 
 #### OnFailToSendEvent
 
-| Prop            | Type                                            | Description                                   | Since |
-| --------------- | ----------------------------------------------- | --------------------------------------------- | ----- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the failed message.             | 0.1.0 |
-| **`reason`**    | <code><a href="#reason">Reason</a></code>       | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
+| Prop            | Type                                            | Description                       | Since |
+| --------------- | ----------------------------------------------- | --------------------------------- | ----- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the failed message. | 0.1.0 |
+| **`reason`**    | <code><a href="#reason">Reason</a></code>       | The reason for the failure.       | 0.1.0 |
 
 
 #### OnProgressOfSendEvent
@@ -962,7 +958,7 @@ Sends the packet only when the receiver is in range.
 | --------------- | ----------------------------------------------- | ------------------------------------------- | ----- |
 | **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the message being sent.       | 0.1.0 |
 | **`position`**  | <code>number</code>                             | Current position of the message being sent. | 0.1.0 |
-| **`total`**     | <code>number</code>                             | Total size of the message being sent.       | 0.1.0 |
+| **`of`**        | <code>number</code>                             | Total size of the message being sent.       | 0.1.0 |
 
 
 #### OnReceiveDataEvent
@@ -985,14 +981,6 @@ Sends the packet only when the receiver is in range.
 #### UserID
 
 <code><a href="#uuid">UUID</a></code>
-
-
-#### Timestamp
-
-The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch).
-This timestamp is timezone-agnostic and uniquely defines an instant in history.
-
-<code>number</code>
 
 
 #### PeerID

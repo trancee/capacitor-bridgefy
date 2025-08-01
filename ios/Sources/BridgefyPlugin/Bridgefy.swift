@@ -126,9 +126,9 @@ import CoreBluetooth
 
     @objc public func connectedPeers(completion: @escaping (Result?, Error?) -> Void) {
         do {
-            let connectedPeers = try bridgefy.connectedPeers()
+            let peers = try bridgefy.connectedPeers()
 
-            let result = ConnectedPeersResult(connectedPeers)
+            let result = ConnectedPeersResult(peers)
 
             completion(result, nil)
         } catch {

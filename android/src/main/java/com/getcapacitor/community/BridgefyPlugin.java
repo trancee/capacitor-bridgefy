@@ -472,8 +472,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(DISCONNECTED_EVENT, event.toJSObject());
     }
 
-    protected void onConnectedPeersEvent(List<UUID> connectedPeers) {
-        ConnectedPeersEvent event = new ConnectedPeersEvent(connectedPeers);
+    protected void onConnectedPeersEvent(List<UUID> peers) {
+        ConnectedPeersEvent event = new ConnectedPeersEvent(peers);
 
         notifyListeners(CONNECTED_PEERS_EVENT, event.toJSObject());
     }
@@ -506,8 +506,8 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(FAIL_TO_SEND_EVENT, event.toJSObject());
     }
 
-    protected void onProgressOfSendEvent(UUID messageID, int position, int total) {
-        ProgressOfSendEvent event = new ProgressOfSendEvent(messageID, position, total);
+    protected void onProgressOfSendEvent(UUID messageID, int position, int of) {
+        ProgressOfSendEvent event = new ProgressOfSendEvent(messageID, position, of);
 
         notifyListeners(PROGRESS_OF_SEND_EVENT, event.toJSObject());
     }
