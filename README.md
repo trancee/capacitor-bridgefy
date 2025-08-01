@@ -308,7 +308,7 @@ connectedPeers() => Promise<ConnectedPeersResult>
 
 Retrieves a list of `UUID`s representing the connected peers in the current session.
 
-Only available for Android.
+![Android](assets/android.svg) Only available for Android.
 
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
 
@@ -342,7 +342,7 @@ fingerprint(options: FingerprintOptions) => Promise<FingerprintResult>
 
 Generates a fingerprint for the secure connection established with a specified user.
 
-Only available for Android.
+![Android](assets/android.svg) Only available for Android.
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
@@ -363,7 +363,7 @@ isFingerprintValid(options: IsFingerprintValidOptions) => Promise<IsFingerprintV
 
 Verifies the validity of a fingerprint for a particular user.
 
-Only available for Android.
+![Android](assets/android.svg) Only available for Android.
 
 | Param         | Type                                                                            |
 | ------------- | ------------------------------------------------------------------------------- |
@@ -571,7 +571,7 @@ addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListene
 
 When a device is detected, notifies the list of connected users
 
-Only available for Android.
+![Android](assets/android.svg) Only available for Android.
 
 | Param              | Type                                                                          |
 | ------------------ | ----------------------------------------------------------------------------- |
@@ -663,7 +663,7 @@ addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListene
 
 When sending progress update
 
-Only available for Android.
+![Android](assets/android.svg) Only available for Android.
 
 | Param              | Type                                                                          |
 | ------------------ | ----------------------------------------------------------------------------- |
@@ -1092,45 +1092,45 @@ This timestamp is timezone-agnostic and uniquely defines an instant in history.
 
 #### ReasonType
 
-| Members                               | Value                                       | Description                                                                                       | Since |
-| ------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----- |
-| **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                              | 0.1.0 |
-| **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                           | 0.1.0 |
-| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                              | 0.1.0 |
-| **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                       | 0.1.0 |
-| **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                  | 0.1.0 |
-| **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                     | 0.1.0 |
-| **`SIMULATOR_IS_NOT_SUPPORTED`**      | <code>'simulatorIsNotSupported'</code>      | The Bridgefy SDK cannot run in the simulator.                                                     | 0.1.0 |
-| **`DEVICE_CAPABILITIES`**             | <code>'deviceCapabilities'</code>           | Only available for Android.                                                                       | 0.1.0 |
-| **`GENERIC`**                         | <code>'generic'</code>                      | Only available for Android.                                                                       | 0.1.0 |
-| **`MISSING_APPLICATION_ID`**          | <code>'missingApplicationID'</code>         | Only available for Android.                                                                       | 0.1.0 |
-| **`PERMISSION`**                      | <code>'permission'</code>                   | Only available for Android.                                                                       | 0.1.0 |
-| **`REGISTRATION`**                    | <code>'registration'</code>                 | Only available for Android.                                                                       | 0.1.0 |
-| **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | Only available for Android.                                                                       | 0.1.0 |
-| **`UNKNOWN`**                         | <code>'unknown'</code>                      | Only available for Android.                                                                       | 0.1.0 |
-| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. Only available for iOS.                                               | 0.1.0 |
-| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserId'</code>           | The userId passed in the start function is different from the stored one. Only available for iOS. | 0.1.0 |
-| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. Only available for iOS.                                     | 0.1.0 |
-| **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. Only available for iOS.                                   | 0.1.0 |
-| **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. Only available for iOS.                         | 0.1.0 |
-| **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. Only available for iOS.                          | 0.1.0 |
-| **`DESTROY_SESSION_IN_PROGRESS`**     | <code>'destroySessionInProgress'</code>     | The Bridgefy SDK is destroying the current session. Only available for iOS.                       | 0.1.0 |
-| **`SERVICE_NOT_STARTED`**             | <code>'serviceNotStarted'</code>            | The Bridgefy SDK service is not started. Only available for iOS.                                  | 0.1.0 |
-| **`BLE_USAGE_NOT_GRANTED`**           | <code>'BLEUsageNotGranted'</code>           | The user does not allow the use of BLE. Only available for iOS.                                   | 0.1.0 |
-| **`BLE_USAGE_RESTRICTED`**            | <code>'BLEUsageRestricted'</code>           | The use of BLE in this device is restricted. Only available for iOS.                              | 0.1.0 |
-| **`BLE_POWERED_OFF`**                 | <code>'BLEPoweredOff'</code>                | The BLE antenna has been turned off. Only available for iOS.                                      | 0.1.0 |
-| **`BLE_UNSUPPORTED`**                 | <code>'BLEUnsupported'</code>               | The usage of BLE is not supported in the device. Only available for iOS.                          | 0.1.0 |
-| **`BLE_UNKNOWN_ERROR`**               | <code>'BLEUnknownError'</code>              | BLE usage failed with an unknown error. Only available for iOS.                                   | 0.1.0 |
-| **`INCONSISTENT_CONNECTION`**         | <code>'inconsistentConnection'</code>       |                                                                                                   |       |
-| **`CONNECTION_IS_ALREADY_SECURE`**    | <code>'connectionIsAlreadySecure'</code>    |                                                                                                   |       |
-| **`CANNOT_CREATE_SECURE_CONNECTION`** | <code>'cannotCreateSecureConnection'</code> |                                                                                                   |       |
-| **`DATA_LENGTH_EXCEEDED`**            | <code>'dataLengthExceeded'</code>           | The length of the data exceed the maximum limit. Only available for iOS.                          | 0.1.0 |
-| **`DATA_VALUE_IS_EMPTY`**             | <code>'dataValueIsEmpty'</code>             | The data to send is empty. Only available for iOS.                                                | 0.1.0 |
-| **`PEER_IS_NOT_CONNECTED`**           | <code>'peerIsNotConnected'</code>           | The requested peer is not connected. Only available for iOS.                                      | 0.1.0 |
-| **`INTERNAL_ERROR`**                  | <code>'internalError'</code>                | An internal error occurred. Only available for iOS.                                               | 0.1.0 |
-| **`LICENSE_ERROR`**                   | <code>'licenseError'</code>                 | An error occurred while validating the license. Only available for iOS.                           | 0.1.0 |
-| **`STORAGE_ERROR`**                   | <code>'storageError'</code>                 | An error occurred while storing data. Only available for iOS.                                     | 0.1.0 |
-| **`ENCODING_ERROR`**                  | <code>'encodingError'</code>                | An error occurred while encoding the message. Only available for iOS.                             | 0.1.0 |
-| **`ENCRYPTION_ERROR`**                | <code>'encryptionError'</code>              | An error occurred while encrypting the message. Only available for iOS.                           | 0.1.0 |
+| Members                               | Value                                       | Description                                                                                                              | Since |
+| ------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
+| **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                                                     | 0.1.0 |
+| **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                                                  | 0.1.0 |
+| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                                                     | 0.1.0 |
+| **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                                              | 0.1.0 |
+| **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                                         | 0.1.0 |
+| **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                                            | 0.1.0 |
+| **`SIMULATOR_IS_NOT_SUPPORTED`**      | <code>'simulatorIsNotSupported'</code>      | The Bridgefy SDK cannot run in the simulator.                                                                            | 0.1.0 |
+| **`DEVICE_CAPABILITIES`**             | <code>'deviceCapabilities'</code>           | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`GENERIC`**                         | <code>'generic'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`MISSING_APPLICATION_ID`**          | <code>'missingApplicationID'</code>         | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`PERMISSION`**                      | <code>'permission'</code>                   | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`REGISTRATION`**                    | <code>'registration'</code>                 | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`UNKNOWN`**                         | <code>'unknown'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
+| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 0.1.0 |
+| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserId'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 0.1.0 |
+| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 0.1.0 |
+| **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
+| **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. ![iOS](assets/ios.svg) Only available for iOS.                         | 0.1.0 |
+| **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
+| **`DESTROY_SESSION_IN_PROGRESS`**     | <code>'destroySessionInProgress'</code>     | The Bridgefy SDK is destroying the current session. ![iOS](assets/ios.svg) Only available for iOS.                       | 0.1.0 |
+| **`SERVICE_NOT_STARTED`**             | <code>'serviceNotStarted'</code>            | The Bridgefy SDK service is not started. ![iOS](assets/ios.svg) Only available for iOS.                                  | 0.1.0 |
+| **`BLE_USAGE_NOT_GRANTED`**           | <code>'BLEUsageNotGranted'</code>           | The user does not allow the use of BLE. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
+| **`BLE_USAGE_RESTRICTED`**            | <code>'BLEUsageRestricted'</code>           | The use of BLE in this device is restricted. ![iOS](assets/ios.svg) Only available for iOS.                              | 0.1.0 |
+| **`BLE_POWERED_OFF`**                 | <code>'BLEPoweredOff'</code>                | The BLE antenna has been turned off. ![iOS](assets/ios.svg) Only available for iOS.                                      | 0.1.0 |
+| **`BLE_UNSUPPORTED`**                 | <code>'BLEUnsupported'</code>               | The usage of BLE is not supported in the device. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
+| **`BLE_UNKNOWN_ERROR`**               | <code>'BLEUnknownError'</code>              | BLE usage failed with an unknown error. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
+| **`INCONSISTENT_CONNECTION`**         | <code>'inconsistentConnection'</code>       |                                                                                                                          |       |
+| **`CONNECTION_IS_ALREADY_SECURE`**    | <code>'connectionIsAlreadySecure'</code>    |                                                                                                                          |       |
+| **`CANNOT_CREATE_SECURE_CONNECTION`** | <code>'cannotCreateSecureConnection'</code> |                                                                                                                          |       |
+| **`DATA_LENGTH_EXCEEDED`**            | <code>'dataLengthExceeded'</code>           | The length of the data exceed the maximum limit. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
+| **`DATA_VALUE_IS_EMPTY`**             | <code>'dataValueIsEmpty'</code>             | The data to send is empty. ![iOS](assets/ios.svg) Only available for iOS.                                                | 0.1.0 |
+| **`PEER_IS_NOT_CONNECTED`**           | <code>'peerIsNotConnected'</code>           | The requested peer is not connected. ![iOS](assets/ios.svg) Only available for iOS.                                      | 0.1.0 |
+| **`INTERNAL_ERROR`**                  | <code>'internalError'</code>                | An internal error occurred. ![iOS](assets/ios.svg) Only available for iOS.                                               | 0.1.0 |
+| **`LICENSE_ERROR`**                   | <code>'licenseError'</code>                 | An error occurred while validating the license. ![iOS](assets/ios.svg) Only available for iOS.                           | 0.1.0 |
+| **`STORAGE_ERROR`**                   | <code>'storageError'</code>                 | An error occurred while storing data. ![iOS](assets/ios.svg) Only available for iOS.                                     | 0.1.0 |
+| **`ENCODING_ERROR`**                  | <code>'encodingError'</code>                | An error occurred while encoding the message. ![iOS](assets/ios.svg) Only available for iOS.                             | 0.1.0 |
+| **`ENCRYPTION_ERROR`**                | <code>'encryptionError'</code>              | An error occurred while encrypting the message. ![iOS](assets/ios.svg) Only available for iOS.                           | 0.1.0 |
 
 </docgen-api>

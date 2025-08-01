@@ -129,7 +129,7 @@ export interface BridgefyPlugin {
   /**
    * Retrieves a list of `UUID`s representing the connected peers in the current session.
    *
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -149,7 +149,7 @@ export interface BridgefyPlugin {
   /**
    * Generates a fingerprint for the secure connection established with a specified user.
    *
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -158,7 +158,7 @@ export interface BridgefyPlugin {
   /**
    * Verifies the validity of a fingerprint for a particular user.
    *
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -224,7 +224,7 @@ export interface BridgefyPlugin {
   /**
    * When a device is detected, notifies the list of connected users
    *
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @param {PeerID[]} connectedPeers List of identifiers of the connected peers.
    */
@@ -269,7 +269,7 @@ export interface BridgefyPlugin {
   /**
    * When sending progress update
    *
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @param {MessageID} messageID Identifier of the message being sent.
    * @param {number} position Current position of the message being sent.
@@ -649,43 +649,43 @@ export enum ReasonType {
   // Android
 
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   DEVICE_CAPABILITIES = 'deviceCapabilities',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   GENERIC = 'generic',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   MISSING_APPLICATION_ID = 'missingApplicationID',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   PERMISSION = 'permission',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   REGISTRATION = 'registration',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
   SIZE_LIMIT_EXCEEDED = 'sizeLimitExceeded',
   /**
-   * Only available for Android.
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -696,7 +696,7 @@ export enum ReasonType {
   /**
    * Cannot get app's bundle ID.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -704,7 +704,7 @@ export enum ReasonType {
   /**
    * The userId passed in the start function is different from the stored one.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -712,7 +712,7 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK hasn't been started.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -720,7 +720,7 @@ export enum ReasonType {
   /**
    * A Bridgefy SDK instance already exists.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -728,7 +728,7 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK is performing the start process.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -736,7 +736,7 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK is performing the stop process.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -744,7 +744,7 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK is destroying the current session.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -752,7 +752,7 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK service is not started.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -760,7 +760,7 @@ export enum ReasonType {
   /**
    * The user does not allow the use of BLE.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -768,7 +768,7 @@ export enum ReasonType {
   /**
    * The use of BLE in this device is restricted.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -776,7 +776,7 @@ export enum ReasonType {
   /**
    * The BLE antenna has been turned off.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -784,7 +784,7 @@ export enum ReasonType {
   /**
    * The usage of BLE is not supported in the device.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -792,7 +792,7 @@ export enum ReasonType {
   /**
    * BLE usage failed with an unknown error.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -803,7 +803,7 @@ export enum ReasonType {
   /**
    * The length of the data exceed the maximum limit.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -811,7 +811,7 @@ export enum ReasonType {
   /**
    * The data to send is empty.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -819,7 +819,7 @@ export enum ReasonType {
   /**
    * The requested peer is not connected.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -828,7 +828,7 @@ export enum ReasonType {
   /**
    * An internal error occurred.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -836,7 +836,7 @@ export enum ReasonType {
   /**
    * An error occurred while validating the license.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -844,7 +844,7 @@ export enum ReasonType {
   /**
    * An error occurred while storing data.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -852,7 +852,7 @@ export enum ReasonType {
   /**
    * An error occurred while encoding the message.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
@@ -860,7 +860,7 @@ export enum ReasonType {
   /**
    * An error occurred while encrypting the message.
    *
-   * Only available for iOS.
+   * ![iOS](assets/ios.svg) Only available for iOS.
    *
    * @since 0.1.0
    */
