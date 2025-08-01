@@ -18,6 +18,14 @@ public class BridgefyHelper {
         return UUID(uuidString: value)
     }
 
+    static func makeData(_ value: String?) -> Data? {
+        guard let value = value, !value.isEmpty else {
+            return nil
+        }
+
+        return Data(base64Encoded: value)
+    }
+
 }
 
 typealias Helper = BridgefyHelper

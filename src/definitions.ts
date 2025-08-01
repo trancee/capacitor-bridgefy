@@ -104,6 +104,8 @@ export interface BridgefyPlugin {
   /**
    * Updates the Bridgefy license, if necessary.
    *
+   * ![Android](assets/android.svg) Only available for Android.
+   *
    * @since 0.1.0
    */
   updateLicense(): Promise<void>;
@@ -128,8 +130,6 @@ export interface BridgefyPlugin {
 
   /**
    * Retrieves a list of `UUID`s representing the connected peers in the current session.
-   *
-   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 0.1.0
    */
@@ -210,40 +210,39 @@ export interface BridgefyPlugin {
    */
 
   /**
-   * When a peer has established connection
+   * When a peer has established connection.
    *
-   * @param {PeerID} peerID Identifier of the peer that has established a connection.
+   * @since 0.1.0
    */
   addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener): Promise<PluginListenerHandle>;
   /**
-   * When a peer is disconnected (out of range)
+   * When a peer is disconnected (out of range).
    *
-   * @param {PeerID} peerID Identifier of the disconnected peer.
+   * @since 0.1.0
    */
   addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener): Promise<PluginListenerHandle>;
   /**
-   * When a device is detected, notifies the list of connected users
+   * When a device is detected, notifies the list of connected users.
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @param {PeerID[]} connectedPeers List of identifiers of the connected peers.
+   * @since 0.1.0
    */
   addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListener): Promise<PluginListenerHandle>;
 
   /**
-   * When an on-demand secure connection was successfully established
+   * When an on-demand secure connection was successfully established.
    *
-   * @param {UserID} userID Identifier of the user with whom the secure connection is established.
+   * @since 0.1.0
    */
   addListener(
     eventName: 'onEstablishSecureConnection',
     listenerFunc: OnEstablishSecureConnectionListener,
   ): Promise<PluginListenerHandle>;
   /**
-   * When an on-demand secure connection failed to establish
+   * When an on-demand secure connection failed to establish.
    *
-   * @param {UserID} userID Identifier of the user with whom the secure connection was attempted.
-   * @param {Exception} error The error that occurred during the connection attempt.
+   * @since 0.1.0
    */
   addListener(
     eventName: 'onFailToEstablishSecureConnection',
@@ -255,33 +254,29 @@ export interface BridgefyPlugin {
    */
 
   /**
-   * When a message is sent
+   * When a message is sent.
    *
-   * @param {MessageID} messageID Identifier of the sent message.
+   * @since 0.1.0
    */
   addListener(eventName: 'onSend', listenerFunc: OnSendListener): Promise<PluginListenerHandle>;
   /**
-   * When a message fails to send
+   * When a message fails to send.
    *
-   * @param {MessageID} messageID Identifier of the failed message.
+   * @since 0.1.0
    */
   addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener): Promise<PluginListenerHandle>;
   /**
-   * When sending progress update
+   * When sending progress update.
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @param {MessageID} messageID Identifier of the message being sent.
-   * @param {number} position Current position of the message being sent.
-   * @param {number} total Total size of the message being sent.
+   * @since 0.1.0
    */
   addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener): Promise<PluginListenerHandle>;
   /**
-   * When data is received
+   * When data is received.
    *
-   * @param {MessageID} messageID Identifier of the received message.
-   * @param {Base64} data The received data, encoded as a `Base64` string.
-   * @param {TransmissionMode} transmissionMode The transmission mode used when sending the message.
+   * @since 0.1.0
    */
   addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener): Promise<PluginListenerHandle>;
 
@@ -299,59 +294,149 @@ export interface OnStartedEvent {
 }
 export type OnFailToStartListener = (event: OnFailToStartEvent) => void;
 export interface OnFailToStartEvent {
+  /**
+   * Reason for the failure.
+   *
+   * @since 0.1.0
+   */
   reason: Reason;
 }
 export type OnFailToStopListener = (event: OnFailToStopEvent) => void;
 export interface OnFailToStopEvent {
+  /**
+   * Reason for the failure.
+   *
+   * @since 0.1.0
+   */
   reason: Reason;
 }
 export type OnFailToDestroySessionListener = (event: OnFailToDestroySessionEvent) => void;
 export interface OnFailToDestroySessionEvent {
+  /**
+   * Reason for the failure.
+   *
+   * @since 0.1.0
+   */
   reason: Reason;
 }
 
 export type OnConnectedListener = (event: OnConnectedEvent) => void;
 export interface OnConnectedEvent {
+  /**
+   * Identifier of the peer that has established a connection.
+   *
+   * @since 0.1.0
+   */
   peerID: PeerID;
 }
 export type OnDisconnectedListener = (event: OnDisconnectedEvent) => void;
 export interface OnDisconnectedEvent {
+  /**
+   * Identifier of the disconnected peer.
+   *
+   * @since 0.1.0
+   */
   peerID: PeerID;
 }
 export type OnConnectedPeersListener = (event: OnConnectedPeersEvent) => void;
 export interface OnConnectedPeersEvent {
+  /**
+   * List of identifiers of the connected peers.
+   *
+   * @since 0.1.0
+   */
   connectedPeers: PeerID[];
 }
 
 export type OnEstablishSecureConnectionListener = (event: OnEstablishSecureConnectionEvent) => void;
 export interface OnEstablishSecureConnectionEvent {
+  /**
+   * Identifier of the user with whom the secure connection is established.
+   *
+   * @since 0.1.0
+   */
   userID: UserID;
 }
 export type OnFailToEstablishSecureConnectionListener = (event: OnFailToEstablishSecureConnectionEvent) => void;
 export interface OnFailToEstablishSecureConnectionEvent {
+  /**
+   * Identifier of the user with whom the secure connection was attempted.
+   *
+   * @since 0.1.0
+   */
   userID: UserID;
+  /**
+   * Reason for the failure.
+   *
+   * @since 0.1.0
+   */
   reason: Reason;
 }
 
 export type OnSendListener = (event: OnSendEvent) => void;
 export interface OnSendEvent {
+  /**
+   * Identifier of the sent message.
+   *
+   * @since 0.1.0
+   */
   messageID: MessageID;
 }
 export type OnFailToSendListener = (event: OnFailToSendEvent) => void;
 export interface OnFailToSendEvent {
+  /**
+   * Identifier of the failed message.
+   *
+   * @since 0.1.0
+   */
   messageID: MessageID;
+  /**
+   * Reason for the failure.
+   *
+   * @since 0.1.0
+   */
   reason: Reason;
 }
 export type OnProgressOfSendListener = (event: OnProgressOfSendEvent) => void;
 export interface OnProgressOfSendEvent {
+  /**
+   * Identifier of the message being sent.
+   *
+   * @since 0.1.0
+   */
   messageID: MessageID;
+  /**
+   * Current position of the message being sent.
+   *
+   * @since 0.1.0
+   */
   position: number;
+  /**
+   * Total size of the message being sent.
+   *
+   * @since 0.1.0
+   */
   total: number;
 }
 export type OnReceiveDataListener = (event: OnReceiveDataEvent) => void;
 export interface OnReceiveDataEvent {
+  /**
+   * Identifier of the received message.
+   *
+   * @since 0.1.0
+   */
   messageID: MessageID;
+  /**
+   * The received data, encoded as a `Base64` string.
+   *
+   * @since 0.1.0
+   */
   data: Base64;
+  /**
+   * The transmission mode used when sending the message.
+   *
+   * @since 0.1.0
+   */
   transmissionMode: TransmissionMode;
 }
 
@@ -361,11 +446,15 @@ export interface OnReceiveDataEvent {
 export interface InitializeOptions {
   /**
    * The API key for Bridgefy.
+   *
+   * @since 0.1.0
    */
   apiKey?: UUID;
 
   /**
    * If `true`, enables verbose logging for debugging purposes.
+   *
+   * @since 0.1.0
    */
   verboseLogging?: boolean;
 }
@@ -708,7 +797,7 @@ export enum ReasonType {
    *
    * @since 0.1.0
    */
-  INCONSISTENT_USER_ID = 'inconsistentUserId',
+  INCONSISTENT_USER_ID = 'inconsistentUserID',
   /**
    * The Bridgefy SDK hasn't been started.
    *
@@ -797,9 +886,11 @@ export enum ReasonType {
    * @since 0.1.0
    */
   BLE_UNKNOWN_ERROR = 'BLEUnknownError',
+
   INCONSISTENT_CONNECTION = 'inconsistentConnection',
   CONNECTION_IS_ALREADY_SECURE = 'connectionIsAlreadySecure',
   CANNOT_CREATE_SECURE_CONNECTION = 'cannotCreateSecureConnection',
+
   /**
    * The length of the data exceed the maximum limit.
    *

@@ -11,9 +11,10 @@ import Capacitor
     }
 
     override public func toJSObject() -> JSObject {
-        var result = super.toJSObject()
+        var result = JSObject()
 
         result["messageID"] = messageID.uuidString.lowercased()
+        result["reason"] = super.toJSObject()
 
         return result
     }

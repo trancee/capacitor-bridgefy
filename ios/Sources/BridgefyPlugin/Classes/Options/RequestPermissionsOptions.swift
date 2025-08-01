@@ -7,7 +7,9 @@ import Capacitor
     init(_ call: CAPPluginCall) {
         if let permissions = call.getArray("permissions") {
             for permission in permissions {
-                self.permissions?.append(permission as! String)
+                if let permission = permission as? String {
+                    self.permissions?.append(permission)
+                }
             }
         }
     }

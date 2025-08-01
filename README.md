@@ -267,6 +267,8 @@ updateLicense() => Promise<void>
 
 Updates the Bridgefy license, if necessary.
 
+![Android](assets/android.svg) Only available for Android.
+
 **Since:** 0.1.0
 
 --------------------
@@ -307,8 +309,6 @@ connectedPeers() => Promise<ConnectedPeersResult>
 ```
 
 Retrieves a list of `UUID`s representing the connected peers in the current session.
-
-![Android](assets/android.svg) Only available for Android.
 
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
 
@@ -533,7 +533,7 @@ addListener(eventName: 'onFailToDestroySession', listenerFunc: OnFailToDestroySe
 addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener) => Promise<PluginListenerHandle>
 ```
 
-When a peer has established connection
+When a peer has established connection.
 
 | Param              | Type                                                                |
 | ------------------ | ------------------------------------------------------------------- |
@@ -541,6 +541,8 @@ When a peer has established connection
 | **`listenerFunc`** | <code><a href="#onconnectedlistener">OnConnectedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -551,7 +553,7 @@ When a peer has established connection
 addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener) => Promise<PluginListenerHandle>
 ```
 
-When a peer is disconnected (out of range)
+When a peer is disconnected (out of range).
 
 | Param              | Type                                                                      |
 | ------------------ | ------------------------------------------------------------------------- |
@@ -559,6 +561,8 @@ When a peer is disconnected (out of range)
 | **`listenerFunc`** | <code><a href="#ondisconnectedlistener">OnDisconnectedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -569,7 +573,7 @@ When a peer is disconnected (out of range)
 addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListener) => Promise<PluginListenerHandle>
 ```
 
-When a device is detected, notifies the list of connected users
+When a device is detected, notifies the list of connected users.
 
 ![Android](assets/android.svg) Only available for Android.
 
@@ -580,6 +584,8 @@ When a device is detected, notifies the list of connected users
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -589,7 +595,7 @@ When a device is detected, notifies the list of connected users
 addListener(eventName: 'onEstablishSecureConnection', listenerFunc: OnEstablishSecureConnectionListener) => Promise<PluginListenerHandle>
 ```
 
-When an on-demand secure connection was successfully established
+When an on-demand secure connection was successfully established.
 
 | Param              | Type                                                                                                |
 | ------------------ | --------------------------------------------------------------------------------------------------- |
@@ -597,6 +603,8 @@ When an on-demand secure connection was successfully established
 | **`listenerFunc`** | <code><a href="#onestablishsecureconnectionlistener">OnEstablishSecureConnectionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -607,7 +615,7 @@ When an on-demand secure connection was successfully established
 addListener(eventName: 'onFailToEstablishSecureConnection', listenerFunc: OnFailToEstablishSecureConnectionListener) => Promise<PluginListenerHandle>
 ```
 
-When an on-demand secure connection failed to establish
+When an on-demand secure connection failed to establish.
 
 | Param              | Type                                                                                                            |
 | ------------------ | --------------------------------------------------------------------------------------------------------------- |
@@ -615,6 +623,8 @@ When an on-demand secure connection failed to establish
 | **`listenerFunc`** | <code><a href="#onfailtoestablishsecureconnectionlistener">OnFailToEstablishSecureConnectionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -625,7 +635,7 @@ When an on-demand secure connection failed to establish
 addListener(eventName: 'onSend', listenerFunc: OnSendListener) => Promise<PluginListenerHandle>
 ```
 
-When a message is sent
+When a message is sent.
 
 | Param              | Type                                                      |
 | ------------------ | --------------------------------------------------------- |
@@ -633,6 +643,8 @@ When a message is sent
 | **`listenerFunc`** | <code><a href="#onsendlistener">OnSendListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -643,7 +655,7 @@ When a message is sent
 addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener) => Promise<PluginListenerHandle>
 ```
 
-When a message fails to send
+When a message fails to send.
 
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
@@ -651,6 +663,8 @@ When a message fails to send
 | **`listenerFunc`** | <code><a href="#onfailtosendlistener">OnFailToSendListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -661,7 +675,7 @@ When a message fails to send
 addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener) => Promise<PluginListenerHandle>
 ```
 
-When sending progress update
+When sending progress update.
 
 ![Android](assets/android.svg) Only available for Android.
 
@@ -672,6 +686,8 @@ When sending progress update
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
+**Since:** 0.1.0
+
 --------------------
 
 
@@ -681,7 +697,7 @@ When sending progress update
 addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener) => Promise<PluginListenerHandle>
 ```
 
-When data is received
+When data is received.
 
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |
@@ -689,6 +705,8 @@ When data is received
 | **`listenerFunc`** | <code><a href="#onreceivedatalistener">OnReceiveDataListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 0.1.0
 
 --------------------
 
@@ -711,10 +729,10 @@ Remove all listeners for this plugin.
 
 #### InitializeOptions
 
-| Prop                 | Type                                  | Description                                                |
-| -------------------- | ------------------------------------- | ---------------------------------------------------------- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. |
+| Prop                 | Type                                  | Description                                                | Since |
+| -------------------- | ------------------------------------- | ---------------------------------------------------------- | ----- |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  | 0.1.0 |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | 0.1.0 |
 
 
 #### IsInitializedResult
@@ -859,9 +877,9 @@ Sends the packet only when the receiver is in range.
 
 #### OnFailToStartEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> |
+| Prop         | Type                                      | Description                                   | Since |
+| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
 
 
 #### Reason
@@ -875,85 +893,85 @@ Sends the packet only when the receiver is in range.
 
 #### OnFailToStopEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> |
+| Prop         | Type                                      | Description                                   | Since |
+| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
 
 
 #### OnFailToDestroySessionEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> |
+| Prop         | Type                                      | Description                                   | Since |
+| ------------ | ----------------------------------------- | --------------------------------------------- | ----- |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
 
 
 #### OnConnectedEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`peerID`** | <code><a href="#peerid">PeerID</a></code> |
+| Prop         | Type                                      | Description                                               | Since |
+| ------------ | ----------------------------------------- | --------------------------------------------------------- | ----- |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the peer that has established a connection. | 0.1.0 |
 
 
 #### OnDisconnectedEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`peerID`** | <code><a href="#peerid">PeerID</a></code> |
+| Prop         | Type                                      | Description                          | Since |
+| ------------ | ----------------------------------------- | ------------------------------------ | ----- |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the disconnected peer. | 0.1.0 |
 
 
 #### OnConnectedPeersEvent
 
-| Prop                 | Type                |
-| -------------------- | ------------------- |
-| **`connectedPeers`** | <code>UUID[]</code> |
+| Prop                 | Type                | Description                                 | Since |
+| -------------------- | ------------------- | ------------------------------------------- | ----- |
+| **`connectedPeers`** | <code>UUID[]</code> | List of identifiers of the connected peers. | 0.1.0 |
 
 
 #### OnEstablishSecureConnectionEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`userID`** | <code><a href="#userid">UserID</a></code> |
+| Prop         | Type                                      | Description                                                            | Since |
+| ------------ | ----------------------------------------- | ---------------------------------------------------------------------- | ----- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection is established. | 0.1.0 |
 
 
 #### OnFailToEstablishSecureConnectionEvent
 
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`userID`** | <code><a href="#userid">UserID</a></code> |
-| **`reason`** | <code><a href="#reason">Reason</a></code> |
+| Prop         | Type                                      | Description                                                           | Since |
+| ------------ | ----------------------------------------- | --------------------------------------------------------------------- | ----- |
+| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection was attempted. | 0.1.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | <a href="#reason">Reason</a> for the failure.                         | 0.1.0 |
 
 
 #### OnSendEvent
 
-| Prop            | Type                                            |
-| --------------- | ----------------------------------------------- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
+| Prop            | Type                                            | Description                     | Since |
+| --------------- | ----------------------------------------------- | ------------------------------- | ----- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the sent message. | 0.1.0 |
 
 
 #### OnFailToSendEvent
 
-| Prop            | Type                                            |
-| --------------- | ----------------------------------------------- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
-| **`reason`**    | <code><a href="#reason">Reason</a></code>       |
+| Prop            | Type                                            | Description                                   | Since |
+| --------------- | ----------------------------------------------- | --------------------------------------------- | ----- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the failed message.             | 0.1.0 |
+| **`reason`**    | <code><a href="#reason">Reason</a></code>       | <a href="#reason">Reason</a> for the failure. | 0.1.0 |
 
 
 #### OnProgressOfSendEvent
 
-| Prop            | Type                                            |
-| --------------- | ----------------------------------------------- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> |
-| **`position`**  | <code>number</code>                             |
-| **`total`**     | <code>number</code>                             |
+| Prop            | Type                                            | Description                                 | Since |
+| --------------- | ----------------------------------------------- | ------------------------------------------- | ----- |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the message being sent.       | 0.1.0 |
+| **`position`**  | <code>number</code>                             | Current position of the message being sent. | 0.1.0 |
+| **`total`**     | <code>number</code>                             | Total size of the message being sent.       | 0.1.0 |
 
 
 #### OnReceiveDataEvent
 
-| Prop                   | Type                                                          |
-| ---------------------- | ------------------------------------------------------------- |
-| **`messageID`**        | <code><a href="#messageid">MessageID</a></code>               |
-| **`data`**             | <code><a href="#base64">Base64</a></code>                     |
-| **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> |
+| Prop                   | Type                                                          | Description                                                            | Since |
+| ---------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ----- |
+| **`messageID`**        | <code><a href="#messageid">MessageID</a></code>               | Identifier of the received message.                                    | 0.1.0 |
+| **`data`**             | <code><a href="#base64">Base64</a></code>                     | The received data, encoded as a <a href="#base64">`Base64`</a> string. | 0.1.0 |
+| **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> | The transmission mode used when sending the message.                   | 0.1.0 |
 
 
 ### Type Aliases
@@ -1109,7 +1127,7 @@ This timestamp is timezone-agnostic and uniquely defines an instant in history.
 | **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
 | **`UNKNOWN`**                         | <code>'unknown'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
 | **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 0.1.0 |
-| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserId'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 0.1.0 |
+| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserID'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 0.1.0 |
 | **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 0.1.0 |
 | **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
 | **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. ![iOS](assets/ios.svg) Only available for iOS.                         | 0.1.0 |

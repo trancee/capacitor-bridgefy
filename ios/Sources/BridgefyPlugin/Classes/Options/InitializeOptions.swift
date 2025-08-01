@@ -12,7 +12,7 @@ import Capacitor
             self.setAPIKey(apiKey)
         }
 
-        if let verboseLogging = call.getString("verboseLogging") {
+        if let verboseLogging = call.getBool("verboseLogging") {
             self.setVerboseLogging(verboseLogging)
         }
     }
@@ -20,8 +20,8 @@ import Capacitor
     func setAPIKey(_ apiKey: String?) {
         self.apiKey = Helper.makeUUID(apiKey)
     }
-    func setVerboseLogging(_ verboseLogging: String?) {
-        self.verboseLogging = Helper.makeBoolean(verboseLogging)
+    func setVerboseLogging(_ verboseLogging: Bool?) {
+        self.verboseLogging = verboseLogging // Helper.makeBoolean(verboseLogging)
     }
 
     func getAPIKey() -> UUID? {

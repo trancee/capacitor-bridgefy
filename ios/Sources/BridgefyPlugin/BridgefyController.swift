@@ -3,7 +3,44 @@ import BridgefySDK
 
 @objc public class BridgefyController: NSObject {
     private var plugin: BridgefyPlugin
-    private var bridgefy: BridgefySDK.Bridgefy!
+    private var bridgefy: BridgefySDK.Bridgefy?
+
+    let errorAlreadyStarted: String = "alreadyStarted"
+    let errorExpiredLicense: String = "expiredLicense"
+    let errorInconsistentDeviceTime: String = "inconsistentDeviceTime"
+    let errorInternetConnectionRequired: String = "internetConnectionRequired"
+    let errorInvalidAPIKey: String = "invalidAPIKey"
+    let errorMissingBundleID: String = "missingBundleID"
+    let errorSessionError: String = "sessionError"
+    let errorSimulatorIsNotSupported: String = "simulatorIsNotSupported"
+
+    // iOS
+    let errorInconsistentUserID: String = "inconsistentUserID"
+    let errorNotStarted: String = "notStarted"
+    let errorAlreadyInstantiated: String = "alreadyInstantiated"
+    let errorStartInProgress: String = "startInProgress"
+    let errorStopInProgress: String = "stopInProgress"
+    let errorDestroySessionInProgress: String = "destroySessionInProgress"
+    let errorServiceNotStarted: String = "serviceNotStarted"
+    let errorBLEUsageNotGranted: String = "BLEUsageNotGranted"
+    let errorBLEUsageRestricted: String = "BLEUsageRestricted"
+    let errorBLEPoweredOff: String = "BLEPoweredOff"
+    let errorBLEUnsupported: String = "BLEUnsupported"
+    let errorBLEUnknownError: String = "BLEUnknownError"
+    let errorInconsistentConnection: String = "inconsistentConnection"
+    let errorConnectionIsAlreadySecure: String = "connectionIsAlreadySecure"
+    let errorCannotCreateSecureConnection: String = "cannotCreateSecureConnection"
+    let errorDataLengthExceeded: String = "dataLengthExceeded"
+    let errorDataValueIsEmpty: String = "dataValueIsEmpty"
+    let errorPeerIsNotConnected: String = "peerIsNotConnected"
+    let errorInternalError: String = "internalError"
+
+    let errorLicenseError: String = "licenseError"
+    let errorStorageError: String = "storageError"
+    let errorEncodingError: String = "encodingError"
+    let errorEncryptionError: String = "encryptionError"
+
+    private let notInitialized = NSError(domain: "Bridgefy", code: -1, userInfo: [NSLocalizedDescriptionKey: "Bridgefy SDK is not initialized"])
 
     init(_ plugin: BridgefyPlugin) {
         self.plugin = plugin
@@ -21,15 +58,106 @@ import BridgefySDK
 
     public func isInitialized() -> Bool { return BridgefySDK.Bridgefy.isInitialized }
 
-    public func start(_ userID: UUID? = nil, _ propagationProfile: String?) throws {
-        // FIXME: check if SDK is initialized
+    public func start(_ userID: UUID?, _ propagationProfile: String?) throws {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
         try bridgefy.start(withUserId: userID, andPropagationProfile: toPropagationProfile(propagationProfile) ?? .standard)
     }
 
     public func isStarted() -> Bool { return BridgefySDK.Bridgefy.isStarted }
 
-    public func stop() {
-        bridgefy.stop()
+    public func stop() throws {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        try bridgefy.stop()
+    }
+
+    /**
+     * License
+     */
+
+    public func licenseExpirationDate() throws -> Date? {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        return try bridgefy.licenseExpirationDate
+    }
+
+    /**
+     * Session
+     */
+
+    public func destroySession() throws {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        try bridgefy.destroySession()
+    }
+
+    public func currentUserID() throws -> UUID? {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        return try bridgefy.currentUserId
+    }
+
+    public func connectedPeers() throws -> [UUID]? {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        return try bridgefy.connectedPeers
+    }
+
+    /**
+     * Secure Connection
+     */
+
+    public func establishSecureConnection(_ userID: UUID) throws {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        try bridgefy.establishSecureConnection(with: userID)
+    }
+
+    public func fingerprint(_ userID: UUID) throws -> BridgefySDK.BridgefyFingerprint? {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        return try bridgefy.fingerprint(for: userID)
+    }
+
+    public func isFingerprintValid(_ userID: UUID, _ fingerprint: Data) throws -> Bool {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        return try bridgefy.isFingerprintValid(fingerprint, for: userID)
+    }
+
+    /**
+     * Payload
+     */
+
+    public func send(_ data: Data, _ transmissionMode: (String, UUID)?) throws -> UUID {
+        guard let bridgefy else {
+            throw notInitialized
+        }
+
+        guard let transmissionMode = toTransmissionMode(transmissionMode) else {
+            throw CustomError.transmissionModeMissing
+        }
+
+        return try bridgefy.send(data, using: transmissionMode)
     }
 
     /**
@@ -58,6 +186,19 @@ import BridgefySDK
         case .mesh(userId: let userId): return ("mesh", userId)
         /// Deliver a message to a specific recipient only if there's an active connection with it.
         case .p2p(userId: let userId): return ("p2p", userId)
+        }
+        return nil
+    }
+
+    private func toTransmissionMode(_ transmissionMode: (String, UUID)?) -> BridgefySDK.TransmissionMode? {
+        if let transmissionMode = transmissionMode {
+            let uuid = transmissionMode.1
+            switch transmissionMode.0 {
+            case "broadcast": return .broadcast(senderId: uuid)
+            case "mesh": return .mesh(userId: uuid)
+            case "p2p": return .p2p(userId: uuid)
+            default: return nil
+            }
         }
         return nil
     }
@@ -122,142 +263,101 @@ extension BridgefyController: BridgefySDK.BridgefyDelegate {
         plugin.onReceiveDataEvent(messageId, data, fromTransmissionMode(transmissionMode))
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func fromBridgefyError(_ error: BridgefySDK.BridgefyError) -> BridgefyError? {
-        let ALREADY_STARTED: String = "alreadyStarted"
-        let DEVICE_CAPABILITIES: String = "deviceCapabilities" // Android
-        let EXPIRED_LICENSE: String = "expiredLicense"
-        let GENERIC: String = "generic" // Android
-        let INCONSISTENT_DEVICE_TIME: String = "inconsistentDeviceTime"
-        let INTERNET_CONNECTION_REQUIRED: String = "internetConnectionRequired"
-        let INVALID_API_KEY: String = "invalidAPIKey"
-        let MISSING_APPLICATION_ID: String = "missingApplicationID" // Android
-        let MISSING_BUNDLE_ID: String = "missingBundleID"
-        let PERMISSION: String = "permission" // Android
-        let REGISTRATION: String = "registration" // Android
-        let SESSION_ERROR: String = "sessionError"
-        let SIMULATOR_IS_NOT_SUPPORTED: String = "simulatorIsNotSupported"
-        let SIZE_LIMIT_EXCEEDED: String = "sizeLimitExceeded" // Android
-        let UNKNOWN: String = "unknown" // Android
-
-        // iOS
-        let INCONSISTENT_USER_ID: String = "inconsistentUserId"
-        let NOT_STARTED: String = "notStarted"
-        let ALREADY_INSTANTIATED: String = "alreadyInstantiated"
-        let START_IN_PROGRESS: String = "startInProgress"
-        let STOP_IN_PROGRESS: String = "stopInProgress"
-        let DESTROY_SESSION_IN_PROGRESS: String = "destroySessionInProgress"
-        let SERVICE_NOT_STARTED: String = "serviceNotStarted"
-        let BLE_USAGE_NOT_GRANTED: String = "BLEUsageNotGranted"
-        let BLE_USAGE_RESTRICTED: String = "BLEUsageRestricted"
-        let BLE_POWERED_OFF: String = "BLEPoweredOff"
-        let BLE_UNSUPPORTED: String = "BLEUnsupported"
-        let BLE_UNKNOWN_ERROR: String = "BLEUnknownError"
-        let INCONSISTENT_CONNECTION: String = "inconsistentConnection"
-        let CONNECTION_IS_ALREADY_SECURE: String = "connectionIsAlreadySecure"
-        let CANNOT_CREATE_SECURE_CONNECTION: String = "cannotCreateSecureConnection"
-        let DATA_LENGTH_EXCEEDED: String = "dataLengthExceeded"
-        let DATA_VALUE_IS_EMPTY: String = "dataValueIsEmpty"
-        let PEER_IS_NOT_CONNECTED: String = "peerIsNotConnected"
-        let INTERNAL_ERROR: String = "internalError"
-
-        let LICENSE_ERROR: String = "licenseError"
-        let STORAGE_ERROR: String = "storageError"
-        let ENCODING_ERROR: String = "encodingError"
-        let ENCRYPTION_ERROR: String = "encryptionError"
-
         switch error {
 
         /// The Bridgefy SDK is already running
-        case .alreadyStarted: return BridgefyError(ALREADY_STARTED)
+        case .alreadyStarted: return BridgefyError(errorAlreadyStarted, message: error.localizedDescription)
 
         /// The license is expired
-        case .expiredLicense: return BridgefyError(EXPIRED_LICENSE)
+        case .expiredLicense: return BridgefyError(errorExpiredLicense, message: error.localizedDescription)
 
         /// The device's time has been modified
-        case .inconsistentDeviceTime: return BridgefyError(INCONSISTENT_DEVICE_TIME)
+        case .inconsistentDeviceTime: return BridgefyError(errorInconsistentDeviceTime, message: error.localizedDescription)
 
         /// An internet connection is required to validate the license
-        case .internetConnectionRequired: return BridgefyError(INTERNET_CONNECTION_REQUIRED)
+        case .internetConnectionRequired: return BridgefyError(errorInternetConnectionRequired, message: error.localizedDescription)
 
         /// The provided API key is invalid
-        case .invalidApiKey: return BridgefyError(INVALID_API_KEY)
+        case .invalidApiKey: return BridgefyError(errorInvalidAPIKey, message: error.localizedDescription)
 
         /// Cannot get app's bundle id
-        case .missingBundleID: return BridgefyError(MISSING_BUNDLE_ID)
+        case .missingBundleID: return BridgefyError(errorMissingBundleID, message: error.localizedDescription)
 
         /// An error occurred while creating the session
-        case .sessionError: return BridgefyError(SESSION_ERROR)
+        case .sessionError: return BridgefyError(errorSessionError, message: error.localizedDescription)
 
         /// The Bridgefy SDK cannot run in the simulator
-        case .simulatorIsNotSupported: return BridgefyError(SIMULATOR_IS_NOT_SUPPORTED)
+        case .simulatorIsNotSupported: return BridgefyError(errorSimulatorIsNotSupported, message: error.localizedDescription)
 
         // iOS
 
         /// The userId passed in the start function is different from the stored one.
-        case .inconsistentUserId: return BridgefyError(INCONSISTENT_USER_ID)
+        case .inconsistentUserId: return BridgefyError(errorInconsistentUserID, message: error.localizedDescription)
 
         /// The Bridgefy SDK hasn't been started
-        case .notStarted: return BridgefyError(NOT_STARTED)
+        case .notStarted: return BridgefyError(errorNotStarted, message: error.localizedDescription)
 
         /// A Bridgefy SDK instance already exists
-        case .alreadyInstantiated: return BridgefyError(ALREADY_INSTANTIATED)
+        case .alreadyInstantiated: return BridgefyError(errorAlreadyInstantiated, message: error.localizedDescription)
 
         /// The Bridgefy SDK is performing the start process
-        case .startInProgress: return BridgefyError(START_IN_PROGRESS)
+        case .startInProgress: return BridgefyError(errorStartInProgress, message: error.localizedDescription)
 
         /// The Bridgefy SDK is performing the stop process
-        case .stopInProgress: return BridgefyError(STOP_IN_PROGRESS)
+        case .stopInProgress: return BridgefyError(errorStopInProgress, message: error.localizedDescription)
 
         /// The Bridgefy SDK is destroying the current session
-        case .destroySessionInProgress: return BridgefyError(DESTROY_SESSION_IN_PROGRESS)
+        case .destroySessionInProgress: return BridgefyError(errorDestroySessionInProgress, message: error.localizedDescription)
 
         /// The Bridgefy SDK service is not started
-        case .serviceNotStarted: return BridgefyError(SERVICE_NOT_STARTED)
+        case .serviceNotStarted: return BridgefyError(errorServiceNotStarted, message: error.localizedDescription)
 
         /// The user does not allow the use of BLE
-        case .BLEUsageNotGranted: return BridgefyError(BLE_USAGE_NOT_GRANTED)
+        case .BLEUsageNotGranted: return BridgefyError(errorBLEUsageNotGranted, message: error.localizedDescription)
 
         /// The use of BLE in this device is restricted
-        case .BLEUsageRestricted: return BridgefyError(BLE_USAGE_RESTRICTED)
+        case .BLEUsageRestricted: return BridgefyError(errorBLEUsageRestricted, message: error.localizedDescription)
 
         /// The BLE antenna has been turned off
-        case .BLEPoweredOff: return BridgefyError(BLE_POWERED_OFF)
+        case .BLEPoweredOff: return BridgefyError(errorBLEPoweredOff, message: error.localizedDescription)
 
         /// The usage of BLE is not supported in the device
-        case .BLEUnsupported: return BridgefyError(BLE_UNSUPPORTED)
+        case .BLEUnsupported: return BridgefyError(errorBLEUnsupported, message: error.localizedDescription)
 
         /// BLE usage failed with an unknown error
-        case .BLEUnknownError: return BridgefyError(BLE_UNKNOWN_ERROR)
+        case .BLEUnknownError: return BridgefyError(errorBLEUnknownError, message: error.localizedDescription)
 
-        case .inconsistentConnection: return BridgefyError(INCONSISTENT_CONNECTION)
+        case .inconsistentConnection: return BridgefyError(errorInconsistentConnection, message: error.localizedDescription)
 
-        case .connectionIsAlreadySecure: return BridgefyError(CONNECTION_IS_ALREADY_SECURE)
+        case .connectionIsAlreadySecure: return BridgefyError(errorConnectionIsAlreadySecure, message: error.localizedDescription)
 
-        case .cannotCreateSecureConnection: return BridgefyError(CANNOT_CREATE_SECURE_CONNECTION)
+        case .cannotCreateSecureConnection: return BridgefyError(errorCannotCreateSecureConnection, message: error.localizedDescription)
 
         /// The length of the data exceed the maximum limit
-        case .dataLengthExceeded: return BridgefyError(DATA_LENGTH_EXCEEDED)
+        case .dataLengthExceeded: return BridgefyError(errorDataLengthExceeded, message: error.localizedDescription)
 
         /// The data to send is empty
-        case .dataValueIsEmpty: return BridgefyError(DATA_VALUE_IS_EMPTY)
+        case .dataValueIsEmpty: return BridgefyError(errorDataValueIsEmpty, message: error.localizedDescription)
 
         /// The requested peer is not connected
-        case .peerIsNotConnected: return BridgefyError(PEER_IS_NOT_CONNECTED)
+        case .peerIsNotConnected: return BridgefyError(errorPeerIsNotConnected, message: error.localizedDescription)
 
         /// An internal error occurred
-        case .internalError: return BridgefyError(INTERNAL_ERROR)
+        case .internalError: return BridgefyError(errorInternalError, message: error.localizedDescription)
 
         /// An error occurred while validating the license
-        case .licenseError(code: let code): return BridgefyError(LICENSE_ERROR, code: code)
+        case .licenseError(code: let code): return BridgefyError(errorLicenseError, message: error.localizedDescription, code: code)
 
         /// An error occurred while storing data
-        case .storageError(code: let code): return BridgefyError(STORAGE_ERROR, code: code)
+        case .storageError(code: let code): return BridgefyError(errorStorageError, message: error.localizedDescription, code: code)
 
         /// An error occurred while encoding the message
-        case .encodingError(code: let code): return BridgefyError(ENCODING_ERROR, code: code)
+        case .encodingError(code: let code): return BridgefyError(errorEncodingError, message: error.localizedDescription, code: code)
 
         /// An error occurred while encrypting the message
-        case .encryptionError(code: let code): return BridgefyError(ENCRYPTION_ERROR, code: code)
+        case .encryptionError(code: let code): return BridgefyError(errorEncryptionError, message: error.localizedDescription, code: code)
         }
     }
 }

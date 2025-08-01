@@ -17,37 +17,52 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "start", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isStarted", returnType: CAPPluginReturnPromise),
 
-        CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
+
+        CAPPluginMethod(name: "licenseExpirationDate", returnType: CAPPluginReturnPromise),
+
+        CAPPluginMethod(name: "destroySession", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "currentUserID", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "connectedPeers", returnType: CAPPluginReturnPromise),
+
+        CAPPluginMethod(name: "establishSecureConnection", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "fingerprint", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isFingerprintValid", returnType: CAPPluginReturnPromise),
+
+        CAPPluginMethod(name: "send", returnType: CAPPluginReturnPromise),
+
+        CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise)
     ]
 
     public let tag = "BridgefyPlugin"
 
     // Initialization Listeners
 
-    let STARTED_EVENT = "onStarted"
-    let FAIL_TO_START_EVENT = "onFailToStart"
-    let STOPPED_EVENT = "onStopped"
-    let FAIL_TO_STOP_EVENT = "onFailToStop"
-    let DESTROY_SESSION_EVENT = "onDestroySession"
-    let FAIL_TO_DESTROY_SESSION_EVENT = "onFailToDestroySession"
+    let eventStarted = "onStarted"
+    let eventFailToStart = "onFailToStart"
+    let eventStopped = "onStopped"
+    let eventFailToStop = "onFailToStop"
+    let eventDestroySession = "onDestroySession"
+    let eventFailToDestroySession = "onFailToDestroySession"
 
     // Connectivity Listeners
 
-    let CONNECTED_EVENT = "onConnected"
-    let DISCONNECTED_EVENT = "onDisconnected"
-    let CONNECTED_PEERS_EVENT = "onConnectedPeers"
-    let ESTABLISH_SECURE_CONNECTION_EVENT = "onEstablishSecureConnection"
-    let FAIL_TO_ESTABLISH_SECURE_CONNECTION_EVENT = "onFailToEstablishSecureConnection"
+    let eventConnected = "onConnected"
+    let eventDisconnected = "onDisconnected"
+    let eventConnectedPeers = "onConnectedPeers"
+    let eventEstablishSecureConnection = "onEstablishSecureConnection"
+    let eventFailToEstablishSecureConnection = "onFailToEstablishSecureConnection"
 
     // Transmission Listeners
 
-    let SEND_EVENT = "onSend"
-    let FAIL_TO_SEND_EVENT = "onFailToSend"
-    let PROGRESS_OF_SEND_EVENT = "onProgressOfSend"
-    let RECEIVE_DATA_EVENT = "onReceiveData"
+    let eventSend = "onSend"
+    let eventFailToSend = "onFailToSend"
+    let eventProgressOfSend = "onProgressOfSend"
+    let eventReceiveData = "onReceiveData"
 
-    private var implementation: Bridgefy!
-    private var config: BridgefyConfig!
+    private var implementation: Bridgefy?
+    private var config: BridgefyConfig?
 
     override public func load() {
         super.load()
@@ -63,7 +78,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func initialize(_ call: CAPPluginCall) {
         let options = InitializeOptions(call)
 
-        implementation.initialize(options, completion: { error in
+        implementation?.initialize(options, completion: { error in
             if let error = error {
                 self.rejectCall(call, error)
             } else {
@@ -73,7 +88,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func isInitialized(_ call: CAPPluginCall) {
-        implementation.isInitialized(completion: { result, error in
+        implementation?.isInitialized(completion: { result, error in
             if let error = error {
                 self.rejectCall(call, error)
             } else if let result = result?.toJSObject() as? JSObject {
@@ -85,7 +100,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func start(_ call: CAPPluginCall) {
         let options = StartOptions(call)
 
-        implementation.start(options, completion: { error in
+        implementation?.start(options, completion: { error in
             if let error = error {
                 self.rejectCall(call, error)
             } else {
@@ -95,7 +110,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func isStarted(_ call: CAPPluginCall) {
-        implementation.isStarted(completion: { result, error in
+        implementation?.isStarted(completion: { result, error in
             if let error = error {
                 self.rejectCall(call, error)
             } else if let result = result?.toJSObject() as? JSObject {
@@ -105,7 +120,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func stop(_ call: CAPPluginCall) {
-        implementation.stop(completion: { error in
+        implementation?.stop(completion: { error in
             if let error = error {
                 self.rejectCall(call, error)
             } else {
@@ -115,11 +130,115 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     /**
+     * License
+     */
+
+    @objc func licenseExpirationDate(_ call: CAPPluginCall) {
+        implementation?.licenseExpirationDate(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    /**
+     * Session
+     */
+
+    @objc func destroySession(_ call: CAPPluginCall) {
+        implementation?.destroySession(completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func currentUserID(_ call: CAPPluginCall) {
+        implementation?.currentUserID(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func connectedPeers(_ call: CAPPluginCall) {
+        implementation?.connectedPeers(completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    /**
+     * Secure Connection
+     */
+
+    @objc func establishSecureConnection(_ call: CAPPluginCall) {
+        let options = EstablishSecureConnectionOptions(call)
+
+        implementation?.establishSecureConnection(options, completion: { error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else {
+                self.resolveCall(call)
+            }
+        })
+    }
+
+    @objc func fingerprint(_ call: CAPPluginCall) {
+        let options = FingerprintOptions(call)
+
+        implementation?.fingerprint(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    @objc func isFingerprintValid(_ call: CAPPluginCall) {
+        let options = IsFingerprintValidOptions(call)
+
+        implementation?.isFingerprintValid(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    /**
+     * Payload
+     */
+
+    @objc func send(_ call: CAPPluginCall) {
+        let options = SendOptions(call)
+
+        implementation?.send(options, completion: { result, error in
+            if let error = error {
+                self.rejectCall(call, error)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
+            }
+        })
+    }
+
+    /**
      * Permissions
      */
 
     @objc override public func checkPermissions(_ call: CAPPluginCall) {
-        implementation.checkPermissions(completion: { result, error in
+        implementation?.checkPermissions(completion: { result, error in
             if let error = error {
                 self.rejectCall(call, error)
             } else if let result = result?.toJSObject() as? JSObject {
@@ -131,7 +250,7 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc override public func requestPermissions(_ call: CAPPluginCall) {
         let options = RequestPermissionsOptions(call)
 
-        implementation.requestPermissions(options, completion: { error in
+        implementation?.requestPermissions(options, completion: { error in
             if let error = error {
                 self.rejectCall(call, error)
             } else {
@@ -147,37 +266,37 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     func onStartedEvent(_ userID: UUID) {
         let event: StartedEvent = .init(userID)
 
-        notifyListeners(self.STARTED_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventStarted, data: event.toJSObject())
     }
 
     func onFailToStartEvent(_ error: BridgefyError?) {
         let event: FailToStartEvent = .init(error)
 
-        notifyListeners(self.FAIL_TO_START_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventFailToStart, data: event.toJSObject())
     }
 
     func onStoppedEvent() {
         let event: StoppedEvent = .init()
 
-        notifyListeners(self.STOPPED_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventStopped, data: event.toJSObject())
     }
 
     func onFailToStopEvent(_ error: BridgefyError?) {
         let event: FailToStopEvent = .init(error)
 
-        notifyListeners(self.FAIL_TO_STOP_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventFailToStop, data: event.toJSObject())
     }
 
     func onDestroySessionEvent() {
         let event: DestroySessionEvent = .init()
 
-        notifyListeners(self.DESTROY_SESSION_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventDestroySession, data: event.toJSObject())
     }
 
     func onFailToDestroySessionEvent(_ error: BridgefyError?) {
         let event: FailToDestroySessionEvent = .init(error)
 
-        notifyListeners(self.FAIL_TO_DESTROY_SESSION_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventFailToDestroySession, data: event.toJSObject())
     }
 
     /**
@@ -187,25 +306,25 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     func onConnectedEvent(_ peerID: UUID) {
         let event: ConnectedEvent = .init(peerID)
 
-        notifyListeners(self.CONNECTED_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventConnected, data: event.toJSObject())
     }
 
     func onDisconnectedEvent(_ peerID: UUID) {
         let event: DisconnectedEvent = .init(peerID)
 
-        notifyListeners(self.DISCONNECTED_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventDisconnected, data: event.toJSObject())
     }
 
     func onEstablishSecureConnectionEvent(_ userID: UUID) {
         let event: EstablishSecureConnectionEvent = .init(userID)
 
-        notifyListeners(self.ESTABLISH_SECURE_CONNECTION_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventEstablishSecureConnection, data: event.toJSObject())
     }
 
     func onFailToEstablishSecureConnectionEvent(_ userID: UUID, _ error: BridgefyError?) {
         let event: FailToEstablishSecureConnectionEvent = .init(userID, error)
 
-        notifyListeners(self.FAIL_TO_ESTABLISH_SECURE_CONNECTION_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventFailToEstablishSecureConnection, data: event.toJSObject())
     }
 
     /**
@@ -215,19 +334,19 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     func onSendEvent(_ messageID: UUID) {
         let event: SendEvent = .init(messageID)
 
-        notifyListeners(self.SEND_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventSend, data: event.toJSObject())
     }
 
     func onFailToSendEvent(_ messageID: UUID, _ error: BridgefyError?) {
         let event: FailToSendEvent = .init(messageID, error)
 
-        notifyListeners(self.FAIL_TO_SEND_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventFailToSend, data: event.toJSObject())
     }
 
     func onReceiveDataEvent(_ messageID: UUID, _ data: Data, _ transmissionMode: (String, UUID)?) {
         let event: ReceiveDataEvent = .init(messageID, data, transmissionMode)
 
-        notifyListeners(self.RECEIVE_DATA_EVENT, data: event.toJSObject())
+        notifyListeners(self.eventReceiveData, data: event.toJSObject())
     }
 
     /**
