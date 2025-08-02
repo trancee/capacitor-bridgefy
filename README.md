@@ -168,7 +168,7 @@ export default config;
 ### initialize(...)
 
 ```typescript
-initialize(options: InitializeOptions) => Promise<void>
+initialize(options?: InitializeOptions | undefined) => Promise<void>
 ```
 
 Initializes Bridgefy operations.
@@ -202,7 +202,7 @@ Checks if the Bridgefy SDK has been initialized.
 ### start(...)
 
 ```typescript
-start(options: StartOptions) => Promise<void>
+start(options?: StartOptions | undefined) => Promise<void>
 ```
 
 Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy network.
@@ -462,13 +462,13 @@ addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener) => 
 ### addListener('onStopped', ...)
 
 ```typescript
-addListener(eventName: 'onStopped', listenerFunc: () => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onStopped', listenerFunc: OnStoppedListener) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                       |
-| ------------------ | -------------------------- |
-| **`eventName`**    | <code>'onStopped'</code>   |
-| **`listenerFunc`** | <code>() =&gt; void</code> |
+| Param              | Type                                                            |
+| ------------------ | --------------------------------------------------------------- |
+| **`eventName`**    | <code>'onStopped'</code>                                        |
+| **`listenerFunc`** | <code><a href="#onstoppedlistener">OnStoppedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -494,13 +494,13 @@ addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener) => Pr
 ### addListener('onDestroySession', ...)
 
 ```typescript
-addListener(eventName: 'onDestroySession', listenerFunc: () => void) => Promise<PluginListenerHandle>
+addListener(eventName: 'onDestroySession', listenerFunc: OnDestroySessionListener) => Promise<PluginListenerHandle>
 ```
 
-| Param              | Type                            |
-| ------------------ | ------------------------------- |
-| **`eventName`**    | <code>'onDestroySession'</code> |
-| **`listenerFunc`** | <code>() =&gt; void</code>      |
+| Param              | Type                                                                          |
+| ------------------ | ----------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onDestroySession'</code>                                               |
+| **`listenerFunc`** | <code><a href="#ondestroysessionlistener">OnDestroySessionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
@@ -1018,9 +1018,19 @@ Sends the packet only when the receiver is in range.
 <code>(event: <a href="#onfailtostartevent">OnFailToStartEvent</a>): void</code>
 
 
+#### OnStoppedListener
+
+<code>(): void</code>
+
+
 #### OnFailToStopListener
 
 <code>(event: <a href="#onfailtostopevent">OnFailToStopEvent</a>): void</code>
+
+
+#### OnDestroySessionListener
+
+<code>(): void</code>
 
 
 #### OnFailToDestroySessionListener

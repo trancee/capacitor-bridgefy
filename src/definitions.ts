@@ -62,7 +62,7 @@ export interface BridgefyPlugin {
    *
    * @since 1.0.0
    */
-  initialize(options: InitializeOptions): Promise<void>;
+  initialize(options?: InitializeOptions): Promise<void>;
   /**
    * Checks if the Bridgefy SDK has been initialized.
    *
@@ -75,7 +75,7 @@ export interface BridgefyPlugin {
    *
    * @since 1.0.0
    */
-  start(options: StartOptions): Promise<void>;
+  start(options?: StartOptions): Promise<void>;
   /**
    * Indicates whether the Bridgefy SDK is currently started.
    *
@@ -193,9 +193,9 @@ export interface BridgefyPlugin {
    */
   addListener(eventName: 'onStarted', listenerFunc: OnStartedListener): Promise<PluginListenerHandle>;
   addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener): Promise<PluginListenerHandle>;
-  addListener(eventName: 'onStopped', listenerFunc: () => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onStopped', listenerFunc: OnStoppedListener): Promise<PluginListenerHandle>;
   addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener): Promise<PluginListenerHandle>;
-  addListener(eventName: 'onDestroySession', listenerFunc: () => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onDestroySession', listenerFunc: OnDestroySessionListener): Promise<PluginListenerHandle>;
   addListener(
     eventName: 'onFailToDestroySession',
     listenerFunc: OnFailToDestroySessionListener,
@@ -297,6 +297,7 @@ export interface OnFailToStartEvent {
    */
   reason: Reason;
 }
+export type OnStoppedListener = () => void;
 export type OnFailToStopListener = (event: OnFailToStopEvent) => void;
 export interface OnFailToStopEvent {
   /**
@@ -306,6 +307,7 @@ export interface OnFailToStopEvent {
    */
   reason: Reason;
 }
+export type OnDestroySessionListener = () => void;
 export type OnFailToDestroySessionListener = (event: OnFailToDestroySessionEvent) => void;
 export interface OnFailToDestroySessionEvent {
   /**
