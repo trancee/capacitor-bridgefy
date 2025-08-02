@@ -7,14 +7,14 @@ declare module '@capacitor/cli' {
     /**
      * These configuration values are available:
      *
-     * @since 0.1.0
+     * @since 1.0.0
      */
     Bridgefy?: {
       /**
        * The API key for Bridgefy.
        *
        * @example '123e4567-e89b-12d3-a456-426614174000'
-       * @since 0.1.0
+       * @since 1.0.0
        */
       apiKey?: UUID;
 
@@ -23,7 +23,7 @@ declare module '@capacitor/cli' {
        *
        * @default false
        * @example true
-       * @since 0.1.0
+       * @since 1.0.0
        */
       verboseLogging?: boolean;
     };
@@ -60,33 +60,33 @@ export interface BridgefyPlugin {
    *
    * An Internet connection is needed at least for the first time in order to validate the license.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   initialize(options: InitializeOptions): Promise<void>;
   /**
    * Checks if the Bridgefy SDK has been initialized.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   isInitialized(): Promise<IsInitializedResult>;
 
   /**
    * Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy network.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   start(options: StartOptions): Promise<void>;
   /**
    * Indicates whether the Bridgefy SDK is currently started.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   isStarted(): Promise<IsStartedResult>;
 
   /**
    * Stops Bridgefy operations and releases associated resources.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   stop(): Promise<void>;
 
@@ -97,7 +97,7 @@ export interface BridgefyPlugin {
   /**
    * Retrieves the expiration date of the Bridgefy license.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   licenseExpirationDate(): Promise<LicenseExpirationDateResult>;
 
@@ -106,7 +106,7 @@ export interface BridgefyPlugin {
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   updateLicense(): Promise<void>;
 
@@ -117,21 +117,21 @@ export interface BridgefyPlugin {
   /**
    * Destroys the current session, terminating any active connections and cleaning up resources.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   destroySession(): Promise<void>;
 
   /**
    * Retrieves the `UUID` of the current Bridgefy user.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   currentUserID(): Promise<CurrentUserIDResult>;
 
   /**
    * Retrieves a list of `UUID`s representing the connected peers in the current session.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   connectedPeers(): Promise<ConnectedPeersResult>;
 
@@ -142,21 +142,21 @@ export interface BridgefyPlugin {
   /**
    * Establishes a secure connection with the user.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   establishSecureConnection(options: EstablishSecureConnectionOptions): Promise<void>;
 
   /**
    * Generates a fingerprint for the secure connection established with a specified user.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   fingerprint(options: FingerprintOptions): Promise<FingerprintResult>;
 
   /**
    * Verifies the validity of a fingerprint for a particular user.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   isFingerprintValid(options: IsFingerprintValidOptions): Promise<IsFingerprintValidResult>;
 
@@ -167,7 +167,7 @@ export interface BridgefyPlugin {
   /**
    * Sends data using a specific transmission mode.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   send(options: SendOptions): Promise<SendResult>;
 
@@ -178,13 +178,13 @@ export interface BridgefyPlugin {
   /**
    * Check for the appropriate permissions to use Nearby.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   checkPermissions(): Promise<PermissionStatus>;
   /**
    * Request the appropriate permissions to use Nearby.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   requestPermissions(permissions?: Permissions): Promise<PermissionStatus>;
 
@@ -208,13 +208,13 @@ export interface BridgefyPlugin {
   /**
    * When a peer has established connection.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener): Promise<PluginListenerHandle>;
   /**
    * When a peer is disconnected (out of range).
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener): Promise<PluginListenerHandle>;
   /**
@@ -222,14 +222,14 @@ export interface BridgefyPlugin {
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListener): Promise<PluginListenerHandle>;
 
   /**
    * When an on-demand secure connection was successfully established.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(
     eventName: 'onEstablishSecureConnection',
@@ -238,7 +238,7 @@ export interface BridgefyPlugin {
   /**
    * When an on-demand secure connection failed to establish.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(
     eventName: 'onFailToEstablishSecureConnection',
@@ -252,13 +252,13 @@ export interface BridgefyPlugin {
   /**
    * When a message is sent.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onSend', listenerFunc: OnSendListener): Promise<PluginListenerHandle>;
   /**
    * When a message fails to send.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener): Promise<PluginListenerHandle>;
   /**
@@ -266,20 +266,20 @@ export interface BridgefyPlugin {
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener): Promise<PluginListenerHandle>;
   /**
    * When data is received.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener): Promise<PluginListenerHandle>;
 
   /**
    * Remove all listeners for this plugin.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   removeAllListeners(): Promise<void>;
 }
@@ -293,7 +293,7 @@ export interface OnFailToStartEvent {
   /**
    * The reason for the failure.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   reason: Reason;
 }
@@ -302,7 +302,7 @@ export interface OnFailToStopEvent {
   /**
    * The reason for the failure.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   reason: Reason;
 }
@@ -311,7 +311,7 @@ export interface OnFailToDestroySessionEvent {
   /**
    * The reason for the failure.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   reason: Reason;
 }
@@ -321,7 +321,7 @@ export interface OnConnectedEvent {
   /**
    * Identifier of the peer that has established a connection.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   peerID: PeerID;
 }
@@ -330,7 +330,7 @@ export interface OnDisconnectedEvent {
   /**
    * Identifier of the disconnected peer.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   peerID: PeerID;
 }
@@ -339,7 +339,7 @@ export interface OnConnectedPeersEvent {
   /**
    * List of identifiers of the connected peers.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   peers: PeerID[];
 }
@@ -349,7 +349,7 @@ export interface OnEstablishSecureConnectionEvent {
   /**
    * Identifier of the user with whom the secure connection is established.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   userID: UserID;
 }
@@ -358,13 +358,13 @@ export interface OnFailToEstablishSecureConnectionEvent {
   /**
    * Identifier of the user with whom the secure connection was attempted.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   userID: UserID;
   /**
    * The reason for the failure.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   reason: Reason;
 }
@@ -374,7 +374,7 @@ export interface OnSendEvent {
   /**
    * Identifier of the sent message.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   messageID: MessageID;
 }
@@ -383,13 +383,13 @@ export interface OnFailToSendEvent {
   /**
    * Identifier of the failed message.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   messageID: MessageID;
   /**
    * The reason for the failure.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   reason: Reason;
 }
@@ -398,19 +398,19 @@ export interface OnProgressOfSendEvent {
   /**
    * Identifier of the message being sent.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   messageID: MessageID;
   /**
    * Current position of the message being sent.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   position: number;
   /**
    * Total size of the message being sent.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   of: number;
 }
@@ -419,51 +419,51 @@ export interface OnReceiveDataEvent {
   /**
    * Identifier of the received message.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   messageID: MessageID;
   /**
    * The received data, encoded as a `Base64` string.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   data: Base64;
   /**
    * The transmission mode used when sending the message.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   transmissionMode: TransmissionMode;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface InitializeOptions {
   /**
    * The API key for Bridgefy.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   apiKey?: UUID;
 
   /**
    * If `true`, enables verbose logging for debugging purposes.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   verboseLogging?: boolean;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface IsInitializedResult {
   isInitialized?: boolean;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface StartOptions {
   /**
@@ -482,14 +482,14 @@ export interface StartOptions {
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface IsStartedResult {
   isStarted?: boolean;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface LicenseExpirationDateResult {
   /**
@@ -498,27 +498,27 @@ export interface LicenseExpirationDateResult {
    * The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch).
    * This timestamp is timezone-agnostic and uniquely defines an instant in history.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   licenseExpirationDate?: number;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface CurrentUserIDResult {
   userID?: UserID;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface ConnectedPeersResult {
   peers?: PeerID[];
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface SendOptions {
   data: Base64;
@@ -526,48 +526,48 @@ export interface SendOptions {
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface SendResult {
   messageID: MessageID;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface EstablishSecureConnectionOptions {
   userID: UserID;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface FingerprintOptions {
   userID: UserID;
 }
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface FingerprintResult {
   fingerprint?: Base64;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface IsFingerprintValidOptions {
   userID: UserID;
   fingerprint: Base64;
 }
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface IsFingerprintValidResult {
   isValid: boolean;
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface Reason {
   type: ReasonType;
@@ -576,7 +576,7 @@ export interface Reason {
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface PermissionStatus {
   /**
@@ -600,12 +600,12 @@ export interface PermissionStatus {
 }
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export type PermissionType = 'bluetooth' | 'location';
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 export interface Permissions {
   permissions: PermissionType[];
@@ -630,21 +630,21 @@ export enum TransmissionType {
   /**
    * Propagate a message readable by every device that receives it.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BROADCAST = 'broadcast',
 
   /**
    * Deliver a message to a specific recipient using nearby devices to propagate it.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   MESH = 'mesh',
 
   /**
    * Deliver a message to a specific recipient only if there's an active connection with it.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   P2P = 'p2p',
 }
@@ -653,31 +653,31 @@ export enum PropagationProfile {
   /**
    * Represents a standard propagation profile.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   STANDARD = 'standard',
   /**
    * Indicates a propagation profile suitable for high-density networks.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   HIGH_DENSITY_ENVIRONMENT = 'highDensityEnvironment',
   /**
    * Represents a propagation profile tailored for sparse networks.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SPARSE_ENVIRONMENT = 'sparseEnvironment',
   /**
    * Indicates a propagation profile optimized for long reach.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   LONG_REACH = 'longReach',
   /**
    * Represents a propagation profile designed for short reach communication.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SHORT_REACH = 'shortReach',
 }
@@ -686,43 +686,43 @@ export enum ReasonType {
   /**
    * The Bridgefy SDK is already running.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   ALREADY_STARTED = 'alreadyStarted',
   /**
    * The license is expired.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   EXPIRED_LICENSE = 'expiredLicense',
   /**
    * The device's time has been modified.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   INCONSISTENT_DEVICE_TIME = 'inconsistentDeviceTime',
   /**
    * An internet connection is required to validate the license.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   INTERNET_CONNECTION_REQUIRED = 'internetConnectionRequired',
   /**
    * The provided API key is invalid.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   INVALID_API_KEY = 'invalidAPIKey',
   /**
    * An error occurred while creating the session.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SESSION_ERROR = 'sessionError',
   /**
    * The Bridgefy SDK cannot run in the simulator.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SIMULATOR_IS_NOT_SUPPORTED = 'simulatorIsNotSupported',
 
@@ -731,43 +731,43 @@ export enum ReasonType {
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   DEVICE_CAPABILITIES = 'deviceCapabilities',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   GENERIC = 'generic',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   MISSING_APPLICATION_ID = 'missingApplicationID',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   PERMISSION = 'permission',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   REGISTRATION = 'registration',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SIZE_LIMIT_EXCEEDED = 'sizeLimitExceeded',
   /**
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   UNKNOWN = 'unknown',
 
@@ -778,7 +778,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   MISSING_BUNDLE_ID = 'missingBundleID',
   /**
@@ -786,7 +786,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   INCONSISTENT_USER_ID = 'inconsistentUserID',
   /**
@@ -794,7 +794,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   NOT_STARTED = 'notStarted',
   /**
@@ -802,7 +802,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   ALREADY_INSTANTIATED = 'alreadyInstantiated',
   /**
@@ -810,7 +810,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   START_IN_PROGRESS = 'startInProgress',
   /**
@@ -818,7 +818,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   STOP_IN_PROGRESS = 'stopInProgress',
   /**
@@ -826,7 +826,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   DESTROY_SESSION_IN_PROGRESS = 'destroySessionInProgress',
   /**
@@ -834,7 +834,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   SERVICE_NOT_STARTED = 'serviceNotStarted',
   /**
@@ -842,7 +842,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BLE_USAGE_NOT_GRANTED = 'BLEUsageNotGranted',
   /**
@@ -850,7 +850,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BLE_USAGE_RESTRICTED = 'BLEUsageRestricted',
   /**
@@ -858,7 +858,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BLE_POWERED_OFF = 'BLEPoweredOff',
   /**
@@ -866,7 +866,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BLE_UNSUPPORTED = 'BLEUnsupported',
   /**
@@ -874,7 +874,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   BLE_UNKNOWN_ERROR = 'BLEUnknownError',
 
@@ -887,7 +887,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   DATA_LENGTH_EXCEEDED = 'dataLengthExceeded',
   /**
@@ -895,7 +895,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   DATA_VALUE_IS_EMPTY = 'dataValueIsEmpty',
   /**
@@ -903,7 +903,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   PEER_IS_NOT_CONNECTED = 'peerIsNotConnected',
 
@@ -912,7 +912,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   INTERNAL_ERROR = 'internalError',
   /**
@@ -920,7 +920,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   LICENSE_ERROR = 'licenseError',
   /**
@@ -928,7 +928,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   STORAGE_ERROR = 'storageError',
   /**
@@ -936,7 +936,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   ENCODING_ERROR = 'encodingError',
   /**
@@ -944,7 +944,7 @@ export enum ReasonType {
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
-   * @since 0.1.0
+   * @since 1.0.0
    */
   ENCRYPTION_ERROR = 'encryptionError',
 }

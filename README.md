@@ -81,8 +81,8 @@ These configuration values are available:
 
 | Prop                 | Type                                  | Description                                                | Default            | Since |
 | -------------------- | ------------------------------------- | ---------------------------------------------------------- | ------------------ | ----- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 0.1.0 |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 0.1.0 |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 1.0.0 |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 1.0.0 |
 
 ### Examples
 
@@ -179,7 +179,7 @@ An Internet connection is needed at least for the first time in order to validat
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#initializeoptions">InitializeOptions</a></code> |
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -194,7 +194,7 @@ Checks if the Bridgefy SDK has been initialized.
 
 **Returns:** <code>Promise&lt;<a href="#isinitializedresult">IsInitializedResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -211,7 +211,7 @@ Starts Bridgefy operations, allowing the SDK to participate in the Bridgefy netw
 | ------------- | ----------------------------------------------------- |
 | **`options`** | <code><a href="#startoptions">StartOptions</a></code> |
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -226,7 +226,7 @@ Indicates whether the Bridgefy SDK is currently started.
 
 **Returns:** <code>Promise&lt;<a href="#isstartedresult">IsStartedResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -239,7 +239,7 @@ stop() => Promise<void>
 
 Stops Bridgefy operations and releases associated resources.
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -254,7 +254,7 @@ Retrieves the expiration date of the Bridgefy license.
 
 **Returns:** <code>Promise&lt;<a href="#licenseexpirationdateresult">LicenseExpirationDateResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -269,7 +269,7 @@ Updates the Bridgefy license, if necessary.
 
 ![Android](assets/android.svg) Only available for Android.
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -282,7 +282,7 @@ destroySession() => Promise<void>
 
 Destroys the current session, terminating any active connections and cleaning up resources.
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -297,7 +297,7 @@ Retrieves the <a href="#uuid">`UUID`</a> of the current Bridgefy user.
 
 **Returns:** <code>Promise&lt;<a href="#currentuseridresult">CurrentUserIDResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -312,7 +312,7 @@ Retrieves a list of `UUID`s representing the connected peers in the current sess
 
 **Returns:** <code>Promise&lt;<a href="#connectedpeersresult">ConnectedPeersResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -329,7 +329,7 @@ Establishes a secure connection with the user.
 | ------------- | --------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#establishsecureconnectionoptions">EstablishSecureConnectionOptions</a></code> |
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -348,7 +348,7 @@ Generates a fingerprint for the secure connection established with a specified u
 
 **Returns:** <code>Promise&lt;<a href="#fingerprintresult">FingerprintResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -367,7 +367,7 @@ Verifies the validity of a fingerprint for a particular user.
 
 **Returns:** <code>Promise&lt;<a href="#isfingerprintvalidresult">IsFingerprintValidResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -386,7 +386,7 @@ Sends data using a specific transmission mode.
 
 **Returns:** <code>Promise&lt;<a href="#sendresult">SendResult</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -401,7 +401,7 @@ Check for the appropriate permissions to use Nearby.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -420,7 +420,7 @@ Request the appropriate permissions to use Nearby.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -538,7 +538,7 @@ When a peer has established connection.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -558,7 +558,7 @@ When a peer is disconnected (out of range).
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -580,7 +580,7 @@ When a device is detected, notifies the list of connected users.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -600,7 +600,7 @@ When an on-demand secure connection was successfully established.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -620,7 +620,7 @@ When an on-demand secure connection failed to establish.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -640,7 +640,7 @@ When a message is sent.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -660,7 +660,7 @@ When a message fails to send.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -682,7 +682,7 @@ When sending progress update.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -702,7 +702,7 @@ When data is received.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -715,7 +715,7 @@ removeAllListeners() => Promise<void>
 
 Remove all listeners for this plugin.
 
-**Since:** 0.1.0
+**Since:** 1.0.0
 
 --------------------
 
@@ -727,8 +727,8 @@ Remove all listeners for this plugin.
 
 | Prop                 | Type                                  | Description                                                | Since |
 | -------------------- | ------------------------------------- | ---------------------------------------------------------- | ----- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  | 0.1.0 |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | 0.1.0 |
+| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  | 1.0.0 |
+| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | 1.0.0 |
 
 
 #### IsInitializedResult
@@ -757,7 +757,7 @@ Remove all listeners for this plugin.
 
 | Prop                        | Type                | Description                                                                                                                                                                                                                                                                              | Since |
 | --------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`licenseExpirationDate`** | <code>number</code> | The expiration date of the license. The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch). This timestamp is timezone-agnostic and uniquely defines an instant in history. | 0.1.0 |
+| **`licenseExpirationDate`** | <code>number</code> | The expiration date of the license. The time in milliseconds that has elapsed since the epoch, which is defined as the midnight at the beginning of January 1, 1970, UTC (equivalent to the UNIX epoch). This timestamp is timezone-agnostic and uniquely defines an instant in history. | 1.0.0 |
 
 
 #### CurrentUserIDResult
@@ -875,7 +875,7 @@ Sends the packet only when the receiver is in range.
 
 | Prop         | Type                                      | Description                 | Since |
 | ------------ | ----------------------------------------- | --------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 1.0.0 |
 
 
 #### Reason
@@ -891,83 +891,83 @@ Sends the packet only when the receiver is in range.
 
 | Prop         | Type                                      | Description                 | Since |
 | ------------ | ----------------------------------------- | --------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 1.0.0 |
 
 
 #### OnFailToDestroySessionEvent
 
 | Prop         | Type                                      | Description                 | Since |
 | ------------ | ----------------------------------------- | --------------------------- | ----- |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 0.1.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure. | 1.0.0 |
 
 
 #### OnConnectedEvent
 
 | Prop         | Type                                      | Description                                               | Since |
 | ------------ | ----------------------------------------- | --------------------------------------------------------- | ----- |
-| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the peer that has established a connection. | 0.1.0 |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the peer that has established a connection. | 1.0.0 |
 
 
 #### OnDisconnectedEvent
 
 | Prop         | Type                                      | Description                          | Since |
 | ------------ | ----------------------------------------- | ------------------------------------ | ----- |
-| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the disconnected peer. | 0.1.0 |
+| **`peerID`** | <code><a href="#peerid">PeerID</a></code> | Identifier of the disconnected peer. | 1.0.0 |
 
 
 #### OnConnectedPeersEvent
 
 | Prop        | Type                | Description                                 | Since |
 | ----------- | ------------------- | ------------------------------------------- | ----- |
-| **`peers`** | <code>UUID[]</code> | List of identifiers of the connected peers. | 0.1.0 |
+| **`peers`** | <code>UUID[]</code> | List of identifiers of the connected peers. | 1.0.0 |
 
 
 #### OnEstablishSecureConnectionEvent
 
 | Prop         | Type                                      | Description                                                            | Since |
 | ------------ | ----------------------------------------- | ---------------------------------------------------------------------- | ----- |
-| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection is established. | 0.1.0 |
+| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection is established. | 1.0.0 |
 
 
 #### OnFailToEstablishSecureConnectionEvent
 
 | Prop         | Type                                      | Description                                                           | Since |
 | ------------ | ----------------------------------------- | --------------------------------------------------------------------- | ----- |
-| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection was attempted. | 0.1.0 |
-| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure.                                           | 0.1.0 |
+| **`userID`** | <code><a href="#userid">UserID</a></code> | Identifier of the user with whom the secure connection was attempted. | 1.0.0 |
+| **`reason`** | <code><a href="#reason">Reason</a></code> | The reason for the failure.                                           | 1.0.0 |
 
 
 #### OnSendEvent
 
 | Prop            | Type                                            | Description                     | Since |
 | --------------- | ----------------------------------------------- | ------------------------------- | ----- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the sent message. | 0.1.0 |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the sent message. | 1.0.0 |
 
 
 #### OnFailToSendEvent
 
 | Prop            | Type                                            | Description                       | Since |
 | --------------- | ----------------------------------------------- | --------------------------------- | ----- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the failed message. | 0.1.0 |
-| **`reason`**    | <code><a href="#reason">Reason</a></code>       | The reason for the failure.       | 0.1.0 |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the failed message. | 1.0.0 |
+| **`reason`**    | <code><a href="#reason">Reason</a></code>       | The reason for the failure.       | 1.0.0 |
 
 
 #### OnProgressOfSendEvent
 
 | Prop            | Type                                            | Description                                 | Since |
 | --------------- | ----------------------------------------------- | ------------------------------------------- | ----- |
-| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the message being sent.       | 0.1.0 |
-| **`position`**  | <code>number</code>                             | Current position of the message being sent. | 0.1.0 |
-| **`of`**        | <code>number</code>                             | Total size of the message being sent.       | 0.1.0 |
+| **`messageID`** | <code><a href="#messageid">MessageID</a></code> | Identifier of the message being sent.       | 1.0.0 |
+| **`position`**  | <code>number</code>                             | Current position of the message being sent. | 1.0.0 |
+| **`of`**        | <code>number</code>                             | Total size of the message being sent.       | 1.0.0 |
 
 
 #### OnReceiveDataEvent
 
 | Prop                   | Type                                                          | Description                                                            | Since |
 | ---------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ----- |
-| **`messageID`**        | <code><a href="#messageid">MessageID</a></code>               | Identifier of the received message.                                    | 0.1.0 |
-| **`data`**             | <code><a href="#base64">Base64</a></code>                     | The received data, encoded as a <a href="#base64">`Base64`</a> string. | 0.1.0 |
-| **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> | The transmission mode used when sending the message.                   | 0.1.0 |
+| **`messageID`**        | <code><a href="#messageid">MessageID</a></code>               | Identifier of the received message.                                    | 1.0.0 |
+| **`data`**             | <code><a href="#base64">Base64</a></code>                     | The received data, encoded as a <a href="#base64">`Base64`</a> string. | 1.0.0 |
+| **`transmissionMode`** | <code><a href="#transmissionmode">TransmissionMode</a></code> | The transmission mode used when sending the message.                   | 1.0.0 |
 
 
 ### Type Aliases
@@ -1080,63 +1080,63 @@ Sends the packet only when the receiver is in range.
 
 | Members                        | Value                                 | Description                                                              | Since |
 | ------------------------------ | ------------------------------------- | ------------------------------------------------------------------------ | ----- |
-| **`STANDARD`**                 | <code>'standard'</code>               | Represents a standard propagation profile.                               | 0.1.0 |
-| **`HIGH_DENSITY_ENVIRONMENT`** | <code>'highDensityEnvironment'</code> | Indicates a propagation profile suitable for high-density networks.      | 0.1.0 |
-| **`SPARSE_ENVIRONMENT`**       | <code>'sparseEnvironment'</code>      | Represents a propagation profile tailored for sparse networks.           | 0.1.0 |
-| **`LONG_REACH`**               | <code>'longReach'</code>              | Indicates a propagation profile optimized for long reach.                | 0.1.0 |
-| **`SHORT_REACH`**              | <code>'shortReach'</code>             | Represents a propagation profile designed for short reach communication. | 0.1.0 |
+| **`STANDARD`**                 | <code>'standard'</code>               | Represents a standard propagation profile.                               | 1.0.0 |
+| **`HIGH_DENSITY_ENVIRONMENT`** | <code>'highDensityEnvironment'</code> | Indicates a propagation profile suitable for high-density networks.      | 1.0.0 |
+| **`SPARSE_ENVIRONMENT`**       | <code>'sparseEnvironment'</code>      | Represents a propagation profile tailored for sparse networks.           | 1.0.0 |
+| **`LONG_REACH`**               | <code>'longReach'</code>              | Indicates a propagation profile optimized for long reach.                | 1.0.0 |
+| **`SHORT_REACH`**              | <code>'shortReach'</code>             | Represents a propagation profile designed for short reach communication. | 1.0.0 |
 
 
 #### TransmissionType
 
 | Members         | Value                    | Description                                                                             | Since |
 | --------------- | ------------------------ | --------------------------------------------------------------------------------------- | ----- |
-| **`BROADCAST`** | <code>'broadcast'</code> | Propagate a message readable by every device that receives it.                          | 0.1.0 |
-| **`MESH`**      | <code>'mesh'</code>      | Deliver a message to a specific recipient using nearby devices to propagate it.         | 0.1.0 |
-| **`P2P`**       | <code>'p2p'</code>       | Deliver a message to a specific recipient only if there's an active connection with it. | 0.1.0 |
+| **`BROADCAST`** | <code>'broadcast'</code> | Propagate a message readable by every device that receives it.                          | 1.0.0 |
+| **`MESH`**      | <code>'mesh'</code>      | Deliver a message to a specific recipient using nearby devices to propagate it.         | 1.0.0 |
+| **`P2P`**       | <code>'p2p'</code>       | Deliver a message to a specific recipient only if there's an active connection with it. | 1.0.0 |
 
 
 #### ReasonType
 
 | Members                               | Value                                       | Description                                                                                                              | Since |
 | ------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
-| **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                                                     | 0.1.0 |
-| **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                                                  | 0.1.0 |
-| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                                                     | 0.1.0 |
-| **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                                              | 0.1.0 |
-| **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                                         | 0.1.0 |
-| **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                                            | 0.1.0 |
-| **`SIMULATOR_IS_NOT_SUPPORTED`**      | <code>'simulatorIsNotSupported'</code>      | The Bridgefy SDK cannot run in the simulator.                                                                            | 0.1.0 |
-| **`DEVICE_CAPABILITIES`**             | <code>'deviceCapabilities'</code>           | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`GENERIC`**                         | <code>'generic'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`MISSING_APPLICATION_ID`**          | <code>'missingApplicationID'</code>         | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`PERMISSION`**                      | <code>'permission'</code>                   | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`REGISTRATION`**                    | <code>'registration'</code>                 | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`UNKNOWN`**                         | <code>'unknown'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 0.1.0 |
-| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 0.1.0 |
-| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserID'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 0.1.0 |
-| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 0.1.0 |
-| **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
-| **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. ![iOS](assets/ios.svg) Only available for iOS.                         | 0.1.0 |
-| **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
-| **`DESTROY_SESSION_IN_PROGRESS`**     | <code>'destroySessionInProgress'</code>     | The Bridgefy SDK is destroying the current session. ![iOS](assets/ios.svg) Only available for iOS.                       | 0.1.0 |
-| **`SERVICE_NOT_STARTED`**             | <code>'serviceNotStarted'</code>            | The Bridgefy SDK service is not started. ![iOS](assets/ios.svg) Only available for iOS.                                  | 0.1.0 |
-| **`BLE_USAGE_NOT_GRANTED`**           | <code>'BLEUsageNotGranted'</code>           | The user does not allow the use of BLE. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
-| **`BLE_USAGE_RESTRICTED`**            | <code>'BLEUsageRestricted'</code>           | The use of BLE in this device is restricted. ![iOS](assets/ios.svg) Only available for iOS.                              | 0.1.0 |
-| **`BLE_POWERED_OFF`**                 | <code>'BLEPoweredOff'</code>                | The BLE antenna has been turned off. ![iOS](assets/ios.svg) Only available for iOS.                                      | 0.1.0 |
-| **`BLE_UNSUPPORTED`**                 | <code>'BLEUnsupported'</code>               | The usage of BLE is not supported in the device. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
-| **`BLE_UNKNOWN_ERROR`**               | <code>'BLEUnknownError'</code>              | BLE usage failed with an unknown error. ![iOS](assets/ios.svg) Only available for iOS.                                   | 0.1.0 |
+| **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                                                     | 1.0.0 |
+| **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                                                  | 1.0.0 |
+| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                                                     | 1.0.0 |
+| **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                                              | 1.0.0 |
+| **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                                         | 1.0.0 |
+| **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                                            | 1.0.0 |
+| **`SIMULATOR_IS_NOT_SUPPORTED`**      | <code>'simulatorIsNotSupported'</code>      | The Bridgefy SDK cannot run in the simulator.                                                                            | 1.0.0 |
+| **`DEVICE_CAPABILITIES`**             | <code>'deviceCapabilities'</code>           | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`GENERIC`**                         | <code>'generic'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`MISSING_APPLICATION_ID`**          | <code>'missingApplicationID'</code>         | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`PERMISSION`**                      | <code>'permission'</code>                   | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`REGISTRATION`**                    | <code>'registration'</code>                 | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`UNKNOWN`**                         | <code>'unknown'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
+| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 1.0.0 |
+| **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserID'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 1.0.0 |
+| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 1.0.0 |
+| **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. ![iOS](assets/ios.svg) Only available for iOS.                                   | 1.0.0 |
+| **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. ![iOS](assets/ios.svg) Only available for iOS.                         | 1.0.0 |
+| **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. ![iOS](assets/ios.svg) Only available for iOS.                          | 1.0.0 |
+| **`DESTROY_SESSION_IN_PROGRESS`**     | <code>'destroySessionInProgress'</code>     | The Bridgefy SDK is destroying the current session. ![iOS](assets/ios.svg) Only available for iOS.                       | 1.0.0 |
+| **`SERVICE_NOT_STARTED`**             | <code>'serviceNotStarted'</code>            | The Bridgefy SDK service is not started. ![iOS](assets/ios.svg) Only available for iOS.                                  | 1.0.0 |
+| **`BLE_USAGE_NOT_GRANTED`**           | <code>'BLEUsageNotGranted'</code>           | The user does not allow the use of BLE. ![iOS](assets/ios.svg) Only available for iOS.                                   | 1.0.0 |
+| **`BLE_USAGE_RESTRICTED`**            | <code>'BLEUsageRestricted'</code>           | The use of BLE in this device is restricted. ![iOS](assets/ios.svg) Only available for iOS.                              | 1.0.0 |
+| **`BLE_POWERED_OFF`**                 | <code>'BLEPoweredOff'</code>                | The BLE antenna has been turned off. ![iOS](assets/ios.svg) Only available for iOS.                                      | 1.0.0 |
+| **`BLE_UNSUPPORTED`**                 | <code>'BLEUnsupported'</code>               | The usage of BLE is not supported in the device. ![iOS](assets/ios.svg) Only available for iOS.                          | 1.0.0 |
+| **`BLE_UNKNOWN_ERROR`**               | <code>'BLEUnknownError'</code>              | BLE usage failed with an unknown error. ![iOS](assets/ios.svg) Only available for iOS.                                   | 1.0.0 |
 | **`INCONSISTENT_CONNECTION`**         | <code>'inconsistentConnection'</code>       |                                                                                                                          |       |
 | **`CONNECTION_IS_ALREADY_SECURE`**    | <code>'connectionIsAlreadySecure'</code>    |                                                                                                                          |       |
 | **`CANNOT_CREATE_SECURE_CONNECTION`** | <code>'cannotCreateSecureConnection'</code> |                                                                                                                          |       |
-| **`DATA_LENGTH_EXCEEDED`**            | <code>'dataLengthExceeded'</code>           | The length of the data exceed the maximum limit. ![iOS](assets/ios.svg) Only available for iOS.                          | 0.1.0 |
-| **`DATA_VALUE_IS_EMPTY`**             | <code>'dataValueIsEmpty'</code>             | The data to send is empty. ![iOS](assets/ios.svg) Only available for iOS.                                                | 0.1.0 |
-| **`PEER_IS_NOT_CONNECTED`**           | <code>'peerIsNotConnected'</code>           | The requested peer is not connected. ![iOS](assets/ios.svg) Only available for iOS.                                      | 0.1.0 |
-| **`INTERNAL_ERROR`**                  | <code>'internalError'</code>                | An internal error occurred. ![iOS](assets/ios.svg) Only available for iOS.                                               | 0.1.0 |
-| **`LICENSE_ERROR`**                   | <code>'licenseError'</code>                 | An error occurred while validating the license. ![iOS](assets/ios.svg) Only available for iOS.                           | 0.1.0 |
-| **`STORAGE_ERROR`**                   | <code>'storageError'</code>                 | An error occurred while storing data. ![iOS](assets/ios.svg) Only available for iOS.                                     | 0.1.0 |
-| **`ENCODING_ERROR`**                  | <code>'encodingError'</code>                | An error occurred while encoding the message. ![iOS](assets/ios.svg) Only available for iOS.                             | 0.1.0 |
-| **`ENCRYPTION_ERROR`**                | <code>'encryptionError'</code>              | An error occurred while encrypting the message. ![iOS](assets/ios.svg) Only available for iOS.                           | 0.1.0 |
+| **`DATA_LENGTH_EXCEEDED`**            | <code>'dataLengthExceeded'</code>           | The length of the data exceed the maximum limit. ![iOS](assets/ios.svg) Only available for iOS.                          | 1.0.0 |
+| **`DATA_VALUE_IS_EMPTY`**             | <code>'dataValueIsEmpty'</code>             | The data to send is empty. ![iOS](assets/ios.svg) Only available for iOS.                                                | 1.0.0 |
+| **`PEER_IS_NOT_CONNECTED`**           | <code>'peerIsNotConnected'</code>           | The requested peer is not connected. ![iOS](assets/ios.svg) Only available for iOS.                                      | 1.0.0 |
+| **`INTERNAL_ERROR`**                  | <code>'internalError'</code>                | An internal error occurred. ![iOS](assets/ios.svg) Only available for iOS.                                               | 1.0.0 |
+| **`LICENSE_ERROR`**                   | <code>'licenseError'</code>                 | An error occurred while validating the license. ![iOS](assets/ios.svg) Only available for iOS.                           | 1.0.0 |
+| **`STORAGE_ERROR`**                   | <code>'storageError'</code>                 | An error occurred while storing data. ![iOS](assets/ios.svg) Only available for iOS.                                     | 1.0.0 |
+| **`ENCODING_ERROR`**                  | <code>'encodingError'</code>                | An error occurred while encoding the message. ![iOS](assets/ios.svg) Only available for iOS.                             | 1.0.0 |
+| **`ENCRYPTION_ERROR`**                | <code>'encryptionError'</code>              | An error occurred while encrypting the message. ![iOS](assets/ios.svg) Only available for iOS.                           | 1.0.0 |
 
 </docgen-api>
