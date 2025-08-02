@@ -1020,7 +1020,7 @@ Sends the packet only when the receiver is in range.
 
 #### OnStoppedListener
 
-<code>(): void</code>
+<code>(event: void): void</code>
 
 
 #### OnFailToStopListener
@@ -1030,7 +1030,7 @@ Sends the packet only when the receiver is in range.
 
 #### OnDestroySessionListener
 
-<code>(): void</code>
+<code>(event: void): void</code>
 
 
 #### OnFailToDestroySessionListener

@@ -297,7 +297,7 @@ export interface OnFailToStartEvent {
    */
   reason: Reason;
 }
-export type OnStoppedListener = () => void;
+export type OnStoppedListener = (event: void) => void;
 export type OnFailToStopListener = (event: OnFailToStopEvent) => void;
 export interface OnFailToStopEvent {
   /**
@@ -307,7 +307,7 @@ export interface OnFailToStopEvent {
    */
   reason: Reason;
 }
-export type OnDestroySessionListener = () => void;
+export type OnDestroySessionListener = (event: void) => void;
 export type OnFailToDestroySessionListener = (event: OnFailToDestroySessionEvent) => void;
 export interface OnFailToDestroySessionEvent {
   /**
