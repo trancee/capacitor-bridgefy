@@ -10,7 +10,7 @@ let package = Package(
             targets: ["BridgefyPlugin"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0"),
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.4.2"),
         .package(url: "https://github.com/bridgefy/sdk-ios.git", from: "1.2.3")
     ],
     targets: [

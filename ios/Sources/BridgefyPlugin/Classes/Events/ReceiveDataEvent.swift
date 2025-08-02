@@ -23,7 +23,7 @@ import Capacitor
             var jsTransmissionMode = JSObject()
 
             jsTransmissionMode["type"] = transmissionMode.0
-            jsTransmissionMode["uuid"] = transmissionMode.1.uuidString
+            jsTransmissionMode["uuid"] = transmissionMode.1.uuidString.lowercased()
 
             result["transmissionMode"] = jsTransmissionMode
         }

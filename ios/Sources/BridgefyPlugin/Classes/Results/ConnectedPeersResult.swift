@@ -17,7 +17,7 @@ import Capacitor
             jsPeers.reserveCapacity(connectedPeers.count)
 
             for peer in connectedPeers {
-                jsPeers.append(peer.uuidString)
+                jsPeers.append(peer.uuidString.lowercased())
             }
 
             result["peers"] = jsPeers

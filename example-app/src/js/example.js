@@ -251,9 +251,9 @@ Bridgefy.addListener('onConnectedPeers',
     (event) => {
         logEvent(`onConnectedPeers(${JSON.stringify(event) || ""})`)
 
-        const connectedPeers = event.peerIDs
+        const peers = event.peers
 
-        connectedPeers.forEach(peerID => {
+        peers.forEach(peerID => {
             addOption(peerID, peerID)
         })
     })

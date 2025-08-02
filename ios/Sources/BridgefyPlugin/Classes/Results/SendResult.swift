@@ -12,7 +12,7 @@ import Capacitor
         var result = JSObject()
 
         if let messageID = messageID {
-            result["messageID"] = messageID.uuidString
+            result["messageID"] = messageID.uuidString.lowercased()
         }
 
         return result as AnyObject

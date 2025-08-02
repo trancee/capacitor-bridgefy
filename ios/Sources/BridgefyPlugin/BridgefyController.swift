@@ -51,7 +51,7 @@ import BridgefySDK
      */
 
     public func initialize(_ apiKey: UUID, _ verboseLogging: Bool? = false) throws {
-        bridgefy = try BridgefySDK.Bridgefy(withApiKey: apiKey.uuidString,
+        bridgefy = try BridgefySDK.Bridgefy(withApiKey: apiKey.uuidString.lowercased(),
                                             delegate: self,
                                             verboseLogging: verboseLogging ?? false)
     }

@@ -12,7 +12,7 @@ import Capacitor
         var result = JSObject()
 
         if let licenseExpirationDate = licenseExpirationDate {
-            result["licenseExpirationDate"] = licenseExpirationDate.timeIntervalSince1970
+            result["licenseExpirationDate"] = licenseExpirationDate.timeIntervalSince1970 * 1000
         }
 
         return result as AnyObject
