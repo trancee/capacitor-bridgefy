@@ -67,7 +67,7 @@ export interface BridgefyPlugin {
   /**
    * Initializes Bridgefy operations.
    *
-   * An Internet connection is needed at least for the first time in order to validate the license.
+   * _An Internet connection is needed at least for the first time in order to validate the license._
    *
    * @since 1.0.0
    */
@@ -476,27 +476,27 @@ export interface IsInitializedResult {
 /**
  * Propagation Profiles
  *
- * | Profile                  | Hops Limit[^1] |        TTL[^2] | Sharing Time[^3] | Maximum Propagation[^4] | Tracklist Limit[^5] |
- * | ------------------------ | -------------: | -------------: | ---------------: | ----------------------: | ------------------: |
- * | Standard                 |            100 |   86400   (1d) |            15000 |                     200 |                  50 |
- * | High Density Environment |             50 |    3600   (1h) |            10000 |                      50 |                  50 |
- * | Sparse Environment       |            100 |  302400 (3.5d) |            10000 |                     250 |                  50 |
- * | Long Reach               |            250 |  604800   (7d) |            15000 |                    1000 |                  50 |
- * | Short Reach              |             50 |    1800 (0.5d) |            10000 |                      50 |                  50 |
+ * | Profile                  | Hops Limit |        TTL | Sharing Time | Maximum Propagation | Tracklist Limit |
+ * | :----------------------- | ---------: | ---------: | -----------: | ------------------: | --------------: |
+ * | Standard                 |        100 | 400   (1d) |        15000 |                 200 |              50 |
+ * | High Density Environment |         50 | 600   (1h) |        10000 |                  50 |              50 |
+ * | Sparse Environment       |        100 | 400 (3.5d) |        10000 |                 250 |              50 |
+ * | Long Reach               |        250 | 800   (7d) |        15000 |                1000 |              50 |
+ * | Short Reach              |         50 | 800 (0.5d) |        10000 |                  50 |              50 |
  *
- * [^1] **Hops Limit**\
+ * **Hops Limit**\
  * The maximum number of hops a message can get. Each time a message is forwarded, is considered a hop.
  *
- * [^2] **TTL**\
+ * **TTL**\
  * Time to live, is the maximum amount of time a message can be propagated since its creation.
  *
- * [^3] **Sharing Time**\
+ * **Sharing Time**\
  * The maximum amount of time a message will be kept for forwarding.
  *
- * [^4] **Maximum Propagation**\
+ * **Maximum Propagation**\
  * The maximum number of times a message will be forwarded from a device.
  *
- * [^5] **Tracklist Limit**\
+ * **Tracklist Limit**\
  * The maximum number of UUID’s stored in an array to prevent sending the message to a peer which already forwarded the message.
  *
  * @since 1.0.0

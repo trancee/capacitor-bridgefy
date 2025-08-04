@@ -21,21 +21,21 @@ npx cap sync
 
 ### Android
 
-A summary of available runtime permissions used for Bluetooth Low Energy:
+A summary of available runtime permissions needed for using Bluetooth:
 
 | Minimum SDK | Maximum SDK | Permissions |
 | ----------: | ----------: | :---------- |
-|          18 |          22 | (No runtime permissions needed)
+|          18 |          22 | _(No runtime permissions needed)_
 |          23 |          28 | `android.permission.ACCESS_FINE_LOCATION`
-|          29 |          30 | `android.permissionACCESS_FINE_LOCATION`  `android.permission.ACCESS_BACKGROUND_LOCATION`[^1]
-|          31 |     Current | `android.permission.ACCESS_FINE_LOCATION`[^2]  `android.permission.BLUETOOTH_SCAN`  `android.permission.BLUETOOTH_ADVERTISE`  `android.permission.BLUETOOTH_CONNECT`
+|          29 |          30 | `android.permission.ACCESS_FINE_LOCATION`  `android.permission.ACCESS_BACKGROUND_LOCATION`<sup>1</sup>
+|          31 |     Current | `android.permission.ACCESS_FINE_LOCATION`<sup>2</sup>  `android.permission.BLUETOOTH_SCAN`  `android.permission.BLUETOOTH_ADVERTISE`  `android.permission.BLUETOOTH_CONNECT`
 
-[^1]: Needed if scan is performed in background  
-[^2]: Needed if scan derives physical location  
+<sup>1</sup> Needed if scan should run in background  
+<sup>2</sup> Needed if scan derives physical location  
 
 If your app does not use Bluetooth scan results to derive physical location, you can make a strong assertion that your app never uses the Bluetooth permissions to derive physical location.
 
-[Strongly assert that your app doesn't derive physical location](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#assert-never-for-location)
+🔗 [Strongly assert that your app doesn't derive physical location](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#assert-never-for-location)
 
 To use Bluetooth features in your app, you must declare the following permissions in your app’s manifest file:
 
@@ -71,7 +71,7 @@ To use Bluetooth features in your app, you must declare the following permission
 
 If you want to be able to scan in the background, you will have to add the following permission as well:
 
-[Access to device location in the background requires permission](https://developer.android.com/about/versions/10/privacy/changes#app-access-device-location)
+🔗 [Access to device location in the background requires permission](https://developer.android.com/about/versions/10/privacy/changes#app-access-device-location)
 
 ```xml
     <uses-permission
@@ -103,7 +103,7 @@ Add the following properties to your app’s Information Property List file:
 
 #### A message that tells people why the app needs access to Bluetooth.
 
-```plist
+```xml
 <key>NSBluetoothAlwaysUsageDescription</key>
 <string>This app requires Bluetooth access to communicate with other devices.</string>
 ```
@@ -113,7 +113,7 @@ Add the following properties to your app’s Information Property List file:
 
 #### A message that tells people why the app is requesting the ability to connect to Bluetooth peripherals.
 
-```plist
+```xml
 <key>NSBluetoothPeripheralUsageDescription</key>
 <string>This app requires Bluetooth access to communicate with other devices.</string>
 ```
@@ -225,7 +225,7 @@ initialize(options?: InitializeOptions | undefined) => Promise<void>
 
 Initializes Bridgefy operations.
 
-An Internet connection is needed at least for the first time in order to validate the license.
+_An Internet connection is needed at least for the first time in order to validate the license._
 
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
@@ -794,27 +794,27 @@ Remove all listeners for this plugin.
 
 Propagation Profiles
 
-| Profile                  | Hops Limit[^1] |        TTL[^2] | Sharing Time[^3] | Maximum Propagation[^4] | Tracklist Limit[^5] |
-| ------------------------ | -------------: | -------------: | ---------------: | ----------------------: | ------------------: |
-| Standard                 |            100 |   86400   (1d) |            15000 |                     200 |                  50 |
-| High Density Environment |             50 |    3600   (1h) |            10000 |                      50 |                  50 |
-| Sparse Environment       |            100 |  302400 (3.5d) |            10000 |                     250 |                  50 |
-| Long Reach               |            250 |  604800   (7d) |            15000 |                    1000 |                  50 |
-| Short Reach              |             50 |    1800 (0.5d) |            10000 |                      50 |                  50 |
+| Profile                  | Hops Limit |        TTL | Sharing Time | Maximum Propagation | Tracklist Limit |
+| :----------------------- | ---------: | ---------: | -----------: | ------------------: | --------------: |
+| Standard                 |        100 | 400   (1d) |        15000 |                 200 |              50 |
+| High Density Environment |         50 | 600   (1h) |        10000 |                  50 |              50 |
+| Sparse Environment       |        100 | 400 (3.5d) |        10000 |                 250 |              50 |
+| Long Reach               |        250 | 800   (7d) |        15000 |                1000 |              50 |
+| Short Reach              |         50 | 800 (0.5d) |        10000 |                  50 |              50 |
 
-[^1] **Hops Limit**\
+**Hops Limit**\
 The maximum number of hops a message can get. Each time a message is forwarded, is considered a hop.
 
-[^2] **TTL**\
+**TTL**\
 Time to live, is the maximum amount of time a message can be propagated since its creation.
 
-[^3] **Sharing Time**\
+**Sharing Time**\
 The maximum amount of time a message will be kept for forwarding.
 
-[^4] **Maximum Propagation**\
+**Maximum Propagation**\
 The maximum number of times a message will be forwarded from a device.
 
-[^5] **Tracklist Limit**\
+**Tracklist Limit**\
 The maximum number of UUID’s stored in an array to prevent sending the message to a peer which already forwarded the message.
 
 | Prop                     | Type                                                              | Description                                                                                                 | Default                                  |
