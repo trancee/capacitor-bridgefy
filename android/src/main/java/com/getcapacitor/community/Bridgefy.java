@@ -70,10 +70,12 @@ public class Bridgefy {
 
     public void start(@NonNull StartOptions options, @NonNull Callback callback) {
         @Nullable
-        UUID userID = options.getUserID();
+        UUID userID = options.getUserID() != null ? options.getUserID() : config.getUserID();
 
         @Nullable
-        String propagationProfile = options.getPropagationProfile();
+        String propagationProfile = options.getPropagationProfile() != null
+            ? options.getPropagationProfile()
+            : config.getPropagationProfile();
 
         bridgefy.start(userID, propagationProfile);
 

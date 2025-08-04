@@ -1,11 +1,14 @@
 package com.getcapacitor.community;
 
+import static com.getcapacitor.community.BridgefyHelper.getDeviceID;
 import static com.getcapacitor.community.BridgefyHelper.makeBoolean;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Pair;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -50,28 +53,17 @@ import org.json.JSONException;
     permissions = {
         @Permission(
             strings = {
-                // Required to be able to connect to paired Bluetooth devices.
-                Manifest.permission.BLUETOOTH_CONNECT,
+                // Required to be able to discover and pair nearby Bluetooth devices.
+                Manifest.permission.BLUETOOTH_SCAN,
                 // Required to be able to advertise to nearby Bluetooth devices.
                 Manifest.permission.BLUETOOTH_ADVERTISE,
-                // Required to be able to discover and pair nearby Bluetooth devices.
-                Manifest.permission.BLUETOOTH_SCAN
+                // Required to be able to connect to paired Bluetooth devices.
+                Manifest.permission.BLUETOOTH_CONNECT
             },
-            alias = "bluetoothNearby"
+            alias = "bluetooth"
         ),
         @Permission(
             strings = {
-                // Allows applications to connect to paired bluetooth devices.
-                Manifest.permission.BLUETOOTH,
-                // Allows applications to discover and pair bluetooth devices.
-                Manifest.permission.BLUETOOTH_ADMIN
-            },
-            alias = "bluetoothLegacy"
-        ),
-        @Permission(
-            strings = {
-                // Allows an app to access approximate location.
-                Manifest.permission.ACCESS_COARSE_LOCATION,
                 // Allows an app to access precise location.
                 Manifest.permission.ACCESS_FINE_LOCATION
             },
@@ -79,10 +71,10 @@ import org.json.JSONException;
         ),
         @Permission(
             strings = {
-                // Allows an app to access approximate location.
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                // Allows an app to access location in the background.
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
             },
-            alias = "locationCoarse"
+            alias = "background"
         )
     }
 )
@@ -316,8 +308,6 @@ public class BridgefyPlugin extends Plugin {
     @Override
     @PluginMethod
     public void checkPermissions(PluginCall call) {
-        // super.checkPermissions(call);
-
         Map<String, PermissionState> permissionsResult = getPermissionStates();
 
         if (permissionsResult.isEmpty()) {
@@ -337,64 +327,35 @@ public class BridgefyPlugin extends Plugin {
         }
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private List<String> getAliases() {
         List<String> aliases = new ArrayList<>();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            aliases.add("bluetoothNearby");
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            aliases.add("bluetoothNearby");
+        // SDK >= 31
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            aliases.add("bluetooth");
+        }
+
+        // SDK >= 23 && SDK <= 28
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             aliases.add("location");
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            aliases.add("bluetoothLegacy");
+        }
+        // SDK >= 29 && SDK <= 30
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
             aliases.add("location");
-        } else {
-            aliases.add("bluetoothLegacy");
-            aliases.add("locationCoarse");
+        }
+        // SDK >= 31
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasBackgroundLocation) {
+            // only required of doing background location
+            aliases.add("location");
+        }
+
+        // SDK >= 29 && SDK <= 30
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            aliases.add("background");
         }
 
         return aliases;
-    }
-
-    @Override
-    @PluginMethod
-    public void requestPermissions(PluginCall call) {
-        List<String> aliases = getAliases();
-
-        JSArray permissions = call.getArray("permissions");
-        if (permissions != null) {
-            try {
-                List<String> permissionsList = permissions.toList();
-                for (String permission : permissionsList) {
-                    switch (permission) {
-                        case "bluetooth":
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                aliases.add("bluetoothNearby");
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                aliases.add("bluetoothNearby");
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                aliases.add("bluetoothLegacy");
-                            } else {
-                                aliases.add("bluetoothLegacy");
-                            }
-                            break;
-                        case "location":
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                aliases.add("location");
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                aliases.add("location");
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                aliases.add("location");
-                            } else {
-                                aliases.add("locationCoarse");
-                            }
-                            break;
-                    }
-                }
-            } catch (JSONException ignored) {}
-        }
-
-        requestPermissionForAliases(aliases.toArray(new String[0]), call, "permissionsCallback");
     }
 
     @PermissionCallback
@@ -402,18 +363,92 @@ public class BridgefyPlugin extends Plugin {
         this.checkPermissions(call);
     }
 
+    @Override
+    @PluginMethod
+    @SuppressLint("ObsoleteSdkInt")
+    public void requestPermissions(PluginCall call) {
+        List<String> aliases = new ArrayList<>();
+
+        JSArray permissions = call.getArray("permissions");
+
+        if (permissions != null) {
+            try {
+                List<String> permissionsList = permissions.toList();
+                for (String permission : permissionsList) {
+                    switch (permission) {
+                        case "bluetooth":
+                            // SDK >= 31
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                aliases.add("bluetooth");
+                            }
+                            break;
+                        case "location":
+                            // SDK >= 23 && SDK <= 28
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                                aliases.add("location");
+                            }
+                            // SDK >= 29 && SDK <= 30
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+                                aliases.add("location");
+                            }
+                            // SDK >= 31
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasBackgroundLocation) {
+                                // only required of doing background location
+                                aliases.add("location");
+                            }
+                            break;
+                        case "background":
+                            // SDK >= 29 && SDK <= 30
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+                                aliases.add("background");
+                            }
+                    }
+                }
+            } catch (JSONException ignored) {
+                aliases = getAliases();
+            }
+        } else {
+            aliases = getAliases();
+        }
+
+        requestPermissionForAliases(aliases.toArray(new String[0]), call, "permissionsCallback");
+    }
+
     /**
      * Configuration
      */
 
+    boolean hasBackgroundLocation = false;
+
     private BridgefyConfig getBridgefyConfig() {
-        @NonNull
+        @Nullable
+        UUID userID = getDeviceID(getContext());
+
+        @Nullable
         String apiKey = getConfig().getString("apiKey");
 
         @Nullable
         Boolean verboseLogging = makeBoolean(getConfig().getString("verboseLogging"));
 
-        return new BridgefyConfig(apiKey, verboseLogging);
+        @Nullable
+        String propagationProfile = getConfig().getString("propagationProfile");
+
+        try {
+            PackageInfo packageInfo = getContext()
+                .getPackageManager()
+                .getPackageInfo(getContext().getPackageName(), PackageManager.GET_PERMISSIONS);
+            String[] permissions = packageInfo.requestedPermissions;
+            if (permissions != null) {
+                for (String permission : permissions) {
+                    if (permission.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                        hasBackgroundLocation = true;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+
+        return new BridgefyConfig(userID, apiKey, verboseLogging, propagationProfile);
     }
 
     /**

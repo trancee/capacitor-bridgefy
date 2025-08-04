@@ -26,6 +26,15 @@ declare module '@capacitor/cli' {
        * @since 1.0.0
        */
       verboseLogging?: boolean;
+
+      /**
+       * A profile that defines a series of properties and rules for the propagation of messages.
+       *
+       * @default PropagationProfile.STANDARD
+       * @example PropagationProfile.HIGH_DENSITY_ENVIRONMENT
+       * @since 1.1.0
+       */
+      propagationProfile?: PropagationProfile;
     };
   }
 }
@@ -176,17 +185,17 @@ export interface BridgefyPlugin {
    */
 
   /**
-   * Check for the appropriate permissions to use Nearby.
+   * Check for the appropriate permissions to use Bridgefy.
    *
    * @since 1.0.0
    */
   checkPermissions(): Promise<PermissionStatus>;
   /**
-   * Request the appropriate permissions to use Nearby.
+   * Request the appropriate permissions to use Bridgefy.
    *
    * @since 1.0.0
    */
-  requestPermissions(permissions?: Permissions): Promise<PermissionStatus>;
+  requestPermissions(options?: Permissions): Promise<PermissionStatus>;
 
   /**
    * Initialization Listeners
@@ -465,6 +474,31 @@ export interface IsInitializedResult {
 }
 
 /**
+ * Propagation Profiles
+ *
+ * | Profile                  | Hops Limit[^1] |        TTL[^2] | Sharing Time[^3] | Maximum Propagation[^4] | Tracklist Limit[^5] |
+ * | ------------------------ | -------------: | -------------: | ---------------: | ----------------------: | ------------------: |
+ * | Standard                 |            100 |   86400   (1d) |            15000 |                     200 |                  50 |
+ * | High Density Environment |             50 |    3600   (1h) |            10000 |                      50 |                  50 |
+ * | Sparse Environment       |            100 |  302400 (3.5d) |            10000 |                     250 |                  50 |
+ * | Long Reach               |            250 |  604800   (7d) |            15000 |                    1000 |                  50 |
+ * | Short Reach              |             50 |    1800 (0.5d) |            10000 |                      50 |                  50 |
+ *
+ * [^1] **Hops Limit**\
+ * The maximum number of hops a message can get. Each time a message is forwarded, is considered a hop.
+ *
+ * [^2] **TTL**\
+ * Time to live, is the maximum amount of time a message can be propagated since its creation.
+ *
+ * [^3] **Sharing Time**\
+ * The maximum amount of time a message will be kept for forwarding.
+ *
+ * [^4] **Maximum Propagation**\
+ * The maximum number of times a message will be forwarded from a device.
+ *
+ * [^5] **Tracklist Limit**\
+ * The maximum number of UUID’s stored in an array to prevent sending the message to a peer which already forwarded the message.
+ *
  * @since 1.0.0
  */
 export interface StartOptions {
@@ -589,37 +623,42 @@ export interface PermissionStatus {
    * `BLUETOOTH`  Allows applications to connect to paired bluetooth devices.
    * `BLUETOOTH_ADMIN`  Allows applications to discover and pair bluetooth devices.
    *
-   * @since 0.0.1
+   * @since 1.0.0
    */
-  bluetooth: PermissionState;
+  bluetooth?: PermissionState;
   /**
    * `ACCESS_FINE_LOCATION`  Allows an app to access precise location.
-   * `ACCESS_COARSE_LOCATION`  Allows an app to access approximate location.
    *
-   * @since 0.0.1
+   * @since 1.0.0
    */
-  location: PermissionState;
+  location?: PermissionState;
+  /**
+   * `ACCESS_BACKGROUND_LOCATION`  Allows an app to access location in the background.
+   *
+   * @since 1.1.0
+   */
+  background?: PermissionState;
 }
 
 /**
  * @since 1.0.0
  */
-export type PermissionType = 'bluetooth' | 'location';
+export type PermissionType = 'bluetooth' | 'location' | 'background';
 
 /**
  * @since 1.0.0
  */
 export interface Permissions {
-  permissions: PermissionType[];
+  permissions?: PermissionType[];
 }
 
 /**
  * There are several modes for sending packets:
  *
  * - **Broadcast**
- * Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
+ * Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn’t in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
  * - **Mesh**
- * Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+ * Sends the packet using mesh to only once receiver. It doesn’t need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
  * - **P2P**
  * Sends the packet only when the receiver is in range.
  */
@@ -644,7 +683,7 @@ export enum TransmissionType {
   MESH = 'mesh',
 
   /**
-   * Deliver a message to a specific recipient only if there's an active connection with it.
+   * Deliver a message to a specific recipient only if there’s an active connection with it.
    *
    * @since 1.0.0
    */
@@ -698,7 +737,7 @@ export enum ReasonType {
    */
   EXPIRED_LICENSE = 'expiredLicense',
   /**
-   * The device's time has been modified.
+   * The device’s time has been modified.
    *
    * @since 1.0.0
    */
@@ -776,7 +815,7 @@ export enum ReasonType {
   // iOS
 
   /**
-   * Cannot get app's bundle ID.
+   * Cannot get app’s bundle ID.
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *
@@ -792,7 +831,7 @@ export enum ReasonType {
    */
   INCONSISTENT_USER_ID = 'inconsistentUserID',
   /**
-   * The Bridgefy SDK hasn't been started.
+   * The Bridgefy SDK hasn’t been started.
    *
    * ![iOS](assets/ios.svg) Only available for iOS.
    *

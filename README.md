@@ -1,6 +1,6 @@
 # @capacitor-trancee/bridgefy
 
-Make your mobile app work without the Internet
+Bridgefy creates mesh networks in which devices connect directly to each other in a decentralized manner. This allows users to communicate with nearby devices within a certain range, forming a network without the need for a centralized server or Internet access.
 
 ## Install
 
@@ -15,74 +15,124 @@ npx cap sync
 ```
 
 ## Configuration
-    
+
+> [!NOTE]
+> An Internet connection is needed at least for the first time in order to validate the license.
+
 ### Android
 
-Add the following permissions to your app’s manifest:
+A summary of available runtime permissions used for Bluetooth Low Energy:
 
-```java
+| Minimum SDK | Maximum SDK | Permissions |
+| ----------: | ----------: | :---------- |
+|          18 |          22 | (No runtime permissions needed)
+|          23 |          28 | `android.permission.ACCESS_FINE_LOCATION`
+|          29 |          30 | `android.permissionACCESS_FINE_LOCATION`  `android.permission.ACCESS_BACKGROUND_LOCATION`[^1]
+|          31 |     Current | `android.permission.ACCESS_FINE_LOCATION`[^2]  `android.permission.BLUETOOTH_SCAN`  `android.permission.BLUETOOTH_ADVERTISE`  `android.permission.BLUETOOTH_CONNECT`
+
+[^1]: Needed if scan is performed in background  
+[^2]: Needed if scan derives physical location  
+
+If your app does not use Bluetooth scan results to derive physical location, you can make a strong assertion that your app never uses the Bluetooth permissions to derive physical location.
+
+[Strongly assert that your app doesn't derive physical location](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#assert-never-for-location)
+
+To use Bluetooth features in your app, you must declare the following permissions in your app’s manifest file:
+
+```xml
+    <!-- Request legacy Bluetooth permissions on older devices. -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
+    <!-- https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#discover-local-devices -->
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
-        
+
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADVERTISE"
         android:minSdkVersion="31" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_CONNECT"
         android:minSdkVersion="31" />
+    <!-- https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#assert-never-for-location -->
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:minSdkVersion="31"
         android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="s" />
-        
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION"
-        android:maxSdkVersion="28" />
-    <uses-permission
+        tools:targetApi="31" />
+
+    <uses-permission-sdk-23
         android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="31"
-        android:minSdkVersion="29"
-        tools:ignore="CoarseFineLocation" />
+        android:maxSdkVersion="30" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+```
+
+If you want to be able to scan in the background, you will have to add the following permission as well:
+
+[Access to device location in the background requires permission](https://developer.android.com/about/versions/10/privacy/changes#app-access-device-location)
+
+```xml
+    <uses-permission
+        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+        android:maxSdkVersion="30"
+        android:minSdkVersion="29" />
+```
+
+If your app relies on Bluetooth Low Energy, you can add this requirement to your app’s manifest file:
+
+```xml
+    <!-- https://developer.android.com/develop/connectivity/bluetooth/bt-permissions#features -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+```
+
+Additionally, add your Bridgefy API Key into the `application` component of your app’s manifest file:
+
+```xml
+        <meta-data
+            android:name="com.bridgefy.sdk.API_KEY"
+            android:value="123e4567-e89b-12d3-a456-426614174000" />
 ```
 
 ### iOS
 
 Add the following properties to your app’s Information Property List file:
 
-- A message that tells people why the app needs access to Bluetooth.
+#### A message that tells people why the app needs access to Bluetooth.
 
-```xml
+```plist
 <key>NSBluetoothAlwaysUsageDescription</key>
 <string>This app requires Bluetooth access to communicate with other devices.</string>
 ```
 
-> ⚠️ **Warning**  
-If your app has a deployment target earlier than iOS 13, add the `NSBluetoothPeripheralUsageDescription` key to your app’s Information Property List file in addition to this key.
+> [!IMPORTANT]
+> If your app has a deployment target earlier than iOS 13, add the `NSBluetoothPeripheralUsageDescription` key to your app’s Information Property List file in addition to this key.
 
-- A message that tells people why the app is requesting the ability to connect to Bluetooth peripherals.
+#### A message that tells people why the app is requesting the ability to connect to Bluetooth peripherals.
 
-```xml
+```plist
 <key>NSBluetoothPeripheralUsageDescription</key>
 <string>This app requires Bluetooth access to communicate with other devices.</string>
 ```
 
-> ⚠️ **Warning**  
-This key is required if your app uses APIs that access Bluetooth peripherals and has a deployment target earlier than iOS 13.
+> [!IMPORTANT]
+> This key is required if your app uses APIs that access Bluetooth peripherals and has a deployment target earlier than iOS 13.
+
+### Application
 
 <docgen-config>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
 These configuration values are available:
 
-| Prop                 | Type                                  | Description                                                | Default            | Since |
-| -------------------- | ------------------------------------- | ---------------------------------------------------------- | ------------------ | ----- |
-| **`apiKey`**         | <code><a href="#uuid">UUID</a></code> | The API key for Bridgefy.                                  |                    | 1.0.0 |
-| **`verboseLogging`** | <code>boolean</code>                  | If `true`, enables verbose logging for debugging purposes. | <code>false</code> | 1.0.0 |
+| Prop                     | Type                                                              | Description                                                                              | Default                                  | Since |
+| ------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------- | ----- |
+| **`apiKey`**             | <code><a href="#uuid">UUID</a></code>                             | The API key for Bridgefy.                                                                |                                          | 1.0.0 |
+| **`verboseLogging`**     | <code>boolean</code>                                              | If `true`, enables verbose logging for debugging purposes.                               | <code>false</code>                       | 1.0.0 |
+| **`propagationProfile`** | <code><a href="#propagationprofile">PropagationProfile</a></code> | A profile that defines a series of properties and rules for the propagation of messages. | <code>PropagationProfile.STANDARD</code> | 1.1.0 |
 
 ### Examples
 
@@ -93,7 +143,8 @@ In `capacitor.config.json`:
   "plugins": {
     "Bridgefy": {
       "apiKey": '123e4567-e89b-12d3-a456-426614174000',
-      "verboseLogging": true
+      "verboseLogging": true,
+      "propagationProfile": PropagationProfile.HIGH_DENSITY_ENVIRONMENT
     }
   }
 }
@@ -111,6 +162,7 @@ const config: CapacitorConfig = {
     Bridgefy: {
       apiKey: '123e4567-e89b-12d3-a456-426614174000',
       verboseLogging: true,
+      propagationProfile: PropagationProfile.HIGH_DENSITY_ENVIRONMENT,
     },
   },
 };
@@ -397,7 +449,7 @@ Sends data using a specific transmission mode.
 checkPermissions() => Promise<PermissionStatus>
 ```
 
-Check for the appropriate permissions to use Nearby.
+Check for the appropriate permissions to use Bridgefy.
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
@@ -409,14 +461,14 @@ Check for the appropriate permissions to use Nearby.
 ### requestPermissions(...)
 
 ```typescript
-requestPermissions(permissions?: Permissions | undefined) => Promise<PermissionStatus>
+requestPermissions(options?: Permissions | undefined) => Promise<PermissionStatus>
 ```
 
-Request the appropriate permissions to use Nearby.
+Request the appropriate permissions to use Bridgefy.
 
-| Param             | Type                                                |
-| ----------------- | --------------------------------------------------- |
-| **`permissions`** | <code><a href="#permissions">Permissions</a></code> |
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#permissions">Permissions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
 
@@ -740,6 +792,31 @@ Remove all listeners for this plugin.
 
 #### StartOptions
 
+Propagation Profiles
+
+| Profile                  | Hops Limit[^1] |        TTL[^2] | Sharing Time[^3] | Maximum Propagation[^4] | Tracklist Limit[^5] |
+| ------------------------ | -------------: | -------------: | ---------------: | ----------------------: | ------------------: |
+| Standard                 |            100 |   86400   (1d) |            15000 |                     200 |                  50 |
+| High Density Environment |             50 |    3600   (1h) |            10000 |                      50 |                  50 |
+| Sparse Environment       |            100 |  302400 (3.5d) |            10000 |                     250 |                  50 |
+| Long Reach               |            250 |  604800   (7d) |            15000 |                    1000 |                  50 |
+| Short Reach              |             50 |    1800 (0.5d) |            10000 |                      50 |                  50 |
+
+[^1] **Hops Limit**\
+The maximum number of hops a message can get. Each time a message is forwarded, is considered a hop.
+
+[^2] **TTL**\
+Time to live, is the maximum amount of time a message can be propagated since its creation.
+
+[^3] **Sharing Time**\
+The maximum amount of time a message will be kept for forwarding.
+
+[^4] **Maximum Propagation**\
+The maximum number of times a message will be forwarded from a device.
+
+[^5] **Tracklist Limit**\
+The maximum number of UUID’s stored in an array to prevent sending the message to a peer which already forwarded the message.
+
 | Prop                     | Type                                                              | Description                                                                                                 | Default                                  |
 | ------------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | **`userID`**             | <code><a href="#userid">UserID</a></code>                         | The ID used to identify the user in the Bridgefy network. If not provided, a new user ID will be generated. |                                          |
@@ -830,9 +907,9 @@ Remove all listeners for this plugin.
 There are several modes for sending packets:
 
 - **Broadcast**
-Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn't in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
+Sends a packet using mesh without a defined receiver. The packet is broadcast to all nearby users that are in range, who then broadcast it to all receivers that are in their range, and so on. If a user isn’t in range, the packet will be delivered the next time said user comes within range of another user who did receive the packet. Broadcast messages can be read by all nodes that receive it.
 - **Mesh**
-Sends the packet using mesh to only once receiver. It doesn't need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
+Sends the packet using mesh to only once receiver. It doesn’t need the receiver to be in range. Receiver can be in range of a third receiver located within range of both sender and receiver at the same time, or receiver can be out of range of all other nodes, but eventually come within range of a node that at some point received the packet. Mesh messages can be received by multiple nodes, but can only be read by the intended receiver.
 - **P2P**
 Sends the packet only when the receiver is in range.
 
@@ -844,10 +921,11 @@ Sends the packet only when the receiver is in range.
 
 #### PermissionStatus
 
-| Prop            | Type                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                   | Since |
-| --------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`bluetooth`** | <code><a href="#permissionstate">PermissionState</a></code> | `BLUETOOTH_ADVERTISE` Required to be able to advertise to nearby Bluetooth devices. `BLUETOOTH_CONNECT` Required to be able to connect to paired Bluetooth devices. `BLUETOOTH_SCAN` Required to be able to discover and pair nearby Bluetooth devices. `BLUETOOTH` Allows applications to connect to paired bluetooth devices. `BLUETOOTH_ADMIN` Allows applications to discover and pair bluetooth devices. | 0.0.1 |
-| **`location`**  | <code><a href="#permissionstate">PermissionState</a></code> | `ACCESS_FINE_LOCATION` Allows an app to access precise location. `ACCESS_COARSE_LOCATION` Allows an app to access approximate location.                                                                                                                                                                                                                                                                       | 0.0.1 |
+| Prop             | Type                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                   | Since |
+| ---------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`bluetooth`**  | <code><a href="#permissionstate">PermissionState</a></code> | `BLUETOOTH_ADVERTISE` Required to be able to advertise to nearby Bluetooth devices. `BLUETOOTH_CONNECT` Required to be able to connect to paired Bluetooth devices. `BLUETOOTH_SCAN` Required to be able to discover and pair nearby Bluetooth devices. `BLUETOOTH` Allows applications to connect to paired bluetooth devices. `BLUETOOTH_ADMIN` Allows applications to discover and pair bluetooth devices. | 1.0.0 |
+| **`location`**   | <code><a href="#permissionstate">PermissionState</a></code> | `ACCESS_FINE_LOCATION` Allows an app to access precise location.                                                                                                                                                                                                                                                                                                                                              | 1.0.0 |
+| **`background`** | <code><a href="#permissionstate">PermissionState</a></code> | `ACCESS_BACKGROUND_LOCATION` Allows an app to access location in the background.                                                                                                                                                                                                                                                                                                                              | 1.1.0 |
 
 
 #### Permissions
@@ -1005,7 +1083,7 @@ Sends the packet only when the receiver is in range.
 
 #### PermissionType
 
-<code>'bluetooth' | 'location'</code>
+<code>'bluetooth' | 'location' | 'background'</code>
 
 
 #### OnStartedListener
@@ -1103,7 +1181,7 @@ Sends the packet only when the receiver is in range.
 | --------------- | ------------------------ | --------------------------------------------------------------------------------------- | ----- |
 | **`BROADCAST`** | <code>'broadcast'</code> | Propagate a message readable by every device that receives it.                          | 1.0.0 |
 | **`MESH`**      | <code>'mesh'</code>      | Deliver a message to a specific recipient using nearby devices to propagate it.         | 1.0.0 |
-| **`P2P`**       | <code>'p2p'</code>       | Deliver a message to a specific recipient only if there's an active connection with it. | 1.0.0 |
+| **`P2P`**       | <code>'p2p'</code>       | Deliver a message to a specific recipient only if there’s an active connection with it. | 1.0.0 |
 
 
 #### ReasonType
@@ -1112,7 +1190,7 @@ Sends the packet only when the receiver is in range.
 | ------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
 | **`ALREADY_STARTED`**                 | <code>'alreadyStarted'</code>               | The Bridgefy SDK is already running.                                                                                     | 1.0.0 |
 | **`EXPIRED_LICENSE`**                 | <code>'expiredLicense'</code>               | The license is expired.                                                                                                  | 1.0.0 |
-| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device's time has been modified.                                                                                     | 1.0.0 |
+| **`INCONSISTENT_DEVICE_TIME`**        | <code>'inconsistentDeviceTime'</code>       | The device’s time has been modified.                                                                                     | 1.0.0 |
 | **`INTERNET_CONNECTION_REQUIRED`**    | <code>'internetConnectionRequired'</code>   | An internet connection is required to validate the license.                                                              | 1.0.0 |
 | **`INVALID_API_KEY`**                 | <code>'invalidAPIKey'</code>                | The provided API key is invalid.                                                                                         | 1.0.0 |
 | **`SESSION_ERROR`**                   | <code>'sessionError'</code>                 | An error occurred while creating the session.                                                                            | 1.0.0 |
@@ -1124,9 +1202,9 @@ Sends the packet only when the receiver is in range.
 | **`REGISTRATION`**                    | <code>'registration'</code>                 | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
 | **`SIZE_LIMIT_EXCEEDED`**             | <code>'sizeLimitExceeded'</code>            | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
 | **`UNKNOWN`**                         | <code>'unknown'</code>                      | ![Android](assets/android.svg) Only available for Android.                                                               | 1.0.0 |
-| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app's bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 1.0.0 |
+| **`MISSING_BUNDLE_ID`**               | <code>'missingBundleID'</code>              | Cannot get app’s bundle ID. ![iOS](assets/ios.svg) Only available for iOS.                                               | 1.0.0 |
 | **`INCONSISTENT_USER_ID`**            | <code>'inconsistentUserID'</code>           | The userId passed in the start function is different from the stored one. ![iOS](assets/ios.svg) Only available for iOS. | 1.0.0 |
-| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn't been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 1.0.0 |
+| **`NOT_STARTED`**                     | <code>'notStarted'</code>                   | The Bridgefy SDK hasn’t been started. ![iOS](assets/ios.svg) Only available for iOS.                                     | 1.0.0 |
 | **`ALREADY_INSTANTIATED`**            | <code>'alreadyInstantiated'</code>          | A Bridgefy SDK instance already exists. ![iOS](assets/ios.svg) Only available for iOS.                                   | 1.0.0 |
 | **`START_IN_PROGRESS`**               | <code>'startInProgress'</code>              | The Bridgefy SDK is performing the start process. ![iOS](assets/ios.svg) Only available for iOS.                         | 1.0.0 |
 | **`STOP_IN_PROGRESS`**                | <code>'stopInProgress'</code>               | The Bridgefy SDK is performing the stop process. ![iOS](assets/ios.svg) Only available for iOS.                          | 1.0.0 |

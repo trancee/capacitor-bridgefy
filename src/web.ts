@@ -18,70 +18,123 @@ import type {
   FingerprintResult,
   IsFingerprintValidOptions,
   IsFingerprintValidResult,
+  UserID,
+  PeerID,
 } from './definitions';
+import { UUID } from './definitions';
+
+/**
+ * https://github.com/WebBluetoothCG/web-bluetooth/blob/main/implementation-status.md#scanning-api
+ */
+
+let userID: UserID = UUID('123e4567-e89b-12d3-a456-426614174000');
+let isInitialized = false;
+let isStarted = false;
+const peers: PeerID[] = [];
 
 export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
-  initialize(options: InitializeOptions): Promise<void> {
+  async initialize(options?: InitializeOptions): Promise<void> {
     console.info('initialize', options);
-    throw this.unimplemented('Method not implemented.');
+    isInitialized = true;
   }
-  isInitialized(): Promise<IsInitializedResult> {
-    throw this.unimplemented('Method not implemented.');
+  async isInitialized(): Promise<IsInitializedResult> {
+    console.info('isInitialized');
+    return { isInitialized };
   }
 
-  start(options: StartOptions): Promise<void> {
+  async start(options?: StartOptions): Promise<void> {
     console.info('start', options);
+    if (options?.userID) userID = options.userID;
+    isStarted = true;
+  }
+  async isStarted(): Promise<IsStartedResult> {
+    console.info('isStarted');
+    return { isStarted };
+  }
+
+  async stop(): Promise<void> {
+    console.info('stop');
+    isStarted = false;
+  }
+
+  async licenseExpirationDate(): Promise<LicenseExpirationDateResult> {
+    console.info('licenseExpirationDate');
     throw this.unimplemented('Method not implemented.');
   }
-  isStarted(): Promise<IsStartedResult> {
+  async updateLicense(): Promise<void> {
+    console.info('updateLicense');
     throw this.unimplemented('Method not implemented.');
   }
 
-  stop(): Promise<void> {
-    throw this.unimplemented('Method not implemented.');
+  async destroySession(): Promise<void> {
+    console.info('destroySession');
+    userID = UUID('123e4567-e89b-12d3-a456-426614174000');
+    isInitialized = false;
+    isStarted = false;
+  }
+  async currentUserID(): Promise<CurrentUserIDResult> {
+    console.info('currentUserID');
+    return { userID };
   }
 
-  licenseExpirationDate(): Promise<LicenseExpirationDateResult> {
-    throw this.unimplemented('Method not implemented.');
-  }
-  updateLicense(): Promise<void> {
-    throw this.unimplemented('Method not implemented.');
+  async connectedPeers(): Promise<ConnectedPeersResult> {
+    console.info('connectedPeers');
+    return { peers };
   }
 
-  destroySession(): Promise<void> {
-    throw this.unimplemented('Method not implemented.');
-  }
-  currentUserID(): Promise<CurrentUserIDResult> {
-    throw this.unimplemented('Method not implemented.');
-  }
-
-  connectedPeers(): Promise<ConnectedPeersResult> {
-    throw this.unimplemented('Method not implemented.');
-  }
-
-  establishSecureConnection(options: EstablishSecureConnectionOptions): Promise<void> {
+  async establishSecureConnection(options: EstablishSecureConnectionOptions): Promise<void> {
     console.info('establishSecureConnection', options);
     throw this.unimplemented('Method not implemented.');
   }
-  fingerprint(options: FingerprintOptions): Promise<FingerprintResult> {
+  async fingerprint(options: FingerprintOptions): Promise<FingerprintResult> {
     console.info('fingerprint', options);
     throw this.unimplemented('Method not implemented.');
   }
-  isFingerprintValid(options: IsFingerprintValidOptions): Promise<IsFingerprintValidResult> {
+  async isFingerprintValid(options: IsFingerprintValidOptions): Promise<IsFingerprintValidResult> {
     console.info('isFingerprintValid', options);
     throw this.unimplemented('Method not implemented.');
   }
 
-  send(options: SendOptions): Promise<SendResult> {
+  async send(options: SendOptions): Promise<SendResult> {
     console.info('send', options);
-    throw this.unimplemented('Method not implemented.');
+    return {
+      messageID: UUID('123e4567-e89b-12d3-a456-426614174000'),
+    };
   }
 
-  checkPermissions(): Promise<PermissionStatus> {
-    throw this.unimplemented('Method not implemented.');
+  async checkPermissions(): Promise<PermissionStatus> {
+    console.info('checkPermissions');
+    return {
+      bluetooth: (await navigator.bluetooth.getAvailability()) ? 'prompt' : 'denied', // (await navigator.permissions.query({ name: 'bluetooth' })).state,
+      location: (await navigator.permissions.query({ name: 'geolocation' })).state,
+    };
   }
-  requestPermissions(permissions?: Permissions): Promise<PermissionStatus> {
-    console.info('requestPermissions', permissions);
-    throw this.unimplemented('Method not implemented.');
+  async requestPermissions(options?: Permissions): Promise<PermissionStatus> {
+    console.info('requestPermissions', options);
+    const permissionStatus: PermissionStatus = {};
+    if (options?.permissions?.includes('bluetooth')) {
+      try {
+        await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+        permissionStatus.bluetooth = 'granted';
+        // permissionStatus.bluetooth = (await navigator.bluetooth.requestLEScan({ acceptAllAdvertisements: true })).active
+        //   ? 'granted'
+        //   : 'denied';
+      } catch {
+        permissionStatus.bluetooth = 'denied';
+      }
+    }
+    if (options?.permissions?.includes('location')) {
+      permissionStatus.location = await new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          () => {
+            resolve('granted');
+          },
+          () => {
+            resolve('denied');
+          },
+        );
+      });
+    }
+    return permissionStatus;
   }
 }

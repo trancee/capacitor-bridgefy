@@ -51,9 +51,9 @@ import CoreBluetooth
     }
 
     @objc public func start(_ options: StartOptions, completion: @escaping (Error?) -> Void) {
-        let userID = options.getUserID()
+        let userID = options.getUserID() ?? config?.getUserID()
 
-        let propagationProfile = options.getPropagationProfile()
+        let propagationProfile = options.getPropagationProfile() ?? config.getPropagationProfile()
 
         do {
             try bridgefy.start(userID, propagationProfile)
@@ -278,6 +278,8 @@ import CoreBluetooth
                     }
                 }
             case "location":
+                break
+            case "background":
                 break
             default:
                 break
