@@ -186,8 +186,8 @@ import BridgefySDK
         case .mesh(userId: let userId): return ("mesh", userId)
         /// Deliver a message to a specific recipient only if there's an active connection with it.
         case .p2p(userId: let userId): return ("p2p", userId)
+        @unknown default: return nil
         }
-        return nil
     }
 
     private func toTransmissionMode(_ transmissionMode: (String, UUID)?) -> BridgefySDK.TransmissionMode? {
@@ -358,6 +358,8 @@ extension BridgefyController: BridgefySDK.BridgefyDelegate {
 
         /// An error occurred while encrypting the message
         case .encryptionError(code: let code): return BridgefyError(errorEncryptionError, message: error.localizedDescription, code: code)
+
+        @unknown default: return nil
         }
     }
 }

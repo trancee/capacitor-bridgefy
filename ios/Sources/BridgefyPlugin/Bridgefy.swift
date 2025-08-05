@@ -53,7 +53,7 @@ import CoreBluetooth
     @objc public func start(_ options: StartOptions, completion: @escaping (Error?) -> Void) {
         let userID = options.getUserID() ?? config?.getUserID()
 
-        let propagationProfile = options.getPropagationProfile() ?? config.getPropagationProfile()
+        let propagationProfile = options.getPropagationProfile() ?? config?.getPropagationProfile()
 
         do {
             try bridgefy.start(userID, propagationProfile)
@@ -229,64 +229,68 @@ import CoreBluetooth
      * Permissions
      */
 
-    @objc public func checkPermissions(completion: @escaping (Result?, Error?) -> Void) {
-        let bluetoothState = switch CBCentralManager().state {
-        case .unknown:
-            "denied"
-        case .resetting:
-            "prompt"
-        case .unsupported:
-            "denied"
-        case .unauthorized:
-            "denied"
-        case .poweredOff:
-            "prompt"
-        case .poweredOn:
-            "granted"
+    private func bluetoothAuthorization() -> CBManagerAuthorization {
+        if #available(iOS 13.1, *) {
+            return CBCentralManager.authorization
+        } else if #available(iOS 13.0, *) {
+            return CBCentralManager().authorization
         }
-        let locationState = "granted"
+    }
 
-        let result = PermissionsResult(bluetooth: bluetoothState, location: locationState)
+    private func bluetoothState() -> CBManagerState {
+        return CBCentralManager().state
+    }
+
+    @objc public func checkPermissions(completion: @escaping (Result?, Error?) -> Void) {
+        let bluetoothState = switch bluetoothAuthorization() {
+        case .notDetermined:
+            "prompt"
+        case .restricted, .denied:
+            "denied"
+        case .allowedAlways:
+            "granted"
+        @unknown default:
+            "prompt"
+        }
+
+        let result = PermissionsResult(bluetooth: bluetoothState)
 
         completion(result, nil)
     }
 
-    @objc public func requestPermissions(_ options: RequestPermissionsOptions, completion: @escaping (Error?) -> Void) {
-        guard let permissions = options.getPermissions() else {
-            return
+    @objc public func requestPermissions(_ options: RequestPermissionsOptions, completion: @escaping (Result?, Error?) -> Void) {
+        var permissions = options.getPermissions() ?? []
+
+        if permissions.isEmpty {
+            permissions = ["bluetooth"]
         }
 
-        for permission in permissions {
-            switch permission {
-            case "bluetooth":
+        let group = DispatchGroup()
+
+        if permissions.contains("bluetooth") {
+            if bluetoothState() == .poweredOff {
                 guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                    completion(CustomError.openSettingsError)
+                    completion(nil, CustomError.openSettingsError)
                     return
                 }
-
+                
                 DispatchQueue.main.async {
                     if UIApplication.shared.canOpenURL(settingsUrl) {
+                        group.enter()
+                        
                         UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                            if !success {
-                                completion(CustomError.openSettingsError)
-                                return
-                            }
+                            group.leave()
                         })
                     } else {
-                        completion(CustomError.openSettingsError)
+                        completion(nil, CustomError.openSettingsError)
                         return
                     }
                 }
-            case "location":
-                break
-            case "background":
-                break
-            default:
-                break
             }
         }
 
-        completion(nil)
+        group.notify(queue: DispatchQueue.main) {
+            self.checkPermissions(completion: completion)
+        }
     }
-
 }

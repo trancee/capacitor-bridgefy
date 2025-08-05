@@ -629,11 +629,15 @@ export interface PermissionStatus {
   /**
    * `ACCESS_FINE_LOCATION`  Allows an app to access precise location.
    *
+   * ![Android](assets/android.svg) Only available for Android.
+   *
    * @since 1.0.0
    */
   location?: PermissionState;
   /**
    * `ACCESS_BACKGROUND_LOCATION`  Allows an app to access location in the background.
+   *
+   * ![Android](assets/android.svg) Only available for Android.
    *
    * @since 1.1.0
    */

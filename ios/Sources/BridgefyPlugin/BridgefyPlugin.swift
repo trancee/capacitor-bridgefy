@@ -250,11 +250,11 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc override public func requestPermissions(_ call: CAPPluginCall) {
         let options = RequestPermissionsOptions(call)
 
-        implementation?.requestPermissions(options, completion: { error in
+        implementation?.requestPermissions(options, completion: { result, error in
             if let error = error {
                 self.rejectCall(call, error)
-            } else {
-                self.resolveCall(call, nil)
+            } else if let result = result?.toJSObject() as? JSObject {
+                self.resolveCall(call, result)
             }
         })
     }

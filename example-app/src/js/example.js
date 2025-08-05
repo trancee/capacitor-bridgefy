@@ -167,6 +167,9 @@ window.testRequestPermissions = async () => {
     if (document.getElementById("location").checked)
         permissions.push('location')
 
+    if (document.getElementById("background").checked)
+        permissions.push('background')
+
     if (permissions.length > 0) {
         options.permissions = permissions
     }
