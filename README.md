@@ -26,7 +26,7 @@ A summary of available runtime permissions needed for using Bluetooth:
 | Minimum SDK | Maximum SDK | Permissions |
 | ----------: | ----------: | :---------- |
 |          18 |          22 | _(No runtime permissions needed)_
-|          23 |          28 | `android.permission.ACCESS_FINE_LOCATION`
+|          23 |          28 | `android.permission.ACCESS_COARSE_LOCATION`  `android.permission.ACCESS_FINE_LOCATION`
 |          29 |          30 | `android.permission.ACCESS_FINE_LOCATION`  `android.permission.ACCESS_BACKGROUND_LOCATION`<sup>1</sup>
 |          31 |     Current | `android.permission.ACCESS_FINE_LOCATION`<sup>2</sup>  `android.permission.BLUETOOTH_SCAN`  `android.permission.BLUETOOTH_ADVERTISE`  `android.permission.BLUETOOTH_CONNECT`
 
@@ -63,7 +63,7 @@ To use Bluetooth features in your app, you must declare the following permission
         tools:targetApi="31" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-        android:maxSdkVersion="30"
+        android:maxSdkVersion="28"
         android:minSdkVersion="23"
         tools:node="replace" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
