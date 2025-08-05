@@ -64,6 +64,8 @@ import org.json.JSONException;
         ),
         @Permission(
             strings = {
+                // Allows an app to access approximate location.
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 // Allows an app to access precise location.
                 Manifest.permission.ACCESS_FINE_LOCATION
             },
@@ -345,8 +347,7 @@ public class BridgefyPlugin extends Plugin {
             aliases.add("location");
         }
         // SDK >= 31
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasBackgroundLocation) {
-            // only required of doing background location
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             aliases.add("location");
         }
 
@@ -392,8 +393,7 @@ public class BridgefyPlugin extends Plugin {
                                 aliases.add("location");
                             }
                             // SDK >= 31
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasBackgroundLocation) {
-                                // only required of doing background location
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                 aliases.add("location");
                             }
                             break;

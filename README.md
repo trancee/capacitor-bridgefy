@@ -62,9 +62,14 @@ To use Bluetooth features in your app, you must declare the following permission
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="31" />
 
-    <uses-permission-sdk-23
-        android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="30"
+        android:minSdkVersion="23"
+        tools:node="replace" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="32"
+        android:minSdkVersion="23"
+        tools:ignore="CoarseFineLocation" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 ```
