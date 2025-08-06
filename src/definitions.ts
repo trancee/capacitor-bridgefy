@@ -275,15 +275,15 @@ export interface BridgefyPlugin {
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
-   * @since 1.0.0
+   * @since 1.2.0
    */
-  addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onProgress', listenerFunc: OnProgressListener): Promise<PluginListenerHandle>;
   /**
    * When data is received.
    *
-   * @since 1.0.0
+   * @since 1.2.0
    */
-  addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener): Promise<PluginListenerHandle>;
+  addListener(eventName: 'onReceive', listenerFunc: OnReceiveListener): Promise<PluginListenerHandle>;
 
   /**
    * Remove all listeners for this plugin.
@@ -404,8 +404,8 @@ export interface OnFailToSendEvent {
    */
   reason: Reason;
 }
-export type OnProgressOfSendListener = (event: OnProgressOfSendEvent) => void;
-export interface OnProgressOfSendEvent {
+export type OnProgressListener = (event: OnProgressEvent) => void;
+export interface OnProgressEvent {
   /**
    * Identifier of the message being sent.
    *
@@ -425,8 +425,8 @@ export interface OnProgressOfSendEvent {
    */
   of: number;
 }
-export type OnReceiveDataListener = (event: OnReceiveDataEvent) => void;
-export interface OnReceiveDataEvent {
+export type OnReceiveListener = (event: OnReceiveEvent) => void;
+export interface OnReceiveEvent {
   /**
    * Identifier of the received message.
    *

@@ -58,8 +58,8 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
 
     let eventSend = "onSend"
     let eventFailToSend = "onFailToSend"
-    let eventProgressOfSend = "onProgressOfSend"
-    let eventReceiveData = "onReceiveData"
+    let eventProgress = "onProgress"
+    let eventReceive = "onReceive"
 
     private var implementation: Bridgefy?
     private var config: BridgefyConfig?
@@ -343,10 +343,10 @@ public class BridgefyPlugin: CAPPlugin, CAPBridgedPlugin {
         notifyListeners(self.eventFailToSend, data: event.toJSObject())
     }
 
-    func onReceiveDataEvent(_ messageID: UUID, _ data: Data, _ transmissionMode: (String, UUID)?) {
-        let event: ReceiveDataEvent = .init(messageID, data, transmissionMode)
+    func onReceiveEvent(_ messageID: UUID, _ data: Data, _ transmissionMode: (String, UUID)?) {
+        let event: ReceiveEvent = .init(messageID, data, transmissionMode)
 
-        notifyListeners(self.eventReceiveData, data: event.toJSObject())
+        notifyListeners(self.eventReceive, data: event.toJSObject())
     }
 
     /**

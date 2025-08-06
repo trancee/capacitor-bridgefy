@@ -30,8 +30,8 @@ import com.getcapacitor.community.classes.events.FailToEstablishSecureConnection
 import com.getcapacitor.community.classes.events.FailToSendEvent;
 import com.getcapacitor.community.classes.events.FailToStartEvent;
 import com.getcapacitor.community.classes.events.FailToStopEvent;
-import com.getcapacitor.community.classes.events.ProgressOfSendEvent;
-import com.getcapacitor.community.classes.events.ReceiveDataEvent;
+import com.getcapacitor.community.classes.events.ProgressEvent;
+import com.getcapacitor.community.classes.events.ReceiveEvent;
 import com.getcapacitor.community.classes.events.SendEvent;
 import com.getcapacitor.community.classes.events.StartedEvent;
 import com.getcapacitor.community.classes.events.StoppedEvent;
@@ -103,8 +103,8 @@ public class BridgefyPlugin extends Plugin {
 
     static final String SEND_EVENT = "onSend";
     static final String FAIL_TO_SEND_EVENT = "onFailToSend";
-    static final String PROGRESS_OF_SEND_EVENT = "onProgressOfSend";
-    static final String RECEIVE_DATA_EVENT = "onReceiveData";
+    static final String PROGRESS_EVENT = "onProgress";
+    static final String RECEIVE_EVENT = "onReceive";
 
     private Bridgefy implementation;
 
@@ -541,15 +541,15 @@ public class BridgefyPlugin extends Plugin {
         notifyListeners(FAIL_TO_SEND_EVENT, event.toJSObject());
     }
 
-    protected void onProgressOfSendEvent(UUID messageID, int position, int of) {
-        ProgressOfSendEvent event = new ProgressOfSendEvent(messageID, position, of);
+    protected void onProgressEvent(UUID messageID, int position, int of) {
+        ProgressEvent event = new ProgressEvent(messageID, position, of);
 
-        notifyListeners(PROGRESS_OF_SEND_EVENT, event.toJSObject());
+        notifyListeners(PROGRESS_EVENT, event.toJSObject());
     }
 
-    protected void onReceiveDataEvent(UUID messageID, byte[] data, Pair<String, UUID> transmissionMode) {
-        ReceiveDataEvent event = new ReceiveDataEvent(messageID, data, transmissionMode);
+    protected void onReceiveEvent(UUID messageID, byte[] data, Pair<String, UUID> transmissionMode) {
+        ReceiveEvent event = new ReceiveEvent(messageID, data, transmissionMode);
 
-        notifyListeners(RECEIVE_DATA_EVENT, event.toJSObject());
+        notifyListeners(RECEIVE_EVENT, event.toJSObject());
     }
 }

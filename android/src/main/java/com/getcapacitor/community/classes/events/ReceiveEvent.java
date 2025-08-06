@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import java.util.UUID;
 
-public class ReceiveDataEvent extends MessageIDEvent {
+public class ReceiveEvent extends MessageIDEvent {
 
     @Nullable
     private final byte[] data;
@@ -15,7 +15,7 @@ public class ReceiveDataEvent extends MessageIDEvent {
     @Nullable
     private final Pair<String, UUID> transmissionMode;
 
-    public ReceiveDataEvent(@NonNull UUID messageID, @Nullable byte[] data, @Nullable Pair<String, UUID> transmissionMode) {
+    public ReceiveEvent(@NonNull UUID messageID, @Nullable byte[] data, @Nullable Pair<String, UUID> transmissionMode) {
         super(messageID);
         this.data = data;
         this.transmissionMode = transmissionMode;

@@ -98,7 +98,7 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
                     position: Int,
                     of: Int
                 ) {
-                    plugin.onProgressOfSendEvent(messageID, position, of);
+                    plugin.onProgressEvent(messageID, position, of);
                 }
 
                 override fun onReceiveData(
@@ -106,7 +106,7 @@ class BridgefyController(private var plugin: BridgefyPlugin) {
                     messageID: UUID,
                     transmissionMode: TransmissionMode
                 ) {
-                    plugin.onReceiveDataEvent(
+                    plugin.onReceiveEvent(
                         messageID,
                         data,
                         fromTransmissionMode(transmissionMode)

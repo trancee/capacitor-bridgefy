@@ -260,7 +260,7 @@ extension BridgefyController: BridgefySDK.BridgefyDelegate {
     }
 
     public func bridgefyDidReceiveData(_ data: Data, with messageId: UUID, using transmissionMode: BridgefySDK.TransmissionMode) {
-        plugin.onReceiveDataEvent(messageId, data, fromTransmissionMode(transmissionMode))
+        plugin.onReceiveEvent(messageId, data, fromTransmissionMode(transmissionMode))
     }
 
     // swiftlint:disable:next cyclomatic_complexity

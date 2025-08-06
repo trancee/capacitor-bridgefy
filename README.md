@@ -210,8 +210,8 @@ export default config;
 * [`addListener('onFailToEstablishSecureConnection', ...)`](#addlisteneronfailtoestablishsecureconnection-)
 * [`addListener('onSend', ...)`](#addlisteneronsend-)
 * [`addListener('onFailToSend', ...)`](#addlisteneronfailtosend-)
-* [`addListener('onProgressOfSend', ...)`](#addlisteneronprogressofsend-)
-* [`addListener('onReceiveData', ...)`](#addlisteneronreceivedata-)
+* [`addListener('onProgress', ...)`](#addlisteneronprogress-)
+* [`addListener('onReceive', ...)`](#addlisteneronreceive-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -722,44 +722,44 @@ When a message fails to send.
 --------------------
 
 
-### addListener('onProgressOfSend', ...)
+### addListener('onProgress', ...)
 
 ```typescript
-addListener(eventName: 'onProgressOfSend', listenerFunc: OnProgressOfSendListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'onProgress', listenerFunc: OnProgressListener) => Promise<PluginListenerHandle>
 ```
 
 When sending progress update.
 
 ![Android](assets/android.svg) Only available for Android.
 
-| Param              | Type                                                                          |
-| ------------------ | ----------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onProgressOfSend'</code>                                               |
-| **`listenerFunc`** | <code><a href="#onprogressofsendlistener">OnProgressOfSendListener</a></code> |
+| Param              | Type                                                              |
+| ------------------ | ----------------------------------------------------------------- |
+| **`eventName`**    | <code>'onProgress'</code>                                         |
+| **`listenerFunc`** | <code><a href="#onprogresslistener">OnProgressListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 1.0.0
+**Since:** 1.2.0
 
 --------------------
 
 
-### addListener('onReceiveData', ...)
+### addListener('onReceive', ...)
 
 ```typescript
-addListener(eventName: 'onReceiveData', listenerFunc: OnReceiveDataListener) => Promise<PluginListenerHandle>
+addListener(eventName: 'onReceive', listenerFunc: OnReceiveListener) => Promise<PluginListenerHandle>
 ```
 
 When data is received.
 
-| Param              | Type                                                                    |
-| ------------------ | ----------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onReceiveData'</code>                                            |
-| **`listenerFunc`** | <code><a href="#onreceivedatalistener">OnReceiveDataListener</a></code> |
+| Param              | Type                                                            |
+| ------------------ | --------------------------------------------------------------- |
+| **`eventName`**    | <code>'onReceive'</code>                                        |
+| **`listenerFunc`** | <code><a href="#onreceivelistener">OnReceiveListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
-**Since:** 1.0.0
+**Since:** 1.2.0
 
 --------------------
 
@@ -1035,7 +1035,7 @@ Sends the packet only when the receiver is in range.
 | **`reason`**    | <code><a href="#reason">Reason</a></code>       | The reason for the failure.       | 1.0.0 |
 
 
-#### OnProgressOfSendEvent
+#### OnProgressEvent
 
 | Prop            | Type                                            | Description                                 | Since |
 | --------------- | ----------------------------------------------- | ------------------------------------------- | ----- |
@@ -1044,7 +1044,7 @@ Sends the packet only when the receiver is in range.
 | **`of`**        | <code>number</code>                             | Total size of the message being sent.       | 1.0.0 |
 
 
-#### OnReceiveDataEvent
+#### OnReceiveEvent
 
 | Prop                   | Type                                                          | Description                                                            | Since |
 | ---------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ----- |
@@ -1156,14 +1156,14 @@ Sends the packet only when the receiver is in range.
 <code>(event: <a href="#onfailtosendevent">OnFailToSendEvent</a>): void</code>
 
 
-#### OnProgressOfSendListener
+#### OnProgressListener
 
-<code>(event: <a href="#onprogressofsendevent">OnProgressOfSendEvent</a>): void</code>
+<code>(event: <a href="#onprogressevent">OnProgressEvent</a>): void</code>
 
 
-#### OnReceiveDataListener
+#### OnReceiveListener
 
-<code>(event: <a href="#onreceivedataevent">OnReceiveDataEvent</a>): void</code>
+<code>(event: <a href="#onreceiveevent">OnReceiveEvent</a>): void</code>
 
 
 ### Enums

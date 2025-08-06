@@ -4,12 +4,12 @@ import androidx.annotation.NonNull;
 import com.getcapacitor.JSObject;
 import java.util.UUID;
 
-public class ProgressOfSendEvent extends MessageIDEvent {
+public class ProgressEvent extends MessageIDEvent {
 
     private final int position;
     private final int of;
 
-    public ProgressOfSendEvent(@NonNull UUID messageID, int position, int of) {
+    public ProgressEvent(@NonNull UUID messageID, int position, int of) {
         super(messageID);
         this.position = position;
         this.of = of;

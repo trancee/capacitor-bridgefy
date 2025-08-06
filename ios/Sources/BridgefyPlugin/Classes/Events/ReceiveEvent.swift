@@ -1,7 +1,7 @@
 import Foundation
 import Capacitor
 
-@objc public class ReceiveDataEvent: MessageIDEvent {
+@objc public class ReceiveEvent: MessageIDEvent {
     let data: Data
     let transmissionMode: (String, UUID)?
 

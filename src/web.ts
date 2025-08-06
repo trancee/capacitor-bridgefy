@@ -21,7 +21,7 @@ import type {
   UserID,
   PeerID,
 } from './definitions';
-import { UUID } from './definitions';
+import { TransmissionType, UUID } from './definitions';
 
 /**
  * https://github.com/WebBluetoothCG/web-bluetooth/blob/main/implementation-status.md#scanning-api
@@ -34,27 +34,29 @@ const peers: PeerID[] = [];
 
 export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
   async initialize(options?: InitializeOptions): Promise<void> {
-    console.info('initialize', options);
+    console.info('initialize', options ?? '');
     isInitialized = true;
   }
   async isInitialized(): Promise<IsInitializedResult> {
-    console.info('isInitialized');
+    console.info('isInitialized', { isInitialized });
     return { isInitialized };
   }
 
   async start(options?: StartOptions): Promise<void> {
-    console.info('start', options);
+    console.info('start', options ?? '');
     if (options?.userID) userID = options.userID;
     isStarted = true;
+    this.notifyListeners('onStarted', { userID });
   }
   async isStarted(): Promise<IsStartedResult> {
-    console.info('isStarted');
+    console.info('isStarted', { isStarted });
     return { isStarted };
   }
 
   async stop(): Promise<void> {
     console.info('stop');
     isStarted = false;
+    this.notifyListeners('onStopped', {});
   }
 
   async licenseExpirationDate(): Promise<LicenseExpirationDateResult> {
@@ -71,14 +73,15 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
     userID = UUID('123e4567-e89b-12d3-a456-426614174000');
     isInitialized = false;
     isStarted = false;
+    this.notifyListeners('onDestroySession', {});
   }
   async currentUserID(): Promise<CurrentUserIDResult> {
-    console.info('currentUserID');
+    console.info('currentUserID', { userID });
     return { userID };
   }
 
   async connectedPeers(): Promise<ConnectedPeersResult> {
-    console.info('connectedPeers');
+    console.info('connectedPeers', { peers });
     return { peers };
   }
 
@@ -97,9 +100,13 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
 
   async send(options: SendOptions): Promise<SendResult> {
     console.info('send', options);
-    return {
-      messageID: UUID('123e4567-e89b-12d3-a456-426614174000'),
-    };
+    if (options.transmissionMode?.type === TransmissionType.BROADCAST && !options.transmissionMode?.uuid) {
+      options.transmissionMode.uuid = userID;
+    }
+    const messageID = UUID('123e4567-e89b-12d3-a456-426614174000');
+    this.notifyListeners('onSend', { messageID });
+    this.notifyListeners('onReceive', { messageID, ...options });
+    return { messageID };
   }
 
   async checkPermissions(): Promise<PermissionStatus> {
@@ -110,7 +117,7 @@ export class BridgefyWeb extends WebPlugin implements BridgefyPlugin {
     };
   }
   async requestPermissions(options?: Permissions): Promise<PermissionStatus> {
-    console.info('requestPermissions', options);
+    console.info('requestPermissions', options ?? '');
     const permissionStatus: PermissionStatus = {};
     if (options?.permissions?.includes('bluetooth')) {
       try {
