@@ -11,8 +11,78 @@ npx cap sync
 
 ## Example
 
-```typescript
-```
+1. Import type definitions
+
+    ```typescript
+    import { Bridgefy, PermissionType, PropagationProfile, TransmissionType, UUID } from "@capacitor-trancee/bridgefy"
+    ```
+
+1. Set up event listeners
+
+    ```typescript
+    await Bridgefy.addListener(
+      "onStarted",
+
+      (event) => {
+        console.info("Bridgefy::onStarted", event)
+      })
+
+    await Bridgefy.addListener(
+      "onStopped",
+
+      (event) => {
+        console.info("Bridgefy::onStopped", event)
+      })
+    ```
+
+1. Check and request permissions
+
+    ```typescript
+    let permissionStatus = await Bridgefy.checkPermissions()
+    console.info("Bridgefy.checkPermissions", permissionStatus)
+
+    const permissions: PermissionType[] = []
+    if (permissionStatus.bluetooth === "prompt") {
+      permissions.push("bluetooth")
+    }
+    if (permissionStatus.location === "prompt") {
+      permissions.push("location")
+    }
+
+    if (permissions.length > 0) {
+      permissionStatus = await Bridgefy.requestPermissions({
+        permissions: permissions,
+      })
+      console.info("Bridgefy.requestPermissions", permissionStatus)
+    }
+    ```
+
+1. Initialize the Bridgefy SDK
+
+    ```typescript
+    await Bridgefy.initialize({
+      apiKey: UUID("1b672abe-23bc-412d-94fd-0cb444b3b9e9"),
+      verboseLogging: true,
+    })
+    ```
+
+1. Start, send, and stop operations
+
+    ```typescript
+    await Bridgefy.start({
+      propagationProfile: PropagationProfile.HIGH_DENSITY_ENVIRONMENT,
+    })
+
+    await Bridgefy.send({
+      data: btoa("Hello World."),
+      transmissionMode: {
+        type: TransmissionType.BROADCAST,
+        uuid: UUID("1b672abe-23bc-412d-94fd-0cb444b3b9e9"),
+      },
+    })
+
+    await Bridgefy.stop()
+    ```
 
 ## Configuration
 
@@ -488,7 +558,7 @@ Request the appropriate permissions to use Bridgefy.
 addListener(eventName: 'onStarted', listenerFunc: OnStartedListener) => Promise<PluginListenerHandle>
 ```
 
-Initialization Listeners
+When the operation has started.
 
 | Param              | Type                                                            |
 | ------------------ | --------------------------------------------------------------- |
@@ -496,6 +566,8 @@ Initialization Listeners
 | **`listenerFunc`** | <code><a href="#onstartedlistener">OnStartedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -506,12 +578,16 @@ Initialization Listeners
 addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener) => Promise<PluginListenerHandle>
 ```
 
+When the start operation has failed.
+
 | Param              | Type                                                                    |
 | ------------------ | ----------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onFailToStart'</code>                                            |
 | **`listenerFunc`** | <code><a href="#onfailtostartlistener">OnFailToStartListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -522,12 +598,16 @@ addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener) => 
 addListener(eventName: 'onStopped', listenerFunc: OnStoppedListener) => Promise<PluginListenerHandle>
 ```
 
+When the operation has been stopped.
+
 | Param              | Type                                                            |
 | ------------------ | --------------------------------------------------------------- |
 | **`eventName`**    | <code>'onStopped'</code>                                        |
 | **`listenerFunc`** | <code><a href="#onstoppedlistener">OnStoppedListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -538,12 +618,16 @@ addListener(eventName: 'onStopped', listenerFunc: OnStoppedListener) => Promise<
 addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener) => Promise<PluginListenerHandle>
 ```
 
+When the stop operation has failed.
+
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onFailToStop'</code>                                           |
 | **`listenerFunc`** | <code><a href="#onfailtostoplistener">OnFailToStopListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -554,12 +638,16 @@ addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener) => Pr
 addListener(eventName: 'onDestroySession', listenerFunc: OnDestroySessionListener) => Promise<PluginListenerHandle>
 ```
 
+When the session has been destroyed.
+
 | Param              | Type                                                                          |
 | ------------------ | ----------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onDestroySession'</code>                                               |
 | **`listenerFunc`** | <code><a href="#ondestroysessionlistener">OnDestroySessionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -570,12 +658,16 @@ addListener(eventName: 'onDestroySession', listenerFunc: OnDestroySessionListene
 addListener(eventName: 'onFailToDestroySession', listenerFunc: OnFailToDestroySessionListener) => Promise<PluginListenerHandle>
 ```
 
+When the destroy session operation has failed.
+
 | Param              | Type                                                                                      |
 | ------------------ | ----------------------------------------------------------------------------------------- |
 | **`eventName`**    | <code>'onFailToDestroySession'</code>                                                     |
 | **`listenerFunc`** | <code><a href="#onfailtodestroysessionlistener">OnFailToDestroySessionListener</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -586,7 +678,7 @@ addListener(eventName: 'onFailToDestroySession', listenerFunc: OnFailToDestroySe
 addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener) => Promise<PluginListenerHandle>
 ```
 
-When a peer has established connection.
+When a connection to a peer has been established.
 
 | Param              | Type                                                                |
 | ------------------ | ------------------------------------------------------------------- |
@@ -606,7 +698,7 @@ When a peer has established connection.
 addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener) => Promise<PluginListenerHandle>
 ```
 
-When a peer is disconnected (out of range).
+When a connection to a peer has been disconnected (out of range).
 
 | Param              | Type                                                                      |
 | ------------------ | ------------------------------------------------------------------------- |
@@ -626,7 +718,7 @@ When a peer is disconnected (out of range).
 addListener(eventName: 'onConnectedPeers', listenerFunc: OnConnectedPeersListener) => Promise<PluginListenerHandle>
 ```
 
-When a device is detected, notifies the list of connected users.
+When a peer has been detected, returns the list of connected peers.
 
 ![Android](assets/android.svg) Only available for Android.
 
@@ -688,7 +780,7 @@ When an on-demand secure connection failed to establish.
 addListener(eventName: 'onSend', listenerFunc: OnSendListener) => Promise<PluginListenerHandle>
 ```
 
-When a message is sent.
+When data has been sent.
 
 | Param              | Type                                                      |
 | ------------------ | --------------------------------------------------------- |
@@ -708,7 +800,7 @@ When a message is sent.
 addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener) => Promise<PluginListenerHandle>
 ```
 
-When a message fails to send.
+When the send operation has failed.
 
 | Param              | Type                                                                  |
 | ------------------ | --------------------------------------------------------------------- |
@@ -728,7 +820,7 @@ When a message fails to send.
 addListener(eventName: 'onProgress', listenerFunc: OnProgressListener) => Promise<PluginListenerHandle>
 ```
 
-When sending progress update.
+When a send operation is in progress.
 
 ![Android](assets/android.svg) Only available for Android.
 
@@ -750,7 +842,7 @@ When sending progress update.
 addListener(eventName: 'onReceive', listenerFunc: OnReceiveListener) => Promise<PluginListenerHandle>
 ```
 
-When data is received.
+When data has been received.
 
 | Param              | Type                                                            |
 | ------------------ | --------------------------------------------------------------- |

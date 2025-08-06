@@ -200,11 +200,42 @@ export interface BridgefyPlugin {
   /**
    * Initialization Listeners
    */
+
+  /**
+   * When the operation has started.
+   *
+   * @since 1.0.0
+   */
   addListener(eventName: 'onStarted', listenerFunc: OnStartedListener): Promise<PluginListenerHandle>;
+  /**
+   * When the start operation has failed.
+   *
+   * @since 1.0.0
+   */
   addListener(eventName: 'onFailToStart', listenerFunc: OnFailToStartListener): Promise<PluginListenerHandle>;
+  /**
+   * When the operation has been stopped.
+   *
+   * @since 1.0.0
+   */
   addListener(eventName: 'onStopped', listenerFunc: OnStoppedListener): Promise<PluginListenerHandle>;
+  /**
+   * When the stop operation has failed.
+   *
+   * @since 1.0.0
+   */
   addListener(eventName: 'onFailToStop', listenerFunc: OnFailToStopListener): Promise<PluginListenerHandle>;
+  /**
+   * When the session has been destroyed.
+   *
+   * @since 1.0.0
+   */
   addListener(eventName: 'onDestroySession', listenerFunc: OnDestroySessionListener): Promise<PluginListenerHandle>;
+  /**
+   * When the destroy session operation has failed.
+   *
+   * @since 1.0.0
+   */
   addListener(
     eventName: 'onFailToDestroySession',
     listenerFunc: OnFailToDestroySessionListener,
@@ -215,19 +246,19 @@ export interface BridgefyPlugin {
    */
 
   /**
-   * When a peer has established connection.
+   * When a connection to a peer has been established.
    *
    * @since 1.0.0
    */
   addListener(eventName: 'onConnected', listenerFunc: OnConnectedListener): Promise<PluginListenerHandle>;
   /**
-   * When a peer is disconnected (out of range).
+   * When a connection to a peer has been disconnected (out of range).
    *
    * @since 1.0.0
    */
   addListener(eventName: 'onDisconnected', listenerFunc: OnDisconnectedListener): Promise<PluginListenerHandle>;
   /**
-   * When a device is detected, notifies the list of connected users.
+   * When a peer has been detected, returns the list of connected peers.
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
@@ -259,19 +290,19 @@ export interface BridgefyPlugin {
    */
 
   /**
-   * When a message is sent.
+   * When data has been sent.
    *
    * @since 1.0.0
    */
   addListener(eventName: 'onSend', listenerFunc: OnSendListener): Promise<PluginListenerHandle>;
   /**
-   * When a message fails to send.
+   * When the send operation has failed.
    *
    * @since 1.0.0
    */
   addListener(eventName: 'onFailToSend', listenerFunc: OnFailToSendListener): Promise<PluginListenerHandle>;
   /**
-   * When sending progress update.
+   * When a send operation is in progress.
    *
    * ![Android](assets/android.svg) Only available for Android.
    *
@@ -279,7 +310,7 @@ export interface BridgefyPlugin {
    */
   addListener(eventName: 'onProgress', listenerFunc: OnProgressListener): Promise<PluginListenerHandle>;
   /**
-   * When data is received.
+   * When data has been received.
    *
    * @since 1.2.0
    */
