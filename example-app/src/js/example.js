@@ -194,121 +194,123 @@ window.execute = async (method, options) => {
 }
 
 window.addListeners = async () => {
-    await Bridgefy.addListener('onStarted',
-        (event) => {
-            logEvent(`onStarted(${JSON.stringify(event) || ""})`)
+    await Promise.all([
+        await Bridgefy.addListener('onStarted',
+            (event) => {
+                logEvent(`onStarted(${JSON.stringify(event) || ""})`)
 
-            const userID = event.userID
+                const userID = event.userID
 
-            document.getElementById("userID").value = userID
-        })
-    await Bridgefy.addListener('onFailToStart',
-        (event) => {
-            logEvent(`onFailToStart(${JSON.stringify(event) || ""})`)
+                document.getElementById("userID").value = userID
+            }),
+        await Bridgefy.addListener('onFailToStart',
+            (event) => {
+                logEvent(`onFailToStart(${JSON.stringify(event) || ""})`)
 
-            const reason = event.reason
+                const reason = event.reason
 
-            alert(JSON.stringify(reason))
-        })
-    await Bridgefy.addListener('onStopped',
-        () => {
-            logEvent(`onStopped()`)
-        })
-    await Bridgefy.addListener('onFailToStop',
-        (event) => {
-            logEvent(`onFailToStop(${JSON.stringify(event) || ""})`)
+                alert(JSON.stringify(reason))
+            }),
+        await Bridgefy.addListener('onStopped',
+            () => {
+                logEvent(`onStopped()`)
+            }),
+        await Bridgefy.addListener('onFailToStop',
+            (event) => {
+                logEvent(`onFailToStop(${JSON.stringify(event) || ""})`)
 
-            const reason = event.reason
+                const reason = event.reason
 
-            alert(JSON.stringify(reason))
-        })
-    await Bridgefy.addListener('onDestroySession',
-        () => {
-            logEvent(`onDestroySession()`)
-        })
-    await Bridgefy.addListener('onFailToDestroySession',
-        (event) => {
-            logEvent(`onFailToDestroySession(${JSON.stringify(event) || ""})`)
+                alert(JSON.stringify(reason))
+            }),
+        await Bridgefy.addListener('onDestroySession',
+            () => {
+                logEvent(`onDestroySession()`)
+            }),
+        await Bridgefy.addListener('onFailToDestroySession',
+            (event) => {
+                logEvent(`onFailToDestroySession(${JSON.stringify(event) || ""})`)
 
-            const reason = event.reason
+                const reason = event.reason
 
-            alert(JSON.stringify(reason))
-        })
+                alert(JSON.stringify(reason))
+            }),
 
-    await Bridgefy.addListener('onConnected',
-        (event) => {
-            logEvent(`onConnected(${JSON.stringify(event) || ""})`)
+        await Bridgefy.addListener('onConnected',
+            (event) => {
+                logEvent(`onConnected(${JSON.stringify(event) || ""})`)
 
-            const peerID = event.peerID
+                const peerID = event.peerID
 
-            addOption(peerID, peerID)
-        })
-    await Bridgefy.addListener('onDisconnected',
-        (event) => {
-            logEvent(`onDisconnected(${JSON.stringify(event) || ""})`)
-
-            const peerID = event.peerID
-
-            removeOption(peerID)
-        })
-    await Bridgefy.addListener('onConnectedPeers',
-        (event) => {
-            logEvent(`onConnectedPeers(${JSON.stringify(event) || ""})`)
-
-            const peers = event.peers
-
-            peers.forEach(peerID => {
                 addOption(peerID, peerID)
-            })
-        })
+            }),
+        await Bridgefy.addListener('onDisconnected',
+            (event) => {
+                logEvent(`onDisconnected(${JSON.stringify(event) || ""})`)
 
-    await Bridgefy.addListener('onEstablishSecureConnection',
-        (event) => {
-            logEvent(`onEstablishSecureConnection(${JSON.stringify(event) || ""})`)
+                const peerID = event.peerID
 
-            const userID = event.userID
-        })
-    await Bridgefy.addListener('onFailToEstablishSecureConnection',
-        (event) => {
-            logEvent(`onFailToEstablishSecureConnection(${JSON.stringify(event) || ""})`)
+                removeOption(peerID)
+            }),
+        await Bridgefy.addListener('onConnectedPeers',
+            (event) => {
+                logEvent(`onConnectedPeers(${JSON.stringify(event) || ""})`)
 
-            const userID = event.userID
-            const reason = event.reason
+                const peers = event.peers
 
-            alert(JSON.stringify(reason))
-        })
+                peers.forEach(peerID => {
+                    addOption(peerID, peerID)
+                })
+            }),
 
-    await Bridgefy.addListener('onSend',
-        (event) => {
-            logEvent(`onSend(${JSON.stringify(event) || ""})`)
+        await Bridgefy.addListener('onEstablishSecureConnection',
+            (event) => {
+                logEvent(`onEstablishSecureConnection(${JSON.stringify(event) || ""})`)
 
-            const messageID = event.messageID
-        })
-    await Bridgefy.addListener('onFailToSend',
-        (event) => {
-            logEvent(`onFailToSend(${JSON.stringify(event) || ""})`)
+                const userID = event.userID
+            }),
+        await Bridgefy.addListener('onFailToEstablishSecureConnection',
+            (event) => {
+                logEvent(`onFailToEstablishSecureConnection(${JSON.stringify(event) || ""})`)
 
-            const messageID = event.messageID
-            const reason = event.reason
+                const userID = event.userID
+                const reason = event.reason
 
-            alert(JSON.stringify(reason))
-        })
-    await Bridgefy.addListener('onProgress',
-        (event) => {
-            logEvent(`onProgress(${JSON.stringify(event) || ""})`)
+                alert(JSON.stringify(reason))
+            }),
 
-            const messageID = event.messageID
-            const position = event.position
-            const total = event.total
-        })
-    await Bridgefy.addListener('onReceive',
-        (event) => {
-            logEvent(`onReceive(${JSON.stringify(event) || ""})`)
+        await Bridgefy.addListener('onSend',
+            (event) => {
+                logEvent(`onSend(${JSON.stringify(event) || ""})`)
 
-            const messageID = event.messageID
-            const data = event.data
-            const transmissionMode = event.transmissionMode
-        })
+                const messageID = event.messageID
+            }),
+        await Bridgefy.addListener('onFailToSend',
+            (event) => {
+                logEvent(`onFailToSend(${JSON.stringify(event) || ""})`)
+
+                const messageID = event.messageID
+                const reason = event.reason
+
+                alert(JSON.stringify(reason))
+            }),
+        await Bridgefy.addListener('onProgress',
+            (event) => {
+                logEvent(`onProgress(${JSON.stringify(event) || ""})`)
+
+                const messageID = event.messageID
+                const position = event.position
+                const total = event.total
+            }),
+        await Bridgefy.addListener('onReceive',
+            (event) => {
+                logEvent(`onReceive(${JSON.stringify(event) || ""})`)
+
+                const messageID = event.messageID
+                const data = event.data
+                const transmissionMode = event.transmissionMode
+            }),
+    ])
 }
 
 window.toggle = async (element) => {
