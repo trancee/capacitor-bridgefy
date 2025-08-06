@@ -273,12 +273,12 @@ import CoreBluetooth
                     completion(nil, CustomError.openSettingsError)
                     return
                 }
-                
+
                 DispatchQueue.main.async {
                     if UIApplication.shared.canOpenURL(settingsUrl) {
                         group.enter()
-                        
-                        UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+
+                        UIApplication.shared.open(settingsUrl, completionHandler: { (_) in
                             group.leave()
                         })
                     } else {
